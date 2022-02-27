@@ -1,0 +1,18 @@
+{
+    "name": "kurachi/ichimon-backend",
+    "description": "Ichimon backend.",
+    "require": {
+        "firebase/php-jwt": "^6.0",
+        "stripe/stripe-php": "^7.114"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ichimon\\Backend\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "kurachiweb"
+        }
+    ]
+}
