@@ -1,1 +1,11 @@
+# OS Desktop Settings.
 .DS_Store
+desktop.ini
+Thumbs.db
+
+# frontend
+node_modules
+/frontend/dist
+
+# backend
+/backend/vendor
