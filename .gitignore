@@ -6,6 +6,3 @@ Thumbs.db
 # frontend
 node_modules
 /frontend/dist
-
-# backend
-/backend/vendor
