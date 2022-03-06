@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Casts\CastEncrypt;
 
 class User extends Authenticatable {
     use HasApiTokens, HasFactory, Notifiable;
@@ -47,7 +48,11 @@ class User extends Authenticatable {
         'password_updated_at',
         'tel_no',
         'address',
-        'address_bill'
+        'address_bill',
+        'registered_at',
+        'created_at',
+        'updated_at',
+        'deleted_at'
     ];
 
     /**
@@ -62,12 +67,19 @@ class User extends Authenticatable {
     ];
 
     /**
-     * 列のデータを指定型に変換する
+     * 取得時に型を変換する
      *
      * @var array<string, string>
      */
     protected $casts = [
+        'id' => 'float', // bigintの代わり
+        'mail_address' => CastEncrypt::class,
+        'mail_address_alter' => CastEncrypt::class,
+        'password' => CastEncrypt::class,
         'password_updated_at' => 'date',
+        'tel_no' => CastEncrypt::class,
+        'address' => CastEncrypt::class,
+        'address_bill' => CastEncrypt::class,
         'registered_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
