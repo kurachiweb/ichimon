@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Constants\ConstClient;
 
 class UserController extends Controller {
     /**
@@ -14,7 +15,7 @@ class UserController extends Controller {
     public function index() {
         $user = User::all();
         return response()->json([
-            'message' => '',
+            'message' => 'Successful',
             'data' => $user
         ], 200, [], JSON_UNESCAPED_UNICODE);
     }
@@ -26,7 +27,13 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        //
+        $body = $request->getContent();
+        $user = json_decode($body, true);
+        $user = User::create($user);
+        return response()->json([
+            'message' => 'Successful',
+            'data' => $user
+        ], 201, [], JSON_UNESCAPED_UNICODE);
     }
 
     /**
