@@ -42,14 +42,11 @@ class User extends Authenticatable {
         'id',
         'display_id',
         'name',
-        'mail_address',
-        'mail_address_alter',
-        'password',
+        'registered_at',
         'password_updated_at',
         'tel_no',
         'address',
         'address_bill',
-        'registered_at',
         'created_at',
         'updated_at',
         'deleted_at'
@@ -63,7 +60,8 @@ class User extends Authenticatable {
     protected $visible = [
         'id',
         'display_id',
-        'name'
+        'name',
+        'registered_at',
     ];
 
     /**
@@ -73,14 +71,11 @@ class User extends Authenticatable {
      */
     protected $casts = [
         'id' => 'float', // bigintの代わり
-        'mail_address' => CastEncrypt::class,
-        'mail_address_alter' => CastEncrypt::class,
-        'password' => CastEncrypt::class,
-        'password_updated_at' => 'date',
+        'registered_at' => 'datetime',
+        'password_updated_at' => 'datetime',
         'tel_no' => CastEncrypt::class,
         'address' => CastEncrypt::class,
         'address_bill' => CastEncrypt::class,
-        'registered_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime'

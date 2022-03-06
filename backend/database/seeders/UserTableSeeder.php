@@ -16,25 +16,36 @@ class UserTableSeeder extends Seeder {
      * @return void
      */
     public function run() {
+        $user_id = 123456789;
         $created_at = new DateTime();
         $created_at->setDate(2006, 1, 2)->setTime(15, 4, 5);
         $registered_at = new DateTime();
         $registered_at->setDate(2016, 4, 5)->setTime(22, 0, 47);
 
-        DB::table('user')->insert([
+        DB::table('user_auth')->insert([
             [
-                'id' => 123456789,
-                'display_id' => 'kurachi',
-                'name' => '倉地 俊輔',
+                'id' => 345678912,
+                'user_id' => $user_id,
                 'mail_address' => 'kurachiweb@gmail.com',
                 // 'mail_address_alter' => null,
                 'password' => 'abc123-todo-crypto',
+                'subscription_id' => 'sub_hogehoge',
+                'created_at' => $registered_at,
+                'updated_at' => $created_at,
+                // 'deleted_at' => null,
+            ],
+        ]);
+
+        DB::table('user')->insert([
+            [
+                'id' => $user_id,
+                'display_id' => 'kurachi',
+                'name' => '倉地 俊輔',
                 'password_updated_at' => $created_at,
                 'tel_no' => '09012345678',
                 'address' => '○○県○○市○○町○○番地○○ ○○○○○建物',
                 'address_bill' => '○○県○○市○○町○○番地○○ ○○○○○建物',
                 'registered_at' => $registered_at,
-                'subscription_id' => 'sub_hogehoge',
                 'created_at' => $registered_at,
                 'updated_at' => $created_at,
                 // 'deleted_at' => null,
