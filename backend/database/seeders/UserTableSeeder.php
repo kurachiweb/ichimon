@@ -22,20 +22,6 @@ class UserTableSeeder extends Seeder {
         $registered_at = new DateTime();
         $registered_at->setDate(2016, 4, 5)->setTime(22, 0, 47);
 
-        DB::table('user_auth')->insert([
-            [
-                'id' => 345678912,
-                'user_id' => $user_id,
-                'mail_address' => 'kurachiweb@gmail.com',
-                // 'mail_address_alter' => null,
-                'password' => 'abc123-todo-crypto',
-                'subscription_id' => 'sub_hogehoge',
-                'created_at' => $registered_at,
-                'updated_at' => $created_at,
-                // 'deleted_at' => null,
-            ],
-        ]);
-
         DB::table('user')->insert([
             [
                 'id' => $user_id,
@@ -46,8 +32,8 @@ class UserTableSeeder extends Seeder {
                 'address' => '○○県○○市○○町○○番地○○ ○○○○○建物',
                 'address_bill' => '○○県○○市○○町○○番地○○ ○○○○○建物',
                 'registered_at' => $registered_at,
-                'created_at' => $registered_at,
-                'updated_at' => $created_at,
+                'created_at' => $created_at,
+                'updated_at' => $registered_at,
                 // 'deleted_at' => null,
             ],
         ]);
