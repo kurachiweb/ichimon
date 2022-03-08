@@ -7,7 +7,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
-class UserTableSeeder extends Seeder {
+class UserSeeder extends Seeder {
     use WithoutModelEvents;
 
     /**
