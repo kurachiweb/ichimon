@@ -29,6 +29,7 @@ class UserController extends Controller {
     public function store(Request $request) {
         $body = $request->getContent();
         $user = json_decode($body, true);
+        $user['id'] = gmp_intval(gmp_random_range(1, ConstClient::JS_MAX_SAFE_INTEGER));
         $user = User::create($user);
         return response()->json([
             'message' => 'Successful',
