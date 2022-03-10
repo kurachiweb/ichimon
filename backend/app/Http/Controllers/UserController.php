@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Constants\ConstClient;
@@ -30,6 +31,12 @@ class UserController extends Controller {
         $body = $request->getContent();
         $user = json_decode($body, true);
         $user['id'] = gmp_intval(gmp_random_range(1, ConstClient::JS_MAX_SAFE_INTEGER));
+        $now = new DateTime();
+        $user['registered_at'] = $now;
+        if (isset($user['password'])) {
+            $user['password_updated_at'] = $now;
+        }
+        logger($user, ["foo" => "Bar"]);
         $user = User::create($user);
         return response()->json([
             'message' => 'Successful',
