@@ -30,18 +30,34 @@ class UserController extends Controller {
      */
     public function store(Request $request) {
         $body = $request->getContent();
-        $user = json_decode($body, true);
-        $user['id'] = gmp_intval(gmp_random_range(1, ConstClient::JS_MAX_SAFE_INTEGER));
+        $req = json_decode($body, true);
+
         $now = new DateTime();
+        $user_id = gmp_intval(gmp_random_range(1, ConstClient::JS_MAX_SAFE_INTEGER));
+        $user_auth_id = gmp_intval(gmp_random_range(1, ConstClient::JS_MAX_SAFE_INTEGER));
+
+        // ユーザーデータのカラム値列上書き
+        $user = $req;
+        $user['id'] = $user_id;
         $user['registered_at'] = $now;
         if (isset($user['password'])) {
             $user['password_updated_at'] = $now;
         }
-        logger($user, ["foo" => "Bar"]);
+
+        // ユーザー認証データのカラム値列上書き
+        $user_auth = $req;
+        $user_auth['id'] = $user_auth_id;
+        $user_auth['user_id'] = $user['id'];
+        $user_auth['email_hash'] = hash('sha3-512', $user_auth['email']);
+
         $user = User::create($user);
+        $user_auth = UserAuth::create($user_auth);
         return response()->json([
             'message' => 'Successful',
-            'data' => $user
+            'data' => [
+                'user' => $user,
+                'user_auth' => $user_auth,
+            ]
         ], 201, [], JSON_UNESCAPED_UNICODE);
     }
 
