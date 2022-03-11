@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DateTime;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\UserAuth;
 use App\Constants\ConstClient;
 
 class UserController extends Controller {
@@ -14,7 +15,7 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $user = User::all();
+        $user = User::all(["id", "display_id", "name", "registered_at"]);
         return response()->json([
             'message' => 'Successful',
             'data' => $user

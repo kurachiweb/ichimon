@@ -20,14 +20,14 @@ class User extends Authenticatable {
     protected $table = 'user';
 
     /**
-     * IDはオートインクリメントでないか
+     * IDはオートインクリメントか
      *
      * @var bool
      */
     public $incrementing = false;
 
     /**
-     * プライマリキー型をint以外に設定
+     * プライマリキーの型
      *
      * @var bool
      */
@@ -62,6 +62,13 @@ class User extends Authenticatable {
         'display_id',
         'name',
         'registered_at',
+        'password_updated_at',
+        'tel_no',
+        'address',
+        'address_bill',
+        'created_at',
+        'updated_at',
+        'deleted_at'
     ];
 
     /**
