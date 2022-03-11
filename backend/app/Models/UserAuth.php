@@ -60,10 +60,7 @@ class UserAuth extends Authenticatable {
         'id',
         'user_id',
         'email',
-        'email_hash',
         'email_alter',
-        'password',
-        'subscription_id',
         'created_at',
         'updated_at',
         'deleted_at'
