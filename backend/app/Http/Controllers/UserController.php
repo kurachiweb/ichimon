@@ -68,7 +68,17 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        //
+        $match_user = User::find($id);
+        if ($match_user) {
+            return response()->json([
+                'message' => 'Successful',
+                'data' => $match_user
+            ], 200, [], JSON_UNESCAPED_UNICODE);
+        } else {
+            return response()->json([
+                'message' => 'Not found',
+            ], 404);
+        }
     }
 
     /**
