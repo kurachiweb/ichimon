@@ -13,7 +13,7 @@ class CastEncrypt implements CastsAttributes {
      * @param  string  $key
      * @param  mixed  $value
      * @param  array  $attributes
-     * @return array
+     * @return string | null
      */
     public function get($model, $key, $value, $attributes) {
         if ($value === null) {
@@ -28,7 +28,7 @@ class CastEncrypt implements CastsAttributes {
      * @param  \Illuminate\Database\Eloquent\Model  $model
      * @param  string  $key
      * @param  array  $value
-     * @param  array  $attributes
+     * @param  string  $attributes
      * @return string
      */
     public function set($model, $key, $value, $attributes) {

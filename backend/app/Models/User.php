@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+
 use App\Casts\CastEncrypt;
 
 class User extends Authenticatable {
@@ -72,7 +73,7 @@ class User extends Authenticatable {
     ];
 
     /**
-     * 取得時に型を変換する
+     *  取得/更新時に型を変換する
      *
      * @var array<string, string>
      */
