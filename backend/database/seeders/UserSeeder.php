@@ -2,10 +2,12 @@
 
 namespace Database\Seeders;
 
-use DateTime;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Database\Seeder;
+
+use DateTime;
 
 class UserSeeder extends Seeder {
     use WithoutModelEvents;
@@ -28,9 +30,9 @@ class UserSeeder extends Seeder {
                 'display_id' => 'kurachi',
                 'name' => '倉地 俊輔',
                 'password_updated_at' => $created_at,
-                'tel_no' => '09012345678',
-                'address' => '○○県○○市○○町○○番地○○ ○○○○○建物',
-                'address_bill' => '○○県○○市○○町○○番地○○ ○○○○○建物',
+                'tel_no' => Crypt::encryptString('09012345678'),
+                'address' => Crypt::encryptString('石川県○○市○○町○○番地○○ ○○○○○建物'),
+                'address_bill' => Crypt::encryptString('石川県○○市○○町○○番地○○ ○○○○○建物'),
                 'registered_at' => $registered_at,
                 'created_at' => $created_at,
                 'updated_at' => $registered_at,
