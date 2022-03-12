@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+
 use App\Casts\CastEncrypt;
+use App\Casts\CastHash;
 
 class UserAuth extends Authenticatable {
     use HasApiTokens, HasFactory, Notifiable;
@@ -60,6 +62,7 @@ class UserAuth extends Authenticatable {
         'id',
         'user_id',
         'email',
+        'email_hash',
         'email_alter',
         'created_at',
         'updated_at',
@@ -67,14 +70,17 @@ class UserAuth extends Authenticatable {
     ];
 
     /**
-     * 取得時に型を変換する
+     * 取得/更新時に型を変換する
      *
      * @var array<string, string>
      */
     protected $casts = [
         'id' => 'float', // bigintの代わり
         'email' => CastEncrypt::class,
+        'email_hash' => CastHash::class,
         'email_alter' => CastEncrypt::class,
+        'password' => CastHash::class,
+        'subscription_id' => CastEncrypt::class,
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime'
