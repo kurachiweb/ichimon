@@ -47,7 +47,7 @@ class UserAuth extends Authenticatable {
         'email_hash',
         'email_alter',
         'password',
-        'subscription_id',
+        'billing_token',
         'created_at',
         'updated_at',
         'deleted_at'
@@ -80,7 +80,7 @@ class UserAuth extends Authenticatable {
         'email_hash' => CastHash::class,
         'email_alter' => CastEncrypt::class,
         'password' => CastHash::class,
-        'subscription_id' => CastEncrypt::class,
+        'billing_token' => CastEncrypt::class,
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime'

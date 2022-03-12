@@ -36,7 +36,7 @@ class UserAuthSeeder extends Seeder {
                 'email_hash' => $hashed_email,
                 // 'email_alter' => null,
                 'password' => $hashed_password,
-                'subscription_id' => 'sub_hogehoge',
+                'billing_token' => 'sub_hogehoge',
                 'created_at' => $created_at,
                 'updated_at' => $registered_at,
                 // 'deleted_at' => null,
