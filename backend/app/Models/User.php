@@ -28,9 +28,16 @@ class User extends Authenticatable {
     public $incrementing = false;
 
     /**
+     * プライマリキーのカラム名
+     *
+     * @var string
+     */
+    protected $primaryKey = 'id';
+
+    /**
      * プライマリキーの型
      *
-     * @var bool
+     * @var string
      */
     protected $keyType = 'bigint';
 
@@ -88,4 +95,13 @@ class User extends Authenticatable {
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime'
     ];
+
+    /**
+     * DBリレーション先
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function auth() {
+        return $this->hasOne('App\Models\UserAuth', 'user_id', $this->primaryKey);
+    }
 }

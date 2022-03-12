@@ -72,7 +72,10 @@ class UserController extends Controller {
         if ($match_user) {
             return response()->json([
                 'message' => 'Successful',
-                'data' => $match_user
+                'data' => [
+                    'user' => $match_user,
+                    'user_auth' => $match_user->auth,
+                ]
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } else {
             return response()->json([

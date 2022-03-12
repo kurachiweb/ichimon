@@ -29,6 +29,13 @@ class UserAuth extends Authenticatable {
     public $incrementing = false;
 
     /**
+     * プライマリキーのカラム名
+     *
+     * @var string
+     */
+    protected $primaryKey = 'id';
+
+    /**
      * プライマリキーの型
      *
      * @var bool
@@ -85,4 +92,13 @@ class UserAuth extends Authenticatable {
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime'
     ];
+
+    /**
+     * DBリレーション元
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user() {
+        return $this->belongsTo('App\Models\User', 'user_id', $this->primaryKey);
+    }
 }
