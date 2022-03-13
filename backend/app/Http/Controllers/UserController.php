@@ -52,11 +52,12 @@ class UserController extends Controller {
 
         $user = User::create($user);
         $user_auth = UserAuth::create($user_auth);
+        $user = $user->toArray();
+        $user['auth'] = $user_auth->toArray();
         return response()->json([
             'message' => 'Successful',
             'data' => [
                 'user' => $user,
-                'user_auth' => $user_auth,
             ]
         ], 201, [], JSON_UNESCAPED_UNICODE);
     }
@@ -68,13 +69,14 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        $match_user = User::find($id);
-        if ($match_user) {
+        $user = User::find($id);
+        if ($user) {
+            $user = $user->toArray();
+            $user['auth'] = $user->auth;
             return response()->json([
                 'message' => 'Successful',
                 'data' => [
-                    'user' => $match_user,
-                    'user_auth' => $match_user->auth,
+                    'user' => $user
                 ]
             ], 200, [], JSON_UNESCAPED_UNICODE);
         } else {
