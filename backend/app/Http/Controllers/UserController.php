@@ -10,7 +10,7 @@ use App\Constants\ConstClient;
 
 class UserController extends Controller {
     /**
-     * Display a listing of the resource.
+     * 一覧取得
      *
      * @return \Illuminate\Http\Response
      */
@@ -23,7 +23,7 @@ class UserController extends Controller {
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 1人作成
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -62,7 +62,7 @@ class UserController extends Controller {
     }
 
     /**
-     * Display the specified resource.
+     * 1人取得
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -85,14 +85,30 @@ class UserController extends Controller {
     }
 
     /**
-     * Update the specified resource in storage.
+     * 1人更新
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  bigint  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        //
+        $user_update = [
+            'display_id' => $request->display_id,
+            'name' => $request->name,
+            'tel_no' => $request->tel_no,
+            'address' => $request->address,
+            'address_bill' => $request->address_bill,
+        ];
+        $user = User::where('id', $id)->update($user_update);
+        if ($user) {
+            return response()->json([
+                'message' => 'Successful',
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Not found',
+            ], 404);
+        }
     }
 
     /**
