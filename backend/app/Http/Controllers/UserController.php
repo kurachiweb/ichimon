@@ -92,13 +92,14 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        $user_update = [
-            'display_id' => $request->display_id,
-            'name' => $request->name,
-            'tel_no' => $request->tel_no,
-            'address' => $request->address,
-            'address_bill' => $request->address_bill,
-        ];
+        // リクエストに含まれている場合のみ更新対象とする
+        $user_update = [];
+        if (isset($request->display_id)) $user_update['display_id'] = $request->display_id;
+        if (isset($request->name)) $user_update['name'] = $request->name;
+        if (isset($request->tel_no)) $user_update['tel_no'] = $request->tel_no;
+        if (isset($request->address)) $user_update['address'] = $request->address;
+        if (isset($request->address_bill)) $user_update['address_bill'] = $request->address_bill;
+
         $user = User::where('id', $id)->update($user_update);
         if ($user) {
             return response()->json([
