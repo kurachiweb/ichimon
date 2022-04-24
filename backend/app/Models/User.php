@@ -85,7 +85,7 @@ class User extends Authenticatable {
      * @var array<string, string>
      */
     protected $casts = [
-        'id' => 'float', // bigintの代わり
+        'id' => 'int',
         'registered_at' => 'datetime',
         'password_updated_at' => 'datetime',
         'tel_no' => CastEncrypt::class,

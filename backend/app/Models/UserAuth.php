@@ -82,7 +82,7 @@ class UserAuth extends Authenticatable {
      * @var array<string, string>
      */
     protected $casts = [
-        'id' => 'float', // bigintの代わり
+        'id' => 'int',
         'email' => CastEncrypt::class,
         'email_hash' => CastHash::class,
         'email_alter' => CastEncrypt::class,
