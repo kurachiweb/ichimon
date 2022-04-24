@@ -6,7 +6,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserAuth;
-use App\Constants\ConstClient;
+use App\Utilities\RandomNumber;
 
 class UserController extends Controller {
     /**
@@ -29,12 +29,13 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
+        $randomNumber = new RandomNumber();
         $body = $request->getContent();
         $req = json_decode($body, true);
 
         $now = new DateTime();
-        $user_id = gmp_intval(gmp_random_range(1, ConstClient::JS_MAX_SAFE_INTEGER));
-        $user_auth_id = gmp_intval(gmp_random_range(1, ConstClient::JS_MAX_SAFE_INTEGER));
+        $user_id = $randomNumber->dbTableId();
+        $user_auth_id = $randomNumber->dbTableId();
 
         // ユーザーデータのカラム値列上書き
         $user = $req;
