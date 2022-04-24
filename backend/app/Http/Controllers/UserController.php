@@ -116,12 +116,28 @@ class UserController extends Controller {
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 1人削除
      *
-     * @param  int  $id
+     * @param  bigint  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        //
+        $user = User::find($id);
+        if (!isset($user)) {
+            return response()->json([
+                'message' => 'Not found',
+            ], 404);
+        }
+        $user_auth = $user->auth;
+        if (!isset($user_auth)) {
+            return response()->json([
+                'message' => 'sNot found',
+            ], 404);
+        }
+        $user_auth->delete();
+        $user->delete();
+        return response()->json([
+            'message' => 'Successful',
+        ], 200);
     }
 }
