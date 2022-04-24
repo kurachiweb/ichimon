@@ -92,20 +92,26 @@ class UserController extends Controller {
      * 1人更新
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  bigint  $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        // リクエストに含まれている場合のみ更新対象とする
-        $user_update = [];
-        if (isset($request->display_id)) $user_update['display_id'] = $request->display_id;
-        if (isset($request->name)) $user_update['name'] = $request->name;
-        if (isset($request->tel_no)) $user_update['tel_no'] = $request->tel_no;
-        if (isset($request->address)) $user_update['address'] = $request->address;
-        if (isset($request->address_bill)) $user_update['address_bill'] = $request->address_bill;
+        $user = User::find($id);
+        if (!isset($user)) {
+            return response()->json([
+                'message' => 'Not found',
+            ], 404);
+        }
 
-        $user = User::where('id', $id)->update($user_update);
-        if ($user) {
+        // リクエストに含まれている場合のみ上書きする
+        if (isset($request->display_id)) $user['display_id'] = $request->display_id;
+        if (isset($request->name)) $user['name'] = $request->name;
+        if (isset($request->tel_no)) $user['tel_no'] = $request->tel_no;
+        if (isset($request->address)) $user['address'] = $request->address;
+        if (isset($request->address_bill)) $user['address_bill'] = $request->address_bill;
+
+        $success = $user->save();
+        if ($success) {
             return response()->json([
                 'message' => 'Successful',
             ], 200);
@@ -119,7 +125,7 @@ class UserController extends Controller {
     /**
      * 1人削除
      *
-     * @param  bigint  $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
