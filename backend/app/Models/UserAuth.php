@@ -99,6 +99,6 @@ class UserAuth extends Authenticatable {
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user() {
-        return $this->belongsTo('App\Models\User', 'user_id', $this->primaryKey);
+        return $this->belongsTo('App\Models\User', 'id', $this->primaryKey);
     }
 }

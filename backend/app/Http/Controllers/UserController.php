@@ -71,8 +71,9 @@ class UserController extends Controller {
     public function show($id) {
         $user = User::find($id);
         if ($user) {
+            $user_auth = $user->auth;
             $user = $user->toArray();
-            $user['auth'] = $user->auth;
+            $user['auth'] = $user_auth;
             return response()->json([
                 'message' => 'Successful',
                 'data' => [
