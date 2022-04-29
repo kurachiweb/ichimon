@@ -1,6 +1,6 @@
 <template>
   <v-form>
-    <v-text-field label="ユーザーID または メールアドレス" autocomplete="username" />
+    <v-text-field label="メールアドレス または ユーザーID" autocomplete="email" />
     <v-text-field label="パスワード" type="password" autocomplete="current-password" />
     <v-btn type="submit" color="primary">ログインする</v-btn>
   </v-form>
