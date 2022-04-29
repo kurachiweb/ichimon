@@ -8,12 +8,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import CommonIcon from '@/components/_molecules/Icon.vue';
 
-@Component({
-  components: {
-    CommonIcon
-  }
-})
+@Component
 export default class CommonHeader extends Vue {}
 </script>

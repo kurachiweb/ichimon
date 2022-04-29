@@ -8,6 +8,22 @@ import '@mdi/font/css/materialdesignicons.css';
 
 Vue.config.productionTip = false;
 
+// 共通コンポーネント群：Atoms
+/** 共通ボタン */
+import CommonButton from '@/components/_atoms/Button.vue';
+Vue.component('CommonButton', CommonButton);
+/** 共通SVG */
+import CommonSvg from '@/components/_atoms/Svg.vue';
+Vue.component('CommonSvg', CommonSvg);
+/** 共通テキスト入力 */
+import CommonTextField from '@/components/_atoms/TextField.vue';
+Vue.component('CommonTextField', CommonTextField);
+
+// 共通コンポーネント群：Molecules
+/** 共通アイコン */
+import CommonIcon from '@/components/_molecules/Icon.vue';
+Vue.component('CommonIcon', CommonIcon);
+
 new Vue({
   router,
   store,

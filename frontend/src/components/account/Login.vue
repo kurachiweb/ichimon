@@ -8,14 +8,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import CommonButton from '@/components/_atoms/Button.vue';
-import CommonTextField from '@/components/_atoms/TextField.vue';
 
-@Component({
-  components: {
-    CommonButton,
-    CommonTextField
-  }
-})
+@Component
 export default class AccountLogin extends Vue {}
 </script>
