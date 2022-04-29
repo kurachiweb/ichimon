@@ -5,7 +5,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { ICON } from '@/components/types/icons';
-import CommonSvg from '@/components/common/Svg.vue';
+import CommonSvg from '@/components/_atoms/Svg.vue';
 
 @Component({
   components: {

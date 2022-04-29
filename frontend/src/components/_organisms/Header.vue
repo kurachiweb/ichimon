@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import CommonIcon from '@/components/common/Icon.vue';
+import CommonIcon from '@/components/_molecules/Icon.vue';
 
 @Component({
   components: {

@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Header />
+    <CommonHeader />
     <v-main>
       <router-view />
     </v-main>
@@ -9,13 +9,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Header from '@/components/_organisms/Header.vue';
-import CommonIcon from '@/components/common/Icon.vue';
+import CommonHeader from '@/components/_organisms/Header.vue';
 
 @Component({
   components: {
-    Header,
-    CommonIcon
+    CommonHeader
   }
 })
 export default class App extends Vue {}
