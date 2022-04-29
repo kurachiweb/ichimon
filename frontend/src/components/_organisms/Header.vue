@@ -1,22 +1,17 @@
 <template>
-  <v-app>
-    <Header />
-    <v-main>
-      <router-view />
-    </v-main>
-  </v-app>
+  <v-app-bar app color="primary" dark>
+    <CommonIcon name="logo" height="32" :fill="$vuetify.theme.currentTheme.base" />
+  </v-app-bar>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Header from '@/components/_organisms/Header.vue';
 import CommonIcon from '@/components/common/Icon.vue';
 
 @Component({
   components: {
-    Header,
     CommonIcon
   }
 })
-export default class App extends Vue {}
+export default class CommonHeader extends Vue {}
 </script>
