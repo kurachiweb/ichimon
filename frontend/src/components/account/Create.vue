@@ -13,7 +13,7 @@ import { DefaultAccount } from '@/models/account/account';
 
 @Component
 export default class AccountCreate extends Vue {
-  private account = DefaultAccount();
+  private account = DefaultAccount(true);
 
   /** アカウント作成リクエストを送信 */
   private requestCreate() {
