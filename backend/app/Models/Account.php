@@ -9,10 +9,10 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 use App\Casts\CastEncrypt;
-use App\Models\UserAuth;
+use App\Models\AccountAuth;
 
 /** アカウント基本情報 */
-class User extends Authenticatable {
+class Account extends Authenticatable {
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -20,7 +20,7 @@ class User extends Authenticatable {
      *
      * @var string
      */
-    protected $table = 'user';
+    protected $table = 'account';
 
     /**
      * IDはオートインクリメントか
@@ -104,7 +104,7 @@ class User extends Authenticatable {
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function auth() {
-        return $this->hasOne('App\Models\UserAuth', 'user_id', $this->primaryKey);
+        return $this->hasOne('App\Models\AccountAuth', 'account_id', $this->primaryKey);
     }
 
     /**
@@ -127,7 +127,7 @@ class User extends Authenticatable {
             'address_bill' => null
         ];
         if ($relation) {
-            $model['auth'] = UserAuth::getDefault($relation);
+            $model['auth'] = AccountAuth::getDefault($relation);
         }
         return $model;
     }

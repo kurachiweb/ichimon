@@ -12,7 +12,7 @@ use App\Casts\CastEncrypt;
 use App\Casts\CastHash;
 
 /** アカウント認証情報 */
-class UserAuth extends Authenticatable {
+class AccountAuth extends Authenticatable {
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -20,7 +20,7 @@ class UserAuth extends Authenticatable {
      *
      * @var string
      */
-    protected $table = 'user_auth';
+    protected $table = 'account_auth';
 
     /**
      * IDはオートインクリメントか
@@ -50,7 +50,7 @@ class UserAuth extends Authenticatable {
      */
     protected $fillable = [
         'id',
-        'user_id',
+        'account_id',
         'email',
         'email_hash',
         'email_alter',
@@ -68,7 +68,7 @@ class UserAuth extends Authenticatable {
      */
     protected $visible = [
         'id',
-        'user_id',
+        'account_id',
         'email',
         'email_hash',
         'email_alter',
@@ -99,8 +99,8 @@ class UserAuth extends Authenticatable {
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user() {
-        return $this->belongsTo('App\Models\User', 'id', $this->primaryKey);
+    public function account() {
+        return $this->belongsTo('App\Models\Account', 'id', $this->primaryKey);
     }
 
     /**
@@ -113,7 +113,7 @@ class UserAuth extends Authenticatable {
     public static function getDefault($relation = false) {
         $model = [
             'id' => 0,
-            'user_id' => '',
+            'account_id' => '',
             'email' => '',
             'email_hash' => '',
             'email_alter' => null,

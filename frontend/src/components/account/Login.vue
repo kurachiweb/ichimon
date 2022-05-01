@@ -1,6 +1,6 @@
 <template>
   <v-form>
-    <CommonTextField label="メールアドレス または ユーザーID" autocomplete="email" />
+    <CommonTextField label="メールアドレス または アカウントID" autocomplete="email" />
     <CommonTextField label="パスワード" type="password" autocomplete="current-password" />
     <CommonButton type="submit">ログインする</CommonButton>
   </v-form>

@@ -3,7 +3,7 @@ import { ColumnBase, DefaultColumnBase } from '@/models/db-base';
 /*+ アカウント認証情報 */
 export interface AccountAuth extends ColumnBase {
   id: number;
-  user_id: string;
+  account_id: string;
   email: string;
   email_hash: string;
   email_alter: string | null;
@@ -14,7 +14,7 @@ export interface AccountAuth extends ColumnBase {
 /*+ アカウント認証情報のデフォルト値 */
 export const DefaultAccountAuth = (): AccountAuth => ({
   id: 0,
-  user_id: '',
+  account_id: '',
   email: '',
   email_hash: '',
   email_alter: null,

@@ -14,13 +14,13 @@ class DatabaseSeeder extends Seeder {
     public function run() {
         // truncate時、外部キー制約の検証を無効にする
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        DB::table('user')->truncate();
-        DB::table('user_auth')->truncate();
+        DB::table('account')->truncate();
+        DB::table('account_auth')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $this->call([
-            UserSeeder::class,
-            UserAuthSeeder::class
+            AccountSeeder::class,
+            AccountAuthSeeder::class
         ]);
     }
 }
