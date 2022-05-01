@@ -29,36 +29,38 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        $randomNumber = new RandomNumber();
+        $_RandomNumber = new RandomNumber();
         $body = $request->getContent();
         $req = json_decode($body, true);
+        $req_user = $req;
+
+        $user = User::getDefault(true);
 
         $now = new DateTime();
-        $user_id = $randomNumber->dbTableId();
-        $user_auth_id = $randomNumber->dbTableId();
+        $user_id = $_RandomNumber->dbTableId();
+        $user_auth_id = $_RandomNumber->dbTableId();
 
-        // ユーザーデータのカラム値列上書き
-        $user = $req;
+        // ユーザー基本情報をリクエスト内容で上書き
         $user['id'] = $user_id;
+        $user['display_id'] = $req_user['display_id'];
         $user['registered_at'] = $now;
-        if (isset($user['password'])) {
-            $user['password_updated_at'] = $now;
-        }
+        $user['password_updated_at'] = $now;
 
-        // ユーザー認証データのカラム値列上書き
-        $user_auth = $req;
-        $user_auth['id'] = $user_auth_id;
-        $user_auth['user_id'] = $user['id'];
-        $user_auth['email_hash'] = hash('sha3-512', $user_auth['email']);
+        // ユーザー認証情報をリクエスト内容で上書き
+        $user['auth']['id'] = $user_auth_id;
+        $user['auth']['user_id'] = $user_id;
+        $user['auth']['email'] = $req_user['auth']['email'];
+        $user['auth']['email_hash'] = $req_user['auth']['email'];
+        $user['auth']['password'] = $req_user['auth']['password'];
 
-        $user = User::create($user);
-        $user_auth = UserAuth::create($user_auth);
-        $user = $user->toArray();
-        $user['auth'] = $user_auth->toArray();
+        $res_user = User::create($user);
+        $res_user_auth = UserAuth::create($user['auth']);
+        $res_user = $res_user->toArray();
+        $res_user['auth'] = $res_user_auth->toArray();
         return response()->json([
             'message' => 'Successful',
             'data' => [
-                'user' => $user,
+                'user' => $res_user,
             ]
         ], 201, [], JSON_UNESCAPED_UNICODE);
     }
