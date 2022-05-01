@@ -11,6 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Casts\CastEncrypt;
 use App\Casts\CastHash;
 
+/** アカウント認証情報 */
 class UserAuth extends Authenticatable {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -100,5 +101,25 @@ class UserAuth extends Authenticatable {
      */
     public function user() {
         return $this->belongsTo('App\Models\User', 'id', $this->primaryKey);
+    }
+
+    /**
+     * モデルのデフォルト値
+     * テーブルカラム・リレーション設定と合わせる
+     *
+     * @param boolean $relation - リレーション先のデータも併せて設定するか
+     * @return array<string, any>
+     */
+    public static function getDefault($relation = false) {
+        $model = [
+            'id' => 0,
+            'user_id' => '',
+            'email' => '',
+            'email_hash' => '',
+            'email_alter' => null,
+            'password' => '',
+            'billing_token' => null
+        ];
+        return $model;
     }
 }

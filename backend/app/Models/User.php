@@ -9,7 +9,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 use App\Casts\CastEncrypt;
+use App\Models\UserAuth;
 
+/** アカウント基本情報 */
 class User extends Authenticatable {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -103,5 +105,30 @@ class User extends Authenticatable {
      */
     public function auth() {
         return $this->hasOne('App\Models\UserAuth', 'user_id', $this->primaryKey);
+    }
+
+    /**
+     * モデルのデフォルト値
+     * テーブルカラム・リレーション設定と合わせる
+     *
+     * @param boolean $relation - リレーション先のデータも併せて設定するか
+     * @return array<string, any>
+     */
+    public static function getDefault($relation = false) {
+        $model = [
+            'id' => 0,
+            'display_id' => '',
+            'name' => '',
+            'registered_at' => '',
+            'password_updated_at' => '',
+            'tel_no' => null,
+            'mobile_no' => null,
+            'address' => null,
+            'address_bill' => null
+        ];
+        if ($relation) {
+            $model['auth'] = UserAuth::getDefault($relation);
+        }
+        return $model;
     }
 }
