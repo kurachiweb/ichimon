@@ -28,12 +28,6 @@ const routes: Array<RouteConfig> = [
     name: 'AccountLogin',
     component: () => import(/* webpackChunkName: "account_login" */ '@/views/account/Login.vue'),
     meta: { title: 'ログイン' }
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '@/views/AboutView.vue'),
-    meta: { title: '一問について' }
   }
 ];
 
