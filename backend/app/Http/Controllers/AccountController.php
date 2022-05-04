@@ -54,11 +54,8 @@ class AccountController extends Controller {
         $account_auth['password'] = $req_account['auth']['password'];
         $account_auth['password_updated_at'] = $now;
 
-        logger($account);
         $res_account = Account::create($account);
-        logger($account_auth);
         $res_account_auth = AccountAuth::create($account_auth);
-        logger('account_auth end');
         $res_account = $res_account->toArray();
         $res_account['auth'] = $res_account_auth->toArray();
         return response()->json([
@@ -102,6 +99,16 @@ class AccountController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
+        $body = $request->getContent();
+        $req = json_decode($body, true);
+        if (!isset($req['account'])) {
+            return response()->json([
+                'message' => 'Need request \'account\'',
+            ], 404);
+        }
+        $req_account = $req['account'];
+
+        // 更新するアカウント
         $account = Account::find($id);
         if (!isset($account)) {
             return response()->json([
@@ -109,15 +116,16 @@ class AccountController extends Controller {
             ], 404);
         }
 
-        // リクエストに含まれている場合のみ上書きする
-        if (isset($request->display_id)) $account['display_id'] = $request->display_id;
-        if (isset($request->name)) $account['name'] = $request->name;
-        if (isset($request->tel_no)) $account['tel_no'] = $request->tel_no;
-        if (isset($request->address)) $account['address'] = $request->address;
-        if (isset($request->address_bill)) $account['address_bill'] = $request->address_bill;
+        // 上書きするデータを限定する
+        $account['display_id'] = $req_account['display_id'];
+        $account['name'] = $req_account['name'];
+        $account['tel_no'] = $req_account['tel_no'];
+        $account['address'] = $req_account['address'];
+        $account['address_bill'] = $req_account['address_bill'];
 
-        $success = $account->save();
-        if ($success) {
+        // 上書きを反映する
+        $successSaved = $account->save();
+        if ($successSaved) {
             return response()->json([
                 'message' => 'Successful',
             ], 200);
