@@ -17,4 +17,7 @@ use Illuminate\Support\Facades\Route;
 // Route::group(['middleware' => ['auth:sanctum']], function () {
 //     Route::apiResource('/users', UserController::class);
 // });
+// アカウント基礎情報・認証情報のCRUD
 Route::apiResource('/accounts', 'App\Http\Controllers\AccountController');
+// 認証メール送信
+Route::get('/verify/email/send/{id}', 'App\Http\Controllers\SendVerifyEmailController');
