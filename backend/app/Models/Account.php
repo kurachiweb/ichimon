@@ -48,7 +48,9 @@ class Account extends Authenticatable {
      *
      * @var array<int, string>
      */
-    protected $guarded = [];
+    protected $guarded = [
+        'auth'
+    ];
 
     /**
      * 取得できない列

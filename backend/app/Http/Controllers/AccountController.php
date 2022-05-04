@@ -34,8 +34,8 @@ class AccountController extends Controller {
         $req = json_decode($body, true);
         $req_account = $req;
 
-        $account = Account::getDefault(false);
-        $account_auth = AccountAuth::getDefault(false);
+        $account = Account::getDefault(true);
+        $account_auth = $account['auth'];
 
         $now = new DateTime();
         $account_id = $_RandomNumber->dbTableId();
