@@ -68,6 +68,7 @@ class AccountAuth extends Authenticatable {
         'email_hash' => CastHash::class,
         'email_alter' => CastEncrypt::class,
         'password' => CastHash::class,
+        'password_updated_at' => 'datetime',
         'billing_token' => CastEncrypt::class,
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
@@ -97,7 +98,10 @@ class AccountAuth extends Authenticatable {
             'email' => '',
             'email_hash' => '',
             'email_alter' => null,
+            'verified_email' => 0,
+            'verified_mobile_no' => 0,
             'password' => '',
+            'password_updated_at' => '',
             'billing_token' => null
         ];
         return $model;

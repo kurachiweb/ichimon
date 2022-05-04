@@ -29,12 +29,15 @@ class AccountAuthSeeder extends Seeder {
                 'account_id' => $account_id,
                 'email' => Crypt::encryptString('kurachiweb@gmail.com'),
                 'email_hash' => hash('sha3-256', 'kurachiweb@gmail.com'),
-                // 'email_alter' => null,
+                'email_alter' => null,
+                'verified_email' => 0,
+                'verified_mobile_no' => 0,
                 'password' => hash('sha3-256', 'testpass1234kanazaWa'),
-                // 'billing_token' => null, 
+                'password_updated_at' => $created_at,
+                'billing_token' => null, 
                 'created_at' => $created_at,
                 'updated_at' => $registered_at,
-                // 'deleted_at' => null,
+                'deleted_at' => null,
             ],
         ]);
     }

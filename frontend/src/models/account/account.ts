@@ -8,7 +8,6 @@ export interface Account extends ColumnBase {
   display_id: string;
   name: string;
   registered_at: string;
-  password_updated_at: string;
   tel_no: string | null;
   mobile_no: string | null;
   address: string | null;
@@ -22,7 +21,6 @@ export const DefaultAccount = (relation: boolean): Account => ({
   display_id: '',
   name: '',
   registered_at: '',
-  password_updated_at: '',
   tel_no: null,
   mobile_no: null,
   address: null,

@@ -34,7 +34,8 @@ class AccountController extends Controller {
         $req = json_decode($body, true);
         $req_account = $req;
 
-        $account = Account::getDefault(true);
+        $account = Account::getDefault(false);
+        $account_auth = AccountAuth::getDefault(false);
 
         $now = new DateTime();
         $account_id = $_RandomNumber->dbTableId();
@@ -44,17 +45,20 @@ class AccountController extends Controller {
         $account['id'] = $account_id;
         $account['display_id'] = $req_account['display_id'];
         $account['registered_at'] = $now;
-        $account['password_updated_at'] = $now;
 
         // アカウント認証情報をリクエスト内容で上書き
-        $account['auth']['id'] = $account_auth_id;
-        $account['auth']['account_id'] = $account_id;
-        $account['auth']['email'] = $req_account['auth']['email'];
-        $account['auth']['email_hash'] = $req_account['auth']['email'];
-        $account['auth']['password'] = $req_account['auth']['password'];
+        $account_auth['id'] = $account_auth_id;
+        $account_auth['account_id'] = $account_id;
+        $account_auth['email'] = $req_account['auth']['email'];
+        $account_auth['email_hash'] = $req_account['auth']['email'];
+        $account_auth['password'] = $req_account['auth']['password'];
+        $account_auth['password_updated_at'] = $now;
 
+        logger($account);
         $res_account = Account::create($account);
-        $res_account_auth = AccountAuth::create($account['auth']);
+        logger($account_auth);
+        $res_account_auth = AccountAuth::create($account_auth);
+        logger('account_auth end');
         $res_account = $res_account->toArray();
         $res_account['auth'] = $res_account_auth->toArray();
         return response()->json([

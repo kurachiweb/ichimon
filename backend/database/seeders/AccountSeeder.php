@@ -29,14 +29,14 @@ class AccountSeeder extends Seeder {
                 'id' => $account_id,
                 'display_id' => 'kurachi',
                 'name' => '倉地 俊輔',
-                'password_updated_at' => $created_at,
-                'tel_no' => Crypt::encryptString('09012345678'),
+                'tel_no' => Crypt::encryptString('0123123456'),
+                'mobile_no' => Crypt::encryptString('09012345678'),
                 'address' => Crypt::encryptString('石川県○○市○○町○○番地○○ ○○○○○建物'),
                 'address_bill' => Crypt::encryptString('石川県○○市○○町○○番地○○ ○○○○○建物'),
                 'registered_at' => $registered_at,
                 'created_at' => $created_at,
                 'updated_at' => $registered_at,
-                // 'deleted_at' => null,
+                'deleted_at' => null,
             ],
         ]);
     }
