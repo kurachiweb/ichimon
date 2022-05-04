@@ -44,42 +44,18 @@ class Account extends Authenticatable {
     protected $keyType = 'bigint';
 
     /**
-     * 追加できる列
+     * 追加できない列
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'id',
-        'display_id',
-        'name',
-        'registered_at',
-        'password_updated_at',
-        'tel_no',
-        'address',
-        'address_bill',
-        'created_at',
-        'updated_at',
-        'deleted_at'
-    ];
+    protected $guarded = [];
 
     /**
-     * 取得できる列
+     * 取得できない列
      *
      * @var array<int, string>
      */
-    protected $visible = [
-        'id',
-        'display_id',
-        'name',
-        'registered_at',
-        'password_updated_at',
-        'tel_no',
-        'address',
-        'address_bill',
-        'created_at',
-        'updated_at',
-        'deleted_at'
-    ];
+    protected $hidden = [];
 
     /**
      *  取得/更新時に型を変換する
