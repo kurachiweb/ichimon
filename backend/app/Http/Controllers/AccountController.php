@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DateTime;
 use Illuminate\Http\Request;
+
 use App\Models\Account;
 use App\Models\AccountAuth;
 use App\Utilities\RandomNumber;
@@ -25,7 +26,7 @@ class AccountController extends Controller {
     /**
      * 1人作成
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
@@ -69,7 +70,7 @@ class AccountController extends Controller {
     /**
      * 1人取得
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
@@ -94,8 +95,8 @@ class AccountController extends Controller {
     /**
      * 1人更新
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
@@ -139,7 +140,7 @@ class AccountController extends Controller {
     /**
      * 1人削除
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {

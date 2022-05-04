@@ -8,8 +8,8 @@ class RandomNumber {
   /**
    * 乱数生成、min以上max以下
    *
-   * @param  int $min
-   * @param  int $max
+   * @param int $min
+   * @param int $max
    * @return int
    */
   public function generate($min, $max) {
