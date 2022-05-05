@@ -32,6 +32,6 @@ class CastHash implements CastsAttributes {
         if ($value === null) {
             return null;
         }
-        return hash('sha3-512', $value);
+        return password_hash($value, PASSWORD_ARGON2ID);
     }
 }
