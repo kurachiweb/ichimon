@@ -21,3 +21,5 @@ use Illuminate\Support\Facades\Route;
 Route::apiResource('/accounts', 'App\Http\Controllers\AccountController');
 // 認証メール送信
 Route::get('/verify/email/send/{id}', 'App\Http\Controllers\SendVerifyEmailController');
+// メール認証トークン照合
+Route::post('/verify/email/check', 'App\Http\Controllers\CheckEmailVerifyController');

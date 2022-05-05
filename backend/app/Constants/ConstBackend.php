@@ -15,4 +15,6 @@ class ConstBackend {
   const ACCOUNT_VERIFY_SEND = 1;
   /** アカウント認証ステータス：認証済み */
   const ACCOUNT_VERIFY_VERIFY = 2;
+  /** アカウントのメールアドレス認証有効期限[秒] */
+  const ACCOUNT_VERIFY_EXPIRE_SECOND = 1800;
 }
