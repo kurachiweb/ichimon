@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
-use App\Models\Account;
+
 use App\Constants\ConstBackend;
+use App\Models\Account;
+use App\Models\VerifyEmailToken;
 use App\Mail\AccountEmailVerify;
 
 class SendVerifyEmailController extends Controller {
@@ -40,15 +42,27 @@ class SendVerifyEmailController extends Controller {
             ], 404);
         }
 
+        // トークンを作成し、DBに保存する
+        $token = Str::uuid()->toString(); // UUIDv4
+        $verify_record = VerifyEmailToken::getDefault(false);
+        $verify_record['token'] = $token;
+        $verify_record['account_id'] = $account_id;
+        $verify_saved = VerifyEmailToken::create($verify_record);
+        if (!$verify_saved) {
+            return response()->json([
+                'message' => 'Cannot Save Token',
+            ], 404);
+        }
+
         // メールアドレスを送信する
         $mail_address = $account_auth['email'];
-        Mail::to($mail_address)->send(new AccountEmailVerify('テスト'));
+        Mail::to($mail_address)->send(new AccountEmailVerify($token));
 
         // 認証メールの送信フラグを送信済みにする
         $account_auth['verified_email'] = ConstBackend::ACCOUNT_VERIFY_SEND;
-        $successSaved = $account_auth->save();
+        $auth_saved = $account_auth->save();
 
-        if (!$successSaved) {
+        if (!$auth_saved) {
             return response()->json([
                 'message' => 'Cannot Update',
             ], 404);

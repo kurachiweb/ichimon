@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { DefaultAccount } from '@/models/account/account';
+import { Account, DefaultAccount } from '@/models/account/account';
 
 @Component
 export default class AccountCreate extends Vue {
@@ -22,6 +22,16 @@ export default class AccountCreate extends Vue {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(this.account)
     })
+      .then(r => r.json())
+      .then(res => {
+        this.requestVerifyEmail(res.data.account);
+        this.$router.push({ name: 'Home' });
+      });
+  }
+
+  /** アカウントのメールアドレス認証リクエストを送信 */
+  private requestVerifyEmail(account: Account) {
+    fetch('http://127.0.0.1:55002/api/verify/email/send/' + account.id)
       .then(r => r.json())
       .then(console.log);
   }
