@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Mail;
 use App\Models\Account;
 use App\Constants\ConstBackend;
+use App\Mail\AccountEmailVerify;
 
 class SendVerifyEmailController extends Controller {
     /**
@@ -40,6 +42,7 @@ class SendVerifyEmailController extends Controller {
 
         // メールアドレスを送信する
         $mail_address = $account_auth['email'];
+        Mail::to($mail_address)->send(new AccountEmailVerify('テスト'));
 
         // 認証メールの送信フラグを送信済みにする
         $account_auth['verified_email'] = ConstBackend::ACCOUNT_VERIFY_SEND;
