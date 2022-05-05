@@ -64,6 +64,7 @@ class AccountAuth extends Authenticatable {
      */
     protected $casts = [
         'id' => 'int',
+        'account_id' => 'int',
         'email' => CastEncrypt::class,
         'email_hash' => CastHash::class,
         'email_alter' => CastEncrypt::class,
