@@ -2,18 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 use App\Casts\CastEncrypt;
 use App\Models\AccountAuth;
 
 /** アカウント基本情報 */
 class Account extends Authenticatable {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory;
 
     /**
      * テーブル名
