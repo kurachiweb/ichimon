@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use App\Casts\CastEncrypt;
 use App\Casts\CastHash;
+use App\Casts\CastHashPassword;
 
 /** アカウント認証情報 */
 class AccountAuth extends Authenticatable {
@@ -65,7 +66,7 @@ class AccountAuth extends Authenticatable {
         'email' => CastEncrypt::class,
         'email_hash' => CastHash::class,
         'email_alter' => CastEncrypt::class,
-        'password' => CastHash::class,
+        'password' => CastHashPassword::class,
         'password_updated_at' => 'datetime',
         'billing_token' => CastEncrypt::class,
         'created_at' => 'datetime',
