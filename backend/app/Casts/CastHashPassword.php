@@ -5,7 +5,7 @@ namespace App\Casts;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
-class CastHash implements CastsAttributes {
+class CastHashPassword implements CastsAttributes {
     /**
      * そのまま取得
      *
@@ -20,7 +20,7 @@ class CastHash implements CastsAttributes {
     }
 
     /**
-     * SHA3-512によるハッシュ化
+     * SHA3-512によるパスワードハッシュ化
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model
      * @param  string  $key
@@ -32,6 +32,6 @@ class CastHash implements CastsAttributes {
         if ($value === null) {
             return null;
         }
-        return hash('sha3-512', $value);
+        return password_hash($value, PASSWORD_ARGON2ID);
     }
 }

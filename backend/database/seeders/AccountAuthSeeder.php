@@ -28,7 +28,7 @@ class AccountAuthSeeder extends Seeder {
                 'id' => 345678912,
                 'account_id' => $account_id,
                 'email' => Crypt::encryptString('kurachiweb@gmail.com'),
-                'email_hash' => password_hash('kurachiweb@gmail.com', PASSWORD_ARGON2ID),
+                'email_hash' => hash('sha3-512', 'kurachiweb@gmail.com'),
                 'email_alter' => null,
                 'verified_email' => 0,
                 'verified_mobile_no' => 0,
