@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 // });
 // アカウント基礎情報・認証情報のCRUD
 Route::apiResource('/accounts', 'App\Http\Controllers\AccountController');
+// アカウントログイン
+Route::post('/accounts/login', 'App\Http\Controllers\AccountLoginController');
 // 認証メール送信
 Route::get('/verify/email/send/{id}', 'App\Http\Controllers\SendVerifyEmailController');
 // メール認証トークン照合
