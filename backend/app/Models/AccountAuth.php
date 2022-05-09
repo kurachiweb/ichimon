@@ -80,7 +80,7 @@ class AccountAuth extends Authenticatable {
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function account() {
-        return $this->belongsTo('App\Models\Account', 'id', $this->primaryKey);
+        return $this->belongsTo('App\Models\Account', 'account_id', 'id');
     }
 
     /**
