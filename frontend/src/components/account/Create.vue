@@ -31,7 +31,7 @@ export default class AccountCreate extends Vue {
   private onSubmitCreate() {
     this.requestAccountCreate(this.account).then((account: Account) => {
       this.requestAccountEmailVerify(account);
-      this.requestAccountLogin(account);
+      this.requestAccountLogin(this.account);
       this.$router.push({ name: 'Home' });
     });
   }
@@ -64,7 +64,10 @@ export default class AccountCreate extends Vue {
       fetch('http://127.0.0.1:55002/api/accounts/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ account })
+        body: JSON.stringify({
+          name: account.auth?.email,
+          password: account.auth?.password
+        })
       })
         .then(r => r.json())
         .then(res => {

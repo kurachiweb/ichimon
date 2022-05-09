@@ -50,9 +50,6 @@ class AccountLoginController extends Controller {
                 $account_auth = AccountAuth::where('email_hash', $_CastHash->set(null, '', $req_name, []))->first();
             } else {
                 $account = Account::where('display_id', $req_name)->first();
-                if ($account) {
-                    $account_auth = $account->auth;
-                }
             }
             if ($account) {
                 $account_auth = $account->auth;
