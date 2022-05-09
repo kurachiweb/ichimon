@@ -37,6 +37,13 @@ class AccountSession extends Model {
     protected $keyType = 'bigint';
 
     /**
+     * created_at, updated_at, deleted_atカラムがテーブルにあるか
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * 追加できない列
      *
      * @var array<int, string>
