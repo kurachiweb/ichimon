@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Casts\CastHash;
 use App\Models\Account;
 use App\Models\AccountAuth;
+use App\Models\AccountSession;
+use App\Utilities\RandomNumber;
 
 class AccountLoginController extends Controller {
     /**
@@ -16,6 +18,8 @@ class AccountLoginController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function __invoke(Request $request) {
+        $_CastHash = new CastHash();
+        $_RandomNumber = new RandomNumber();
         $body = $request->getContent();
         $req = json_decode($body, true);
         if (!isset($req['name'])) {
@@ -39,21 +43,24 @@ class AccountLoginController extends Controller {
         }
 
         // メールアドレスまたは表示用IDに一致するアカウントを取得
-        $_CastHash = new CastHash();
+        $account = null;
         $account_auth = null;
-        logger($req_name);
-        if ($is_email) {2
-            $account_auth = AccountAuth::where('email_hash', $_CastHash->set(null, '', $req_name, []))->first();
-        } else {
-            $account = Account::where('display_id', $req_name)->first();
-            logger($account);
+        if ($req_name !== null && $req_name !== "") {
+            if ($is_email) {
+                $account_auth = AccountAuth::where('email_hash', $_CastHash->set(null, '', $req_name, []))->first();
+            } else {
+                $account = Account::where('display_id', $req_name)->first();
+                if ($account) {
+                    $account_auth = $account->auth;
+                }
+            }
             if ($account) {
                 $account_auth = $account->auth;
+            } else if ($account_auth) {
+                $account = $account_auth->account;
             }
-            logger($account->auth);
         }
-        logger($account_auth);
-        if (!isset($account_auth)) {
+        if (!$account || !$account_auth) {
             return response()->json([
                 'message' => 'Not found \'account\'',
             ], 404);
@@ -67,15 +74,22 @@ class AccountLoginController extends Controller {
             ], 404);
         }
 
-        // ログイントークンを発行
+        // ログイントークンを生成
+        $token = bin2hex(random_bytes(48));
 
         // ハッシュ化したログイントークンをDBに保存
+        $account_session = AccountSession::getDefault(false);
+        $account_session['id'] = $_RandomNumber->dbTableId();
+        $account_session['account_id'] = $account['id'];
+        $account_session['token_hash'] = $_CastHash->set(null, '', $token, []);
+        $added_session = AccountSession::create($account_session);
+        $added_session = $added_session->toArray();
+        if (!$added_session) {
+            return response()->json([
+                'message' => 'Cannot add account session',
+            ], 404);
+        }
 
-        // if (!$auth_saved) {
-        //     return response()->json([
-        //         'message' => 'Cannot Update',
-        //     ], 404);
-        // }
         return response()->json([
             'message' => 'Successful',
             'data' => [
