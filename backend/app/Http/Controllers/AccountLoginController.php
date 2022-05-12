@@ -9,6 +9,7 @@ use App\Models\Account;
 use App\Models\AccountAuth;
 use App\Models\AccountSession;
 use App\Utilities\RandomNumber;
+use Illuminate\Support\Facades\Cookie;
 
 class AccountLoginController extends Controller {
     /**
@@ -87,6 +88,9 @@ class AccountLoginController extends Controller {
             ], 404);
         }
 
+        // ログイン状態を保持するため、cookieを設定
+        // 有効期限は24時間・基本的にnot secure・http-only
+        Cookie::queue("token", $token, 60 * 24, "/", "", env("SESSION_SECURE_COOKIE", true), true);
         return response()->json([
             'message' => 'Successful',
             'data' => [
