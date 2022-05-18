@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Casts\CastHash;
+use App\Casts\CastHashPassword;
 use App\Models\Account;
 use App\Models\AccountAuth;
 use App\Models\AccountSession;
+use App\Utilities\BundleIdToken;
 use App\Utilities\RandomNumber;
 use Illuminate\Support\Facades\Cookie;
 
@@ -20,6 +22,8 @@ class AccountLoginController extends Controller {
      */
     public function __invoke(Request $request) {
         $_CastHash = new CastHash();
+        $_CastHashPassword = new CastHashPassword();
+        $_BundleIdToken = new BundleIdToken();
         $_RandomNumber = new RandomNumber();
         $body = $request->getContent();
         $req = json_decode($body, true);
@@ -46,7 +50,7 @@ class AccountLoginController extends Controller {
         // メールアドレスまたは表示用IDに一致するアカウントを取得
         $account = null;
         $account_auth = null;
-        if ($req_name !== null && $req_name !== "") {
+        if ($req_name !== null && $req_name !== '') {
             if ($is_email) {
                 $account_auth = AccountAuth::where('email_hash', $_CastHash->set(null, '', $req_name, []))->first();
             } else {
@@ -74,12 +78,13 @@ class AccountLoginController extends Controller {
 
         // ログイントークンを生成
         $token = bin2hex(random_bytes(48));
+        $id_token = $_BundleIdToken->join($account['id'], $token);
 
         // ハッシュ化したログイントークンをDBに保存
         $account_session = AccountSession::getDefault(false);
         $account_session['id'] = $_RandomNumber->dbTableId();
         $account_session['account_id'] = $account['id'];
-        $account_session['token_hash'] = $_CastHash->set(null, '', $token, []);
+        $account_session['token_hash'] = $_CastHashPassword->set(null, '', $id_token, []);
         $added_session = AccountSession::create($account_session);
         $added_session = $added_session->toArray();
         if (!$added_session) {
@@ -90,7 +95,7 @@ class AccountLoginController extends Controller {
 
         // ログイン状態を保持するため、cookieを設定
         // 有効期限は24時間・基本的にnot secure・http-only
-        Cookie::queue("token", $token, 60 * 24, "/", "", env("SESSION_SECURE_COOKIE", true), true);
+        Cookie::queue('token', $id_token, env('SESSION_LIFETIME', 3600), '/', '', env('SESSION_SECURE_COOKIE', true), true);
         return response()->json([
             'message' => 'Successful',
             'data' => [
