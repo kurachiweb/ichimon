@@ -16,7 +16,7 @@ class AccountController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $account = Account::all(["id", "display_id", "name", "registered_at"]);
+        $account = Account::all(['id', 'display_id', 'name', 'registered_at']);
         return response()->json([
             'message' => 'Successful',
             'data' => $account
