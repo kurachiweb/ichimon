@@ -2,12 +2,13 @@
 
 namespace App\Guards;
 
-use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\GuardHelpers as GuardHelpers;
+
+use App\Constants\ConstBackend;
 use App\Models\AccountSession;
 use App\Utilities\BundleIdToken;
 
@@ -54,7 +55,7 @@ class LoginGuard implements Guard {
     }
 
     // uuidヘッダの内容でユーザーを識別
-    $id_token = $this->_request->cookie('token', '');
+    $id_token = $this->_request->cookie(ConstBackend::COOKIE_NAME_LOGIN_TOKEN, '');
     $id_token_map = $_BundleIdToken->split($id_token);
     $this->_account_session = $this->_provider->retrieveByToken($id_token_map['id'], $id_token_map['token']);
 

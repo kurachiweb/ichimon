@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 
 use App\Casts\CastHash;
 use App\Casts\CastHashPassword;
+use App\Constants\ConstBackend;
 use App\Models\Account;
 use App\Models\AccountAuth;
 use App\Models\AccountSession;
 use App\Utilities\BundleIdToken;
 use App\Utilities\RandomNumber;
-use Illuminate\Support\Facades\Cookie;
 
 class AccountLoginController extends Controller {
     /**
@@ -95,7 +96,7 @@ class AccountLoginController extends Controller {
 
         // ログイン状態を保持するため、cookieを設定
         // 有効期限は24時間・基本的にnot secure・http-only
-        Cookie::queue('token', $id_token, env('SESSION_LIFETIME', 3600), '/', '', env('SESSION_SECURE_COOKIE', true), true);
+        Cookie::queue(ConstBackend::COOKIE_NAME_LOGIN_TOKEN, $id_token, env('SESSION_LIFETIME', 3600), '/', '', env('SESSION_SECURE_COOKIE', true), true);
         return response()->json([
             'message' => 'Successful',
             'data' => [
