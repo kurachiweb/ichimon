@@ -38,8 +38,20 @@ class AccountLoginController extends Controller {
                 'message' => 'Need request \'password\'',
             ], 404);
         }
+
+        // リクエストの空文字列を許容しない
         $req_name = $req['name'];
         $req_password = $req['password'];
+        if (!$req_name) {
+            return response()->json([
+                'message' => 'require \'name\'',
+            ], 404);
+        }
+        if (!$req_password) {
+            return response()->json([
+                'message' => 'require \'password\'',
+            ], 404);
+        }
 
         // @が2文字目以降にあればメールアドレス扱い
         $is_email = true;
