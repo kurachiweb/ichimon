@@ -58,6 +58,8 @@ return [
 
     'asset_url' => env('ASSET_URL'),
 
+    'origin_front' => env('ORIGIN_FRONT', 'http://localhost:55001'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

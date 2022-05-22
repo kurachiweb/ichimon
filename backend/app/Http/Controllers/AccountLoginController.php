@@ -108,7 +108,7 @@ class AccountLoginController extends Controller {
 
         // ログイン状態を保持するため、cookieを設定
         // 有効期限は24時間・基本的にnot secure・http-only
-        Cookie::queue(ConstBackend::COOKIE_NAME_LOGIN_TOKEN, $id_token, env('SESSION_LIFETIME', 3600), '/', '', env('SESSION_SECURE_COOKIE', true), true);
+        Cookie::queue(ConstBackend::COOKIE_NAME_LOGIN_TOKEN, $id_token, config('session.lifetime'), '/', '', config('session.secure', true), true);
         return response()->json([
             'message' => 'Successful',
             'data' => [

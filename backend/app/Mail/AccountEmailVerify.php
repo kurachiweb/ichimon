@@ -27,7 +27,7 @@ class AccountEmailVerify extends Mailable {
      * @return $this
      */
     public function build() {
-        $origin = env('FRONT_URL', 'http://localhost:55001');
+        $origin = config('app.origin_front');
         $url = "$origin/?email_token=$this->token";
 
         return $this->from('kurachiweb@gmail.com') // 送信元
