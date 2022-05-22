@@ -2,7 +2,6 @@
 
 namespace App\Casts;
 
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
 class CastHash implements CastsAttributes {
