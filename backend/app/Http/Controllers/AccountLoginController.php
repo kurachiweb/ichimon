@@ -98,6 +98,9 @@ class AccountLoginController extends Controller {
         $account_session['id'] = $_RandomNumber->dbTableId();
         $account_session['account_id'] = $account['id'];
         $account_session['token_hash'] = $_CastHashPassword->set(null, '', $id_token, []);
+        $account_session['ip_address'] = $request->ip();
+        $account_session['user_agent'] = $request->userAgent();
+
         $added_session = AccountSession::create($account_session);
         $added_session = $added_session->toArray();
         if (!$added_session) {

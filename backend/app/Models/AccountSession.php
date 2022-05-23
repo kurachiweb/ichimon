@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Casts\CastEncrypt;
+
 class AccountSession extends Model {
     use HasFactory;
 
@@ -37,13 +39,6 @@ class AccountSession extends Model {
     protected $keyType = 'bigint';
 
     /**
-     * created_at, updated_at, deleted_atカラムがテーブルにあるか
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
      * 追加できない列
      *
      * @var array<int, string>
@@ -64,7 +59,12 @@ class AccountSession extends Model {
      */
     protected $casts = [
         'id' => 'int',
-        'account_id' => 'int'
+        'account_id' => 'int',
+        'ip_address' => CastEncrypt::class,
+        'user_agent' => CastEncrypt::class,
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime'
     ];
 
     /**
@@ -78,7 +78,9 @@ class AccountSession extends Model {
         $model = [
             'id' => 0,
             'account_id' => 0,
-            'token_hash' => ''
+            'token_hash' => '',
+            'ip_address' => null,
+            'user_agent' => null,
         ];
         return $model;
     }
