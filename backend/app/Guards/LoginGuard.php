@@ -49,14 +49,13 @@ class LoginGuard implements Guard {
    * @return Authenticatable|null
    */
   public function user() {
-    $_BundleIdToken = new BundleIdToken();
     if (!is_null($this->_account_session)) {
       return $this->_account_session;
     }
 
     // uuidヘッダの内容でユーザーを識別
     $id_token = $this->_request->cookie(ConstBackend::COOKIE_NAME_LOGIN_TOKEN, '');
-    $id_token_map = $_BundleIdToken->split($id_token);
+    $id_token_map = BundleIdToken::split($id_token);
     $this->_account_session = $this->_provider->retrieveByToken($id_token_map['id'], $id_token_map['token']);
 
     return $this->_account_session;

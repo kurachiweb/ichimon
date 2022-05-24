@@ -30,7 +30,6 @@ class AccountController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        $_RandomNumber = new RandomNumber();
         $body = $request->getContent();
         $req = json_decode($body, true);
         $req_account = $req;
@@ -39,8 +38,8 @@ class AccountController extends Controller {
         $account_auth = $account['auth'];
 
         $now = new DateTime();
-        $account_id = $_RandomNumber->dbTableId();
-        $account_auth_id = $_RandomNumber->dbTableId();
+        $account_id = RandomNumber::dbTableId();
+        $account_auth_id = RandomNumber::dbTableId();
 
         // アカウント基本情報をリクエスト内容で上書き
         $account['id'] = $account_id;
@@ -156,6 +155,7 @@ class AccountController extends Controller {
                 'message' => 'sNot found',
             ], 404);
         }
+
         $account_auth->delete();
         $account->delete();
         return response()->json([

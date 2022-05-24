@@ -28,7 +28,6 @@ class AccountProvider implements UserProvider {
    * @return \Illuminate\Contracts\Auth\Authenticatable|null
    */
   public function retrieveByToken($identifier, $token) {
-    $_BundleIdToken = new BundleIdToken();
     // 指定アカウントIDでのセッション履歴を全て取得
     $account_sessions = AccountSession::where('account_id', $identifier)->orderBy('created_at', 'desc')->get();
     // そのアカウントIDでのセッション履歴が存在しない
@@ -36,7 +35,7 @@ class AccountProvider implements UserProvider {
       return null;
     }
     // 比較元のセッションID
-    $id_token = $_BundleIdToken->join($identifier, $token);
+    $id_token = BundleIdToken::join($identifier, $token);
     // 一致したログインセッション
     $match_session = null;
 

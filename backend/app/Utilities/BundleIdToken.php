@@ -4,7 +4,7 @@ namespace App\Utilities;
 
 class BundleIdToken {
   /** 区切り文字 */
-  private $delimiter = '/';
+  private static $delimiter = '/';
 
   /**
    * Idとトークン文字列を結合
@@ -13,8 +13,8 @@ class BundleIdToken {
    * @param string $token
    * @return int
    */
-  public function join(int $id, $token) {
-    return $id . $this->delimiter . $token;
+  public static function join(int $id, $token) {
+    return $id . self::$delimiter . $token;
   }
 
   /**
@@ -23,9 +23,9 @@ class BundleIdToken {
    * @param string $value
    * @return int
    */
-  public function split(string $value) {
+  public static function split(string $value) {
     // 区切り文字により$valueを分割
-    $id_token_arr = explode($this->delimiter, $value, 2);
+    $id_token_arr = explode(self::$delimiter, $value, 2);
     $id = null; // 区切り文字が無ければ、nullのまま
     $token = '';
     if (count($id_token_arr) === 1) {

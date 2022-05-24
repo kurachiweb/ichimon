@@ -12,7 +12,7 @@ class RandomNumber {
    * @param int $max
    * @return int
    */
-  public function generate($min, $max) {
+  public static function generate($min, $max) {
     return random_int($min, $max);
   }
 
@@ -21,7 +21,7 @@ class RandomNumber {
    *
    * @return int
    */
-  public function dbTableId() {
-    return $this->generate(1, ConstBackend::MAX_TABLE_ID);
+  public static function dbTableId() {
+    return self::generate(1, ConstBackend::MAX_TABLE_ID);
   }
 }

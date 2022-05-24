@@ -23,8 +23,6 @@ class AccountLoginController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function __invoke(Request $request) {
-        $_BundleIdToken = new BundleIdToken();
-        $_RandomNumber = new RandomNumber();
         $body = $request->getContent();
         $req = json_decode($body, true);
         if (!isset($req['name'])) {
@@ -90,11 +88,11 @@ class AccountLoginController extends Controller {
 
         // ログイントークンを生成
         $token = bin2hex(random_bytes(48));
-        $id_token = $_BundleIdToken->join($account['id'], $token);
+        $id_token = BundleIdToken::join($account['id'], $token);
 
         // ハッシュ化したログイントークンをDBに保存
         $account_session = AccountSession::getDefault(false);
-        $account_session['id'] = $_RandomNumber->dbTableId();
+        $account_session['id'] = RandomNumber::dbTableId();
         $account_session['account_id'] = $account['id'];
         $account_session['token_hash'] = PasswordHash::convert($id_token);
         $account_session['ip_address'] = $request->ip();
