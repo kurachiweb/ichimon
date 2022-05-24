@@ -29,18 +29,27 @@ class AccountProvider implements UserProvider {
    */
   public function retrieveByToken($identifier, $token) {
     $_BundleIdToken = new BundleIdToken();
-    $account_session = AccountSession::where('account_id', $identifier)->first();
+    // 指定アカウントIDでのセッション履歴を全て取得
+    $account_sessions = AccountSession::where('account_id', $identifier)->orderBy('created_at', 'desc')->get();
     // そのアカウントIDでのセッション履歴が存在しない
-    if (!$account_session) {
+    if (!$account_sessions) {
       return null;
     }
-    // アカウントのトークンが一致しない
+    // 比較元のセッションID
     $id_token = $_BundleIdToken->join($identifier, $token);
-    $savedTokenHash = $account_session['token_hash'];
-    if (!password_verify($id_token, $savedTokenHash)) {
-      return null;
+    // 一致したログインセッション
+    $match_session = null;
+
+    foreach ($account_sessions as $account_session) {
+      // 比較先のセッションID
+      $saved_token_hash = $account_session['token_hash'];
+      // トークンが一致すれば、そのセッションを返す
+      if (password_verify($id_token, $saved_token_hash)) {
+        $match_session = $account_session;
+        break;
+      }
     }
-    return $account_session;
+    return $match_session;
   }
 
   /**
