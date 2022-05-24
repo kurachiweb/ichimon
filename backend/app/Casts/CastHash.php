@@ -4,15 +4,17 @@ namespace App\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
+use App\Utilities\StringHash;
+
 class CastHash implements CastsAttributes {
     /**
      * そのまま取得
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @param  string  $key
-     * @param  mixed  $value
-     * @param  array  $attributes
-     * @return string | null
+     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param string $key
+     * @param mixed $value
+     * @param array $attributes
+     * @return string|null
      */
     public function get($model, $key, $value, $attributes) {
         return $value;
@@ -21,16 +23,13 @@ class CastHash implements CastsAttributes {
     /**
      * SHA3-512によるハッシュ化
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @param  string  $key
-     * @param  string  $value
-     * @param  array  $attributes
-     * @return string
+     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param string $key
+     * @param string $value
+     * @param array $attributes
+     * @return string|null
      */
     public function set($model, $key, $value, $attributes) {
-        if ($value === null) {
-            return null;
-        }
-        return hash('sha3-512', $value);
+        return StringHash::convert($value);
     }
 }

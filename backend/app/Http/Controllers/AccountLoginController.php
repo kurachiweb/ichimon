@@ -5,14 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 
-use App\Casts\CastHash;
-use App\Casts\CastHashPassword;
 use App\Constants\ConstBackend;
 use App\Models\Account;
 use App\Models\AccountAuth;
 use App\Models\AccountSession;
 use App\Utilities\BundleIdToken;
 use App\Utilities\RandomNumber;
+use App\Utilities\PasswordHash;
+use App\Utilities\StringHash;
+use App\Utilities\StringEncrypt;
 
 class AccountLoginController extends Controller {
     /**
@@ -22,8 +23,6 @@ class AccountLoginController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function __invoke(Request $request) {
-        $_CastHash = new CastHash();
-        $_CastHashPassword = new CastHashPassword();
         $_BundleIdToken = new BundleIdToken();
         $_RandomNumber = new RandomNumber();
         $body = $request->getContent();
@@ -65,7 +64,7 @@ class AccountLoginController extends Controller {
         $account_auth = null;
         if ($req_name !== null && $req_name !== '') {
             if ($is_email) {
-                $account_auth = AccountAuth::where('email_hash', $_CastHash->set(null, '', $req_name, []))->first();
+                $account_auth = AccountAuth::where('email_hash', StringHash::convert($req_name))->first();
             } else {
                 $account = Account::where('display_id', $req_name)->first();
             }
@@ -97,7 +96,7 @@ class AccountLoginController extends Controller {
         $account_session = AccountSession::getDefault(false);
         $account_session['id'] = $_RandomNumber->dbTableId();
         $account_session['account_id'] = $account['id'];
-        $account_session['token_hash'] = $_CastHashPassword->set(null, '', $id_token, []);
+        $account_session['token_hash'] = PasswordHash::convert($id_token);
         $account_session['ip_address'] = $request->ip();
         $account_session['user_agent'] = $request->userAgent();
 
