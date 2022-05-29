@@ -32,7 +32,12 @@ class AccountController extends Controller {
     public function store(Request $request) {
         $body = $request->getContent();
         $req = json_decode($body, true);
-        $req_account = $req;
+        if (!isset($req['account'])) {
+            return response()->json([
+                'message' => 'Need request \'account\'',
+            ], 404);
+        }
+        $req_account = $req['account'];
 
         $account = Account::getDefault(true);
         $account_auth = $account['auth'];
