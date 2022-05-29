@@ -10,6 +10,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Account, DefaultAccount } from '@/models/account/account';
+import { FetchApiJson } from '@/controlers/_connect/fetch';
+import { ReqGetAccount, ResGetAccount } from '@/controlers/account/account';
+import { ReqLoginAccount, ResLoginAccount } from '@/controlers/account/login';
 
 @Component
 export default class AccountCreate extends Vue {
@@ -29,50 +32,51 @@ export default class AccountCreate extends Vue {
 
   /** 送信ボタンのクリック後 */
   private onSubmitCreate() {
-    this.requestAccountCreate(this.account).then((account: Account) => {
-      this.requestAccountEmailVerify(account);
-      this.requestAccountLogin(this.account);
-      this.$router.push({ name: 'Home' });
-    });
+    this.requestAccountCreate(this.account)
+      .then((account?: Account) => {
+        if (account == undefined) {
+          return Promise.reject();
+        }
+        // アカウントを作成できた場合、同じ入力値で即ログインする
+        return this.requestAccountLogin(this.account);
+      })
+      .then((loginInfo?: ResLoginAccount) => {
+        if (!loginInfo || loginInfo.login !== true || loginInfo.account_id == null) {
+          return;
+        }
+        // アカウントにログインできた場合、即メールアドレスの認証リクエストを送信
+        this.requestAccountEmailVerify(loginInfo?.account_id);
+        this.$router.push({ name: 'Home' });
+      });
   }
 
   /** アカウント作成リクエストを送信 */
-  private requestAccountCreate(account: Account): Promise<Account> {
+  private requestAccountCreate(account: Account): Promise<Account | undefined> {
     return new Promise(resolve => {
-      fetch('http://127.0.0.1:55002/api/accounts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(account)
-      })
-        .then(r => r.json())
-        .then(res => {
-          resolve(res.data.account);
-        });
+      FetchApiJson<ReqGetAccount, ResGetAccount>('http://127.0.0.1:55002/api/accounts', { account }, { method: 'POST' }).then(res => {
+        resolve(res.data?.account);
+      });
     });
   }
 
   /** アカウントのメールアドレス認証リクエストを送信 */
-  private requestAccountEmailVerify(account: Account) {
-    fetch('http://127.0.0.1:55002/api/verify/email/send/' + account.id)
-      .then(r => r.json())
-      .then(console.log);
+  private requestAccountEmailVerify(accountId: number) {
+    FetchApiJson<null, ResGetAccount>('http://127.0.0.1:55002/api/verify/email/send/' + accountId, null, null).then(console.log);
   }
 
   /** アカウントログインリクエストを送信 */
-  private requestAccountLogin(account: Account): Promise<Account> {
+  private requestAccountLogin(account: Account): Promise<ResLoginAccount | undefined> {
     return new Promise(resolve => {
-      fetch('http://127.0.0.1:55002/api/accounts/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      FetchApiJson<ReqLoginAccount, ResLoginAccount>(
+        'http://127.0.0.1:55002/api/accounts/login',
+        {
           name: account.auth?.email,
           password: account.auth?.password
-        })
-      })
-        .then(r => r.json())
-        .then(res => {
-          resolve(res.data.account);
-        });
+        },
+        { method: 'POST' }
+      ).then(res => {
+        resolve(res.data);
+      });
     });
   }
 }
