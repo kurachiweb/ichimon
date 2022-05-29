@@ -13,7 +13,6 @@ use App\Utilities\BundleIdToken;
 use App\Utilities\RandomNumber;
 use App\Utilities\PasswordHash;
 use App\Utilities\StringHash;
-use App\Utilities\StringEncrypt;
 
 class AccountLoginController extends Controller {
     /**
@@ -42,12 +41,12 @@ class AccountLoginController extends Controller {
         if (!$req_name) {
             return response()->json([
                 'message' => 'require \'name\'',
-            ], 404);
+            ], 401);
         }
         if (!$req_password) {
             return response()->json([
                 'message' => 'require \'password\'',
-            ], 404);
+            ], 401);
         }
 
         // @が2文字目以降にあればメールアドレス扱い
@@ -112,6 +111,7 @@ class AccountLoginController extends Controller {
         return response()->json([
             'message' => 'Successful',
             'data' => [
+                'account_id' => $account['id'],
                 'login' => true,
             ]
         ], 201, [], JSON_UNESCAPED_UNICODE);
