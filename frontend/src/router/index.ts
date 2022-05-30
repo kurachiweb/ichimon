@@ -1,6 +1,10 @@
 import Vue from 'vue';
 import VueRouter, { Route, RouteConfig } from 'vue-router';
 
+import ViewHome from '@/views/Home.vue';
+import ViewAccountCreate from '@/views/account/Create.vue';
+import ViewAccountLogin from '@/views/account/Login.vue';
+
 Vue.use(VueRouter);
 
 /** デフォルトのページタイトルと説明文 */
@@ -14,19 +18,19 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Home',
-    component: () => import(/* webpackChunkName: "home" */ '@/views/HomeView.vue'),
+    component: ViewHome,
     meta: { title: 'ホーム' }
   },
   {
     path: '/account/create',
     name: 'AccountCreate',
-    component: () => import(/* webpackChunkName: "account_create" */ '@/views/account/Create.vue'),
+    component: ViewAccountCreate,
     meta: { title: 'アカウントを作成' }
   },
   {
     path: '/account/login',
     name: 'AccountLogin',
-    component: () => import(/* webpackChunkName: "account_login" */ '@/views/account/Login.vue'),
+    component: ViewAccountLogin,
     meta: { title: 'ログイン' }
   }
 ];
