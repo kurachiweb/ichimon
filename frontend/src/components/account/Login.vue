@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { FetchApiJson } from '@/controlers/_connect/fetch';
+import { Origin, FetchApiJson } from '@/controlers/_connect/fetch';
 import { ReqLoginAccount, ResLoginAccount } from '@/controlers/account/login';
 
 @Component
@@ -29,7 +29,7 @@ export default class AccountLogin extends Vue {
   private requestAccountLogin(name: string, password: string): Promise<ResLoginAccount | undefined> {
     return new Promise(resolve => {
       FetchApiJson<ReqLoginAccount, ResLoginAccount>(
-        'http://127.0.0.1:55002/api/accounts/login',
+        Origin.backend + '/api/accounts/login',
         {
           name,
           password

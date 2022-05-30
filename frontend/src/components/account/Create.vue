@@ -10,7 +10,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Account, DefaultAccount } from '@/models/account/account';
-import { FetchApiJson } from '@/controlers/_connect/fetch';
+import { Origin, FetchApiJson } from '@/controlers/_connect/fetch';
 import { ReqGetAccount, ResGetAccount } from '@/controlers/account/account';
 import { ReqLoginAccount, ResLoginAccount } from '@/controlers/account/login';
 
@@ -53,7 +53,7 @@ export default class AccountCreate extends Vue {
   /** アカウント作成リクエストを送信 */
   private requestAccountCreate(account: Account): Promise<Account | undefined> {
     return new Promise(resolve => {
-      FetchApiJson<ReqGetAccount, ResGetAccount>('http://127.0.0.1:55002/api/accounts', { account }, { method: 'POST' }).then(res => {
+      FetchApiJson<ReqGetAccount, ResGetAccount>(Origin.backend + '/api/accounts', { account }, { method: 'POST' }).then(res => {
         resolve(res.data?.account);
       });
     });
@@ -61,14 +61,14 @@ export default class AccountCreate extends Vue {
 
   /** アカウントのメールアドレス認証リクエストを送信 */
   private requestAccountEmailVerify(accountId: number) {
-    FetchApiJson<null, ResGetAccount>('http://127.0.0.1:55002/api/verify/email/send/' + accountId, null, null);
+    FetchApiJson<null, ResGetAccount>(Origin.backend + '/api/verify/email/send/' + accountId, null, null);
   }
 
   /** アカウントログインリクエストを送信 */
   private requestAccountLogin(account: Account): Promise<ResLoginAccount | undefined> {
     return new Promise(resolve => {
       FetchApiJson<ReqLoginAccount, ResLoginAccount>(
-        'http://127.0.0.1:55002/api/accounts/login',
+        Origin.backend + '/api/accounts/login',
         {
           name: account.auth?.email,
           password: account.auth?.password

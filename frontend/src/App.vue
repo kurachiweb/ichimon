@@ -9,6 +9,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { Origin } from '@/controlers/_connect/fetch';
 import CommonHeader from '@/components/_organisms/Header.vue';
 
 @Component({
@@ -28,7 +29,7 @@ export default class App extends Vue {
 
   /** アカウントのメールアドレス認証リクエストを送信 */
   private requestCheckEmail(token: string) {
-    fetch('http://127.0.0.1:55002/api/verify/email/check', {
+    fetch(Origin.backend + '/api/verify/email/check', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token })

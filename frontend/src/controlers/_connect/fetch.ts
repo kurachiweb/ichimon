@@ -1,3 +1,6 @@
+/** 各環境のOrigin、インポート行数を減らして使えるように */
+export { Origin } from '@/controlers/_connect/url-origin';
+
 /** リクエストオプション */
 export interface FetchOptionCustom {
   method?: string; // HTTPメソッド
@@ -119,6 +122,7 @@ export const FetchApiJson = <Req, Res>(url: string, data: Req, option: FetchOpti
   if (option == null) {
     option = {};
   }
+  console.log(process.env.VUE_APP_ORIGIN_BACKEND);
   // クロスオリジンでもCookieを送信
   option.allowCrossOrigin = true;
   option.withCredentials = true;
