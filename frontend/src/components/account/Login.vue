@@ -8,7 +8,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { Account } from '@/models/account/account';
+import { FetchApiJson } from '@/controlers/_connect/fetch';
+import { ReqLoginAccount, ResLoginAccount } from '@/controlers/account/login';
 
 @Component
 export default class AccountLogin extends Vue {
@@ -19,27 +20,24 @@ export default class AccountLogin extends Vue {
 
   /** 送信ボタンのクリック後 */
   private onSubmitLogin() {
-    this.requestAccountLogin(this.accountName, this.accountPassword).then(console.log);
-    // this.$router.push({ name: 'Home' });
+    this.requestAccountLogin(this.accountName, this.accountPassword).then(() => {
+      this.$router.push({ name: 'Home' });
+    });
   }
 
   /** アカウントログインリクエストを送信 */
-  private requestAccountLogin(name: string, password: string): Promise<Account> {
+  private requestAccountLogin(name: string, password: string): Promise<ResLoginAccount | undefined> {
     return new Promise(resolve => {
-      fetch('http://127.0.0.1:55002/api/accounts/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        mode: 'cors',
-        credentials: 'include',
-        body: JSON.stringify({
-          name: name,
-          password: password
-        })
-      })
-        .then(r => r.json())
-        .then(res => {
-          resolve(res.data.account);
-        });
+      FetchApiJson<ReqLoginAccount, ResLoginAccount>(
+        'http://127.0.0.1:55002/api/accounts/login',
+        {
+          name,
+          password
+        },
+        { method: 'POST' }
+      ).then(res => {
+        resolve(res.data);
+      });
     });
   }
 }
