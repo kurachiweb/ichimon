@@ -9,8 +9,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { Origin } from '@/controlers/_connect/fetch';
+import { Origin, FetchApiJson } from '@/controlers/_connect/fetch';
 import CommonHeader from '@/components/_organisms/Header.vue';
+import { ReqVerifyEmail, ResVerifyEmail } from '@/controlers/account/verify-email';
 
 @Component({
   components: {
@@ -22,20 +23,20 @@ export default class App extends Vue {
     /** メールアドレス認証のURLから来た場合 */
     const emailVerifyToken = this.$route.query.email_token;
     if (emailVerifyToken) {
-      this.requestCheckEmail(String(emailVerifyToken));
-      this.$router.push({ name: this.$route.name || 'Home' });
+      this.requestCheckEmail(String(emailVerifyToken)).then(() => {
+        // メールアドレスを認証できてもできなくても、URLからクエリ文字列を取り除く
+        this.$router.push({ name: this.$route.name || 'Home' });
+      });
     }
   }
 
   /** アカウントのメールアドレス認証リクエストを送信 */
-  private requestCheckEmail(token: string) {
-    fetch(Origin.backend + '/api/verify/email/check', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token })
-    })
-      .then(r => r.json())
-      .then(console.log);
+  private requestCheckEmail(token: string): Promise<ResVerifyEmail | undefined> {
+    return new Promise(resolve => {
+      FetchApiJson<ReqVerifyEmail, ResVerifyEmail>(Origin.backend + '/api/verify/email/check', { token }, { method: 'POST' }).then(res => {
+        resolve(res.data);
+      });
+    });
   }
 }
 </script>
