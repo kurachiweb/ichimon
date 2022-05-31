@@ -28,14 +28,10 @@ export default class AccountLogin extends Vue {
   /** アカウントログインリクエストを送信 */
   private requestAccountLogin(name: string, password: string): Promise<ResLoginAccount | undefined> {
     return new Promise(resolve => {
-      FetchApiJson<ReqLoginAccount, ResLoginAccount>(
-        Origin.backend + '/api/accounts/login',
-        {
-          name,
-          password
-        },
-        { method: 'POST' }
-      ).then(res => {
+      FetchApiJson<ReqLoginAccount, ResLoginAccount>(Origin.backend + '/api/accounts/login', {
+        name,
+        password
+      }).then(res => {
         resolve(res.data);
       });
     });

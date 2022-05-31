@@ -53,7 +53,7 @@ export default class AccountCreate extends Vue {
   /** アカウント作成リクエストを送信 */
   private requestAccountCreate(account: Account): Promise<Account | undefined> {
     return new Promise(resolve => {
-      FetchApiJson<ReqGetAccount, ResGetAccount>(Origin.backend + '/api/accounts', { account }, { method: 'POST' }).then(res => {
+      FetchApiJson<ReqGetAccount, ResGetAccount>(Origin.backend + '/api/accounts', { account }).then(res => {
         resolve(res.data?.account);
       });
     });
@@ -67,14 +67,10 @@ export default class AccountCreate extends Vue {
   /** アカウントログインリクエストを送信 */
   private requestAccountLogin(account: Account): Promise<ResLoginAccount | undefined> {
     return new Promise(resolve => {
-      FetchApiJson<ReqLoginAccount, ResLoginAccount>(
-        Origin.backend + '/api/accounts/login',
-        {
-          name: account.auth?.email,
-          password: account.auth?.password
-        },
-        { method: 'POST' }
-      ).then(res => {
+      FetchApiJson<ReqLoginAccount, ResLoginAccount>(Origin.backend + '/api/accounts/login', {
+        name: account.auth?.email,
+        password: account.auth?.password
+      }).then(res => {
         resolve(res.data);
       });
     });

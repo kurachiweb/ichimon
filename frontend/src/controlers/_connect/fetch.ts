@@ -106,6 +106,10 @@ export const FetchJson = <Req, Res>(url: string, data: Req | null = null, option
   if (option == null) {
     option = {};
   }
+  // JSON通信において、HTTPメソッドはPOSTをデフォルトとする
+  if (option.method === undefined) {
+    option.method = 'POST';
+  }
   option.requestType = 'json';
   option.responseType = 'json';
 
