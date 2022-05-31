@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use DateTimeZone;
 use Illuminate\Http\Request;
 
 use App\Constants\ConstBackend;
@@ -33,8 +35,8 @@ class CheckEmailVerifyController extends Controller {
                 'message' => 'Not found token',
             ], 404);
         }
-        $now = time();
-        $token_created = strtotime($token_column['created_at']);
+        $now = date_create('now', new DateTimeZone('UTC'));
+        $token_created = $token_column['created_at'];
         if ($now - $token_created > ConstBackend::ACCOUNT_VERIFY_EXPIRE_SECOND) {
             return response()->json([
                 'message' => 'Token expired',

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Utilities;
 
@@ -11,7 +12,7 @@ class BundleIdToken {
    *
    * @param int $id
    * @param string $token
-   * @return int
+   * @return string
    */
   public static function join(int $id, $token) {
     return $id . self::$delimiter . $token;
@@ -21,7 +22,7 @@ class BundleIdToken {
    * Idとトークン文字列を分割
    *
    * @param string $value
-   * @return int
+   * @return array
    */
   public static function split(string $value) {
     // 区切り文字により$valueを分割
