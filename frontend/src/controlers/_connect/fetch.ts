@@ -23,7 +23,7 @@ const onFetchError = (response: Response) => {
 };
 
 /** ネットワークからリソースを取得 */
-export const Fetch = <Res>(url: string, data: BodyInit | null, option: FetchOptionCustom | null): Promise<FetchCustomResponse<Res>> => {
+export const Fetch = <Res>(url: string, data: BodyInit | null, option: FetchOptionCustom | null = null): Promise<FetchCustomResponse<Res>> => {
   const request: RequestInit = {};
   request.headers = new Headers();
 
@@ -102,7 +102,7 @@ export const Fetch = <Res>(url: string, data: BodyInit | null, option: FetchOpti
 };
 
 /** JSON形式でリクエストし、JSON形式でリソースを取得 */
-export const FetchJson = <Req, Res>(url: string, data: Req, option: FetchOptionCustom | null): Promise<FetchCustomResponse<Res>> => {
+export const FetchJson = <Req, Res>(url: string, data: Req, option: FetchOptionCustom | null = null): Promise<FetchCustomResponse<Res>> => {
   if (option == null) {
     option = {};
   }
@@ -118,11 +118,10 @@ export const FetchJson = <Req, Res>(url: string, data: Req, option: FetchOptionC
 };
 
 /** JSON APIを利用し、リソースを取得 */
-export const FetchApiJson = <Req, Res>(url: string, data: Req, option: FetchOptionCustom | null): Promise<FetchCustomResponse<Res>> => {
+export const FetchApiJson = <Req, Res>(url: string, data: Req, option: FetchOptionCustom | null = null): Promise<FetchCustomResponse<Res>> => {
   if (option == null) {
     option = {};
   }
-  console.log(process.env.VUE_APP_ORIGIN_BACKEND);
   // クロスオリジンでもCookieを送信
   option.allowCrossOrigin = true;
   option.withCredentials = true;
