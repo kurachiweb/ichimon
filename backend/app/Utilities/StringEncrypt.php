@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Utilities;
@@ -28,7 +29,7 @@ class StringEncrypt {
    */
   public static function decrypt($value) {
     if ($value === null) {
-        return null;
+      return null;
     }
     return Crypt::decryptString($value);
   }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Utilities;
@@ -12,7 +13,7 @@ class PasswordHash {
    */
   public static function convert($value) {
     if ($value === null) {
-        return null;
+      return null;
     }
     return password_hash($value, PASSWORD_ARGON2ID);
   }
