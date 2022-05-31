@@ -18,18 +18,6 @@ import { ReqLoginAccount, ResLoginAccount } from '@/controlers/account/login';
 export default class AccountCreate extends Vue {
   private account = DefaultAccount(true);
 
-  /** Cookieからキー指定で値を取得する */
-  private getCookie(key: string): string | null {
-    const cookies = document.cookie.split(',');
-    for (const cookie of cookies) {
-      const keyValue = cookie.split('=');
-      if (keyValue[0] === key) {
-        return keyValue[1];
-      }
-    }
-    return null;
-  }
-
   /** 送信ボタンのクリック後 */
   private onSubmitCreate() {
     this.requestAccountCreate(this.account)
