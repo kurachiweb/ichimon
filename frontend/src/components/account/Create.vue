@@ -61,7 +61,7 @@ export default class AccountCreate extends Vue {
 
   /** アカウントのメールアドレス認証リクエストを送信 */
   private requestAccountEmailVerify(accountId: number) {
-    FetchApiJson<null, ResGetAccount>(Origin.backend + '/api/verify/email/send/' + accountId, null);
+    FetchApiJson<null, ResGetAccount>(Origin.backend + '/api/verify/email/send/' + accountId);
   }
 
   /** アカウントログインリクエストを送信 */
