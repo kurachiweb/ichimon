@@ -33,7 +33,10 @@ export default class App extends Vue {
   /** アカウントのメールアドレス認証リクエストを送信 */
   private requestCheckEmail(token: string): Promise<ResVerifyEmail | undefined> {
     return new Promise(resolve => {
-      FetchApiJson<ReqVerifyEmail, ResVerifyEmail>(Origin.backend + '/api/verify/email/check', { token }).then(res => {
+      FetchApiJson<ReqVerifyEmail, ResVerifyEmail>(
+        Origin.backend + '/api/verify/email/check',
+        { token }
+      ).then(res => {
         resolve(res.data);
       });
     });

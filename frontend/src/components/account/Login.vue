@@ -1,7 +1,16 @@
 <template>
   <v-form @submit.prevent="onSubmitLogin()">
-    <CommonTextField v-model="accountName" label="メールアドレス または アカウントID" autocomplete="email" />
-    <CommonTextField v-model="accountPassword" label="パスワード" type="password" autocomplete="current-password" />
+    <CommonTextField
+      v-model="accountName"
+      label="メールアドレス または アカウントID"
+      autocomplete="email"
+    />
+    <CommonTextField
+      v-model="accountPassword"
+      label="パスワード"
+      type="password"
+      autocomplete="current-password"
+    />
     <CommonButton type="submit">ログインする</CommonButton>
   </v-form>
 </template>
@@ -26,12 +35,18 @@ export default class AccountLogin extends Vue {
   }
 
   /** アカウントログインリクエストを送信 */
-  private requestAccountLogin(name: string, password: string): Promise<ResLoginAccount | undefined> {
+  private requestAccountLogin(
+    name: string,
+    password: string
+  ): Promise<ResLoginAccount | undefined> {
     return new Promise(resolve => {
-      FetchApiJson<ReqLoginAccount, ResLoginAccount>(Origin.backend + '/api/accounts/login', {
-        name,
-        password
-      }).then(res => {
+      FetchApiJson<ReqLoginAccount, ResLoginAccount>(
+        Origin.backend + '/api/accounts/login',
+        {
+          name,
+          password
+        }
+      ).then(res => {
         resolve(res.data);
       });
     });

@@ -11,7 +11,8 @@ Vue.use(VueRouter);
 export const DEFAULT_META = {
   title: '一問 ／ Ichimon',
   titleSuffix: ' | 一問アンケート',
-  description: 'Webアンケートサービスの、一問です。忙しい日々の合間に、十秒で回答できます。'
+  description:
+    'Webアンケートサービスの、一問です。忙しい日々の合間に、十秒で回答できます。'
 };
 
 const routes: Array<RouteConfig> = [
@@ -49,7 +50,9 @@ const changeTitleDescription = (route: Route) => {
   } else {
     document.title = DEFAULT_META.title;
   }
-  const metaDescElem: HTMLMetaElement | null = document.querySelector('meta[name=description]');
+  const metaDescElem: HTMLMetaElement | null = document.querySelector(
+    'meta[name=description]'
+  );
   if (metaDescElem) {
     // ページ説明文の設定
     if (typeof route.meta?.description === 'string') {
