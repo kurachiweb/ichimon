@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use DateTimeZone;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Constants\ConstBackend;
@@ -35,14 +35,15 @@ class CheckEmailVerifyController extends Controller {
                 'message' => 'Not found token',
             ], 404);
         }
-        $now = date_create('now', new DateTimeZone('UTC'));
+        $now = Carbon::now('UTC');
         $token_created = $token_column['created_at'];
-        if ($now - $token_created > ConstBackend::ACCOUNT_VERIFY_EXPIRE_SECOND) {
+        // トークンが作られてから一定時間が経過していれば、認証しない
+        if ($token_created->diffInSeconds($now) > ConstBackend::ACCOUNT_VERIFY_EXPIRE_SECOND) {
             return response()->json([
                 'message' => 'Token expired',
             ], 401);
         }
-        
+
         // メールアドレスを認証したのでステータスを変更
         $account_id = $token_column['account_id'];
         $account = Account::find($account_id);

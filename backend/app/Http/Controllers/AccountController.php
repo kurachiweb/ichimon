@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use DateTime;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Models\Account;
@@ -43,7 +43,7 @@ class AccountController extends Controller {
         $account = Account::getDefault(true);
         $account_auth = $account['auth'];
 
-        $now = new DateTime();
+        $now = Carbon::now('UTC');
         $account_id = RandomNumber::dbTableId();
         $account_auth_id = RandomNumber::dbTableId();
 

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use DateTime;
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
@@ -18,10 +18,8 @@ class AccountAuthSeeder extends Seeder {
      */
     public function run() {
         $account_id = 123456789;
-        $created_at = new DateTime();
-        $created_at->setDate(2006, 1, 2)->setTime(15, 4, 5);
-        $registered_at = new DateTime();
-        $registered_at->setDate(2016, 4, 5)->setTime(22, 0, 47);
+        $created_at = new Carbon('2022-05-31 15:04:05');
+        $registered_at = new Carbon('2022-05-31 22:53:05');
 
         DB::table('account_auth')->insert([
             [
@@ -34,7 +32,7 @@ class AccountAuthSeeder extends Seeder {
                 'verified_mobile_no' => 0,
                 'password' => password_hash('testpass1234kanazaWa', PASSWORD_ARGON2ID),
                 'password_updated_at' => $created_at,
-                'billing_token' => null, 
+                'billing_token' => null,
                 'created_at' => $created_at,
                 'updated_at' => $registered_at,
                 'deleted_at' => null,

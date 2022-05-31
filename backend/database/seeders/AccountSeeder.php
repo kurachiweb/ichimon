@@ -2,12 +2,11 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Database\Seeder;
-
-use DateTime;
 
 class AccountSeeder extends Seeder {
     use WithoutModelEvents;
@@ -19,10 +18,8 @@ class AccountSeeder extends Seeder {
      */
     public function run() {
         $account_id = 123456789;
-        $created_at = new DateTime();
-        $created_at->setDate(2006, 1, 2)->setTime(15, 4, 5);
-        $registered_at = new DateTime();
-        $registered_at->setDate(2016, 4, 5)->setTime(22, 0, 47);
+        $created_at = new Carbon('2022-05-31 15:04:05');
+        $registered_at = new Carbon('2022-05-31 22:53:05');
 
         DB::table('account')->insert([
             [
