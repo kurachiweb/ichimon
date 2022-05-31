@@ -7,8 +7,11 @@ namespace Database\Seeders;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Database\Seeder;
+
+use App\Utilities\PasswordHash;
+use App\Utilities\StringEncrypt;
+use App\Utilities\StringHash;
 
 class AccountAuthSeeder extends Seeder {
     use WithoutModelEvents;
@@ -27,12 +30,12 @@ class AccountAuthSeeder extends Seeder {
             [
                 'id' => 345678912,
                 'account_id' => $account_id,
-                'email' => Crypt::encryptString('kurachiweb@gmail.com'),
-                'email_hash' => hash('sha3-512', 'kurachiweb@gmail.com'),
+                'email' => StringEncrypt::encrypt('kurachiweb@gmail.com'),
+                'email_hash' => StringHash::convert('kurachiweb@gmail.com'),
                 'email_alter' => null,
                 'verified_email' => 0,
                 'verified_mobile_no' => 0,
-                'password' => password_hash('testpass1234kanazaWa', PASSWORD_ARGON2ID),
+                'password' => PasswordHash::convert('testpass1234kanazaWa'),
                 'password_updated_at' => $created_at,
                 'billing_token' => null,
                 'created_at' => $created_at,
