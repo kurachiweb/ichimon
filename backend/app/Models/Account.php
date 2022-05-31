@@ -64,13 +64,9 @@ class Account extends Authenticatable {
      */
     protected $casts = [
         'id' => 'int',
-        'registered_at' => 'datetime',
         'tel_no' => CastEncrypt::class,
         'address' => CastEncrypt::class,
-        'address_bill' => CastEncrypt::class,
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-        'deleted_at' => 'datetime'
+        'address_bill' => CastEncrypt::class
     ];
 
     /**

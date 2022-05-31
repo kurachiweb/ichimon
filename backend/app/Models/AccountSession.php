@@ -62,10 +62,7 @@ class AccountSession extends Model {
         'id' => 'int',
         'account_id' => 'int',
         'ip_address' => CastEncrypt::class,
-        'user_agent' => CastEncrypt::class,
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-        'deleted_at' => 'datetime'
+        'user_agent' => CastEncrypt::class
     ];
 
     /**

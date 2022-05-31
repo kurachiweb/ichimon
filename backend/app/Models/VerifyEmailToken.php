@@ -57,10 +57,7 @@ class VerifyEmailToken extends Model {
      * @var array<string, string>
      */
     protected $casts = [
-        'account_id' => 'int',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-        'deleted_at' => 'datetime'
+        'account_id' => 'int'
     ];
 
     /**

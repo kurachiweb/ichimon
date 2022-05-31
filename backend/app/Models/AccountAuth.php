@@ -68,11 +68,7 @@ class AccountAuth extends Authenticatable {
         'email_hash' => CastHash::class,
         'email_alter' => CastEncrypt::class,
         'password' => CastHashPassword::class,
-        'password_updated_at' => 'datetime',
-        'billing_token' => CastEncrypt::class,
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-        'deleted_at' => 'datetime'
+        'billing_token' => CastEncrypt::class
     ];
 
     /**
