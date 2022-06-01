@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
+
 use App\Models\AccountSession;
 use App\Utilities\BundleIdToken;
 
@@ -25,11 +26,20 @@ class AccountProvider implements UserProvider {
    * Retrieve a user by their unique identifier and "remember me" token.
    *
    * @see \Illuminate\Contracts\Auth\UserProvider::retrieveByToken
-   * @param  mixed  $identifier
-   * @param  string  $token
+   * @param int|null $identifier
+   * @param string|null $token
    * @return \Illuminate\Contracts\Auth\Authenticatable|null
    */
   public function retrieveByToken($identifier, $token) {
+    // cookieの格納値が不正で、アカウントIDを取り出しできなければ、アカウントセッションを返さない
+    if (!$identifier) {
+      return null;
+    }
+    // coolieの格納値が無いか空文字で、トークン文字列がnullまたは空文字になる場合も、アカウントセッションを返さない
+    if (!$token) {
+      return null;
+    }
+
     // 指定アカウントIDでのセッション履歴を全て取得
     $account_sessions = AccountSession::where('account_id', $identifier)->orderBy('created_at', 'desc')->get();
     // そのアカウントIDでのセッション履歴が存在しない
