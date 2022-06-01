@@ -7,6 +7,9 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
 
+use App\Constants\ConstBackend;
+use App\Utilities\BundleIdToken;
+
 class IsLogin {
     /**
      * The authentication factory instance.
@@ -35,6 +38,11 @@ class IsLogin {
      */
     public function handle($request, Closure $next, ...$guards) {
         $this->authenticate($guards);
+
+        // 認証したアカウントIDをコントローラに渡す
+        $allow_id_token = $request->cookie(ConstBackend::COOKIE_NAME_LOGIN_TOKEN);
+        $id_token_map = BundleIdToken::split($allow_id_token);
+        $request->merge(['arrow_account_id' => $id_token_map['id']]);
 
         return $next($request);
     }
