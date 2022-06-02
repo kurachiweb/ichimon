@@ -27,6 +27,7 @@ import { Account, DefaultAccount } from '@/models/account/account';
 import { Origin, FetchApiJson } from '@/controlers/_connect/fetch';
 import { ReqGetAccount, ResGetAccount } from '@/controlers/account/account';
 import { ReqLoginAccount, ResLoginAccount } from '@/controlers/account/login';
+import { ReqSendEmail, ResSendEmail } from '@/controlers/account/verify-email';
 
 @Component
 export default class AccountCreate extends Vue {
@@ -65,9 +66,9 @@ export default class AccountCreate extends Vue {
 
   /** アカウントのメールアドレス認証リクエストを送信 */
   private requestAccountEmailVerify(accountId: number) {
-    FetchApiJson<null, ResGetAccount>(
-      Origin.backend + '/api/verify/email/send/' + accountId
-    );
+    FetchApiJson<ReqSendEmail, ResSendEmail>(Origin.backend + '/api/verify/email/send/', {
+      account_id: accountId
+    });
   }
 
   /** アカウントログインリクエストを送信 */
