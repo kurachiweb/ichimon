@@ -15,6 +15,6 @@ class StringHash {
     if ($value === null) {
       return null;
     }
-    return hash('sha3-512', $value);
+    return hash_hmac('sha3-512', $value, config('app.key'));
   }
 }
