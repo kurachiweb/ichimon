@@ -26,7 +26,7 @@ Route::group(['middleware' => ['auth.login:login']], function () {
   // アカウント基礎情報・認証情報のCRUD
   Route::apiResource('/accounts', 'App\Http\Controllers\AccountController', ['except' => ['store']]);
   // 認証メール送信
-  Route::get('/verify/email/send/{id}', 'App\Http\Controllers\SendVerifyEmailController');
+  Route::post('/verify/email/send', 'App\Http\Controllers\SendVerifyEmailController');
   // メール認証トークン照合
   Route::post('/verify/email/check', 'App\Http\Controllers\CheckEmailVerifyController');
 });
