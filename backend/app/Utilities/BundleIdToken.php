@@ -20,7 +20,7 @@ class BundleIdToken {
     if (is_null($id)) {
       $id_str = '';
     }
-    if (!is_null($token)) {
+    if (is_null($token)) {
       $token = '';
     }
     return $id_str . self::$delimiter . $token;
