@@ -21,5 +21,5 @@ class ConstBackend {
   const ACCOUNT_VERIFY_EXPIRE_SECOND = 1800;
 
   /** クッキー名；ログイントークン */
-  const COOKIE_NAME_LOGIN_TOKEN = 'alt';
+  const COOKIE_NAME_LOGIN_TOKEN = 'ichimon_alt';
 }
