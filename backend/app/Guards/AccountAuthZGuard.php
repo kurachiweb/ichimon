@@ -14,7 +14,10 @@ use App\Constants\ConstBackend;
 use App\Models\AccountSession;
 use App\Utilities\BundleIdToken;
 
-class LoginGuard implements Guard {
+/**
+ * アカウントにログインしているか(認可)
+ */
+class AccountAuthZGuard implements Guard {
   use GuardHelpers;
 
   protected string $_name;

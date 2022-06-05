@@ -40,8 +40,8 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'login' => [
-            'driver' => 'login',
+        'authz' => [
+            'driver' => 'authz',
             'provider' => 'users',
         ],
     ],

@@ -21,9 +21,9 @@ Route::apiResource('/accounts', 'App\Http\Controllers\AccountController', ['only
 // アカウントログイン
 Route::post('/accounts/login', 'App\Http\Controllers\AccountLoginController');
 
-// ログイントークンが有効なら
-Route::group(['middleware' => ['auth.login:login']], function () {
-  // アカウント基礎情報・認証情報のCRUD
+// ログイン状態なら
+Route::group(['middleware' => ['account.auth:authz']], function () {
+  // アカウント基礎情報・認証情報のRUD
   Route::apiResource('/accounts', 'App\Http\Controllers\AccountController', ['except' => ['store']]);
   // 認証メール送信
   Route::post('/verify/email/send', 'App\Http\Controllers\SendVerifyEmailController');

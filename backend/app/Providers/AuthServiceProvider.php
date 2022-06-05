@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Guards\LoginGuard;
+use App\Guards\AccountAuthZGuard;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,10 +26,10 @@ class AuthServiceProvider extends ServiceProvider {
     public function boot() {
         $this->registerPolicies();
 
-        Auth::extend('login', function ($app) {
+        Auth::extend('authz', function ($app) {
             $userProvider = $app->make(AccountProvider::class);
             $request = $app->make('request');
-            return new LoginGuard('login', $userProvider, $request);
+            return new AccountAuthZGuard('authz', $userProvider, $request);
         });
     }
 }
