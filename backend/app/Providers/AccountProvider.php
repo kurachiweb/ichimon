@@ -31,23 +31,15 @@ class AccountProvider implements UserProvider {
    * @return \Illuminate\Contracts\Auth\Authenticatable|null
    */
   public function retrieveByToken($identifier, $token) {
-    // cookieの格納値が不正で、アカウントIDを取り出しできなければ、アカウントセッションを返さない
-    if (!$identifier) {
-      return null;
-    }
-    // coolieの格納値が無いか空文字で、トークン文字列がnullまたは空文字になる場合も、アカウントセッションを返さない
-    if (!$token) {
-      return null;
-    }
-
     // 指定アカウントIDでのセッション履歴を全て取得
     $account_sessions = AccountSession::where('account_id', $identifier)->orderBy('created_at', 'desc')->get();
-    // そのアカウントIDでのセッション履歴が存在しない
+    // そのアカウントIDでのセッション履歴が存在しなければ空
     if (!$account_sessions) {
       return null;
     }
+
     // 比較元のセッションID
-    $id_token = BundleIdToken::bundle($identifier, $token);
+    $bundled_id_token = BundleIdToken::bundle($identifier, $token);
     // 一致したログインセッション
     $match_session = null;
 
@@ -55,11 +47,12 @@ class AccountProvider implements UserProvider {
       // 比較先のセッションID
       $saved_token_hash = $account_session['token_hash'];
       // トークンが一致すれば、そのセッションを返す
-      if (password_verify($id_token, $saved_token_hash)) {
+      if (password_verify($bundled_id_token, $saved_token_hash)) {
         $match_session = $account_session;
         break;
       }
     }
+
     return $match_session;
   }
 

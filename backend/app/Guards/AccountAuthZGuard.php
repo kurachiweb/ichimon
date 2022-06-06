@@ -58,11 +58,18 @@ class AccountAuthZGuard implements Guard {
       return $this->_account_session;
     }
 
-    // uuidヘッダの内容でユーザーを識別
-    $id_token = $this->_request->cookie(ConstBackend::COOKIE_NAME_LOGIN_TOKEN);
-    $id_token_map = BundleIdToken::expand($id_token);
+    // Cookieの保存値からアカウントIDとログイントークンを取得
+    $cookie_id_token = $this->_request->cookie(ConstBackend::COOKIE_NAME_LOGIN_TOKEN);
+    $cookie_id_token_map = BundleIdToken::expand($cookie_id_token);
+    $cookie_account_id = $cookie_id_token_map['id'];
+    $cookie_account_token = $cookie_id_token_map['token'];
 
-    $this->_account_session = $this->_provider->retrieveByToken($id_token_map['id'], $id_token_map['token']);
+    // リクエストパラメータやCookie保存値においてnullは許容しない
+    if (is_null($cookie_account_id) || is_null($cookie_account_token)) {
+      return null;
+    }
+
+    $this->_account_session = $this->_provider->retrieveByToken($cookie_account_id, $cookie_account_token);
 
     return $this->_account_session;
   }

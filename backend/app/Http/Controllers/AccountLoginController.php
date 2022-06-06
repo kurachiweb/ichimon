@@ -37,15 +37,15 @@ class AccountLoginController extends Controller {
             ], 404);
         }
 
-        // リクエストの空文字列を許容しない
+        // ログインリクエスト情報において空文字列やnullを許容しない
         $req_name = $req['name'];
         $req_password = $req['password'];
-        if (!$req_name) {
+        if (is_null($req_name) || $req_name === '') {
             return response()->json([
                 'message' => 'require \'name\'',
             ], 401);
         }
-        if (!$req_password) {
+        if (is_null($req_password) || $req_password === '') {
             return response()->json([
                 'message' => 'require \'password\'',
             ], 401);
@@ -61,41 +61,41 @@ class AccountLoginController extends Controller {
         // メールアドレスまたは表示用IDに一致するアカウントを取得
         $account = null;
         $account_auth = null;
-        if ($req_name !== null && $req_name !== '') {
-            if ($is_email) {
-                $account_auth = AccountAuth::where('email_hash', StringHash::convert($req_name))->first();
-            } else {
-                $account = Account::where('display_id', $req_name)->first();
-            }
-            if ($account) {
-                $account_auth = $account->auth;
-            } else if ($account_auth) {
-                $account = $account_auth->account;
-            }
+        if ($is_email) {
+            $account_auth = AccountAuth::where('email_hash', StringHash::convert($req_name))->first();
+        } else {
+            $account = Account::where('display_id', $req_name)->first();
         }
+        if ($account) {
+            $account_auth = $account->auth;
+        } else if ($account_auth) {
+            $account = $account_auth->account;
+        }
+
+        // アカウントが存在するか
         if (!$account || !$account_auth) {
             return response()->json([
-                'message' => 'Not found \'account\'',
-            ], 404);
+                'message' => 'Not match \'account\'',
+            ], 401);
         }
 
         // そのアカウントのパスワードが一致するか
         $match_password = password_verify($req_password, $account_auth['password']);
         if (!$match_password) {
             return response()->json([
-                'message' => 'Not found \'account\'',
-            ], 404);
+                'message' => 'Not match \'account\'',
+            ], 401);
         }
 
         // ログイントークンを生成
         $token = bin2hex(random_bytes(48));
-        $id_token = BundleIdToken::bundle($account['id'], $token);
+        $bundled_id_token = BundleIdToken::bundle($account['id'], $token);
 
         // ハッシュ化したログイントークンをDBに保存
         $account_session = AccountSession::getDefault(false);
         $account_session['id'] = RandomNumber::dbTableId();
         $account_session['account_id'] = $account['id'];
-        $account_session['token_hash'] = PasswordHash::convert($id_token);
+        $account_session['token_hash'] = PasswordHash::convert($bundled_id_token);
         $account_session['ip_address'] = $request->ip();
         $account_session['user_agent'] = $request->userAgent();
 
@@ -107,9 +107,9 @@ class AccountLoginController extends Controller {
             ], 404);
         }
 
-        // ログイン状態を保持するため、cookieを設定
+        // ログイン状態を保持するため、Cookieを設定
         // 有効期限は24時間・基本的にnot secure・http-only
-        Cookie::queue(ConstBackend::COOKIE_NAME_LOGIN_TOKEN, $id_token, config('session.lifetime'), '/', '', config('session.secure', true), true);
+        Cookie::queue(ConstBackend::COOKIE_NAME_LOGIN_TOKEN, $bundled_id_token, config('session.lifetime'), '/', '', config('session.secure', true), true);
         return response()->json([
             'message' => 'Successful',
             'data' => [
