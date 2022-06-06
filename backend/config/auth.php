@@ -44,6 +44,10 @@ return [
             'driver' => 'authz',
             'provider' => 'users',
         ],
+        'authr' => [
+            'driver' => 'authr',
+            'provider' => 'users',
+        ],
     ],
 
     /*
