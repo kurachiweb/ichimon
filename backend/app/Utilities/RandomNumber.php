@@ -24,6 +24,6 @@ class RandomNumber {
    * @return int
    */
   public static function dbTableId() {
-    return self::generate(1, ConstBackend::MAX_TABLE_ID);
+    return self::generate(ConstBackend::DB_TABLE_ID_MIN, ConstBackend::DB_TABLE_ID_MAX);
   }
 }

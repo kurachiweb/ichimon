@@ -8,8 +8,10 @@ namespace App\Constants;
  * 定数：バックエンド
  */
 class ConstBackend {
-  /** 指数表記にならない最大の値 */
-  const MAX_TABLE_ID = 99999999999999;
+  /** DBテーブル保存用ID：最小値 */
+  const DB_TABLE_ID_MIN = 10000000000;
+  /** DBテーブル保存用ID：最大値 */
+  const DB_TABLE_ID_MAX = 99999999999999;
 
   /** アカウント認証ステータス：未認証 */
   const ACCOUNT_VERIFY_NOT = 0;
