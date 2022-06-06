@@ -14,7 +14,7 @@ class StringEncrypt {
    * @return string|null
    */
   public static function encrypt($value) {
-    if ($value === null) {
+    if (is_null($value)) {
       return null;
     }
     // AES-256-CBCによる可逆暗号化
@@ -28,7 +28,7 @@ class StringEncrypt {
    * @return string|null
    */
   public static function decrypt($value) {
-    if ($value === null) {
+    if (is_null($value)) {
       return null;
     }
     return Crypt::decryptString($value);
