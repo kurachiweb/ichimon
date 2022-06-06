@@ -56,7 +56,7 @@ class AccountAuthRGuard implements Guard {
   public function user() {
     // cookieに保存されているアカウントIDを取得
     $id_token = $this->_request->cookie(ConstBackend::COOKIE_NAME_LOGIN_TOKEN);
-    $id_token_map = BundleIdToken::split($id_token);
+    $id_token_map = BundleIdToken::expand($id_token);
 
     // リクエストURLのアカウントIDと一致していれば、認証できたと見なす
     $req_account_id = (int)$this->_request->route('account');

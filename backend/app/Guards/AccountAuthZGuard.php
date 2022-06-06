@@ -60,7 +60,7 @@ class AccountAuthZGuard implements Guard {
 
     // uuidヘッダの内容でユーザーを識別
     $id_token = $this->_request->cookie(ConstBackend::COOKIE_NAME_LOGIN_TOKEN);
-    $id_token_map = BundleIdToken::split($id_token);
+    $id_token_map = BundleIdToken::expand($id_token);
 
     $this->_account_session = $this->_provider->retrieveByToken($id_token_map['id'], $id_token_map['token']);
 

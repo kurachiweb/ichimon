@@ -47,7 +47,7 @@ class AccountProvider implements UserProvider {
       return null;
     }
     // 比較元のセッションID
-    $id_token = BundleIdToken::join($identifier, $token);
+    $id_token = BundleIdToken::bundle($identifier, $token);
     // 一致したログインセッション
     $match_session = null;
 

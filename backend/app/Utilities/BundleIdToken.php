@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace App\Utilities;
 
 class BundleIdToken {
-  /** 区切り文字 */
-  private static $delimiter = '/';
-
   /**
    * Idとトークン文字列を結合
    *
@@ -15,44 +12,35 @@ class BundleIdToken {
    * @param string|null $token
    * @return string
    */
-  public static function join($id, $token) {
-    $id_str = (string)$id;
-    if (is_null($id)) {
-      $id_str = '';
+  public static function bundle($id, $token) {
+    $bundler = [];
+    if (!is_null($id)) {
+      $bundler['id'] = $id;
+    } else {
+      $bundler['id'] = null;
     }
-    if (is_null($token)) {
-      $token = '';
+    if (!is_null($token)) {
+      $bundler['token'] = $token;
+    } else {
+      $bundler['token'] = null;
     }
-    return $id_str . self::$delimiter . $token;
+    return json_encode($bundler);
   }
 
   /**
-   * Idとトークン文字列を分割
+   * Idとトークン文字列を分解
    *
    * @param string|null $value
-   * @return array{id: int|null, token: string}
+   * @return array{id: int|null, token: string|null}
    */
-  public static function split($value) {
-    // id / token 形式を期待する。
-    $id = null; // 区切り文字が無ければ、nullのまま
-    $token = '';
-    if (!is_null($value)) {
-      // 区切り文字により$valueを分割
-      $id_token_arr = explode(self::$delimiter, $value, 2);
-
-      if (count($id_token_arr) === 1) {
-        // 文字列中にdelimiterが無いと[$value]になる
-        $token = $id_token_arr[0];
-      } else if (count($id_token_arr) >= 2) {
-        // 文字列中にdelimiterがあると、2つの配列になる
-        $id_str = $id_token_arr[0];
-        // 区切ったID部分が空文字列でなければ、それを保持
-        if ($id_str !== '') {
-          // 空文字で無ければ、数値に変換
-          $id = (int)$id_str;
-        }
-        $token = $id_token_arr[1];
-      }
+  public static function expand($joined) {
+    $id = null;
+    $token = null;
+    if (!is_null($joined)) {
+      // 配列としてデコード
+      $expander = json_decode($joined, true);
+      $id = $expander['id'];
+      $token = $expander['token'];
     }
     return ['id' => $id, 'token' => $token];
   }

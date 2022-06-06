@@ -89,7 +89,7 @@ class AccountLoginController extends Controller {
 
         // ログイントークンを生成
         $token = bin2hex(random_bytes(48));
-        $id_token = BundleIdToken::join($account['id'], $token);
+        $id_token = BundleIdToken::bundle($account['id'], $token);
 
         // ハッシュ化したログイントークンをDBに保存
         $account_session = AccountSession::getDefault(false);
