@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder {
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('account')->truncate();
         DB::table('account_auth')->truncate();
+        DB::table('account_session')->truncate();
+        DB::table('verify_email_token')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $this->call([
