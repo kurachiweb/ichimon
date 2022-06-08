@@ -22,13 +22,14 @@ class AccountAuthSeeder extends Seeder {
      * @return void
      */
     public function run() {
-        $account_id = 123456789;
+        $account_id = 12345678901;
+        $account_auth_id = 34567890123;
         $created_at = new Carbon('2022-05-31 15:04:05');
         $registered_at = new Carbon('2022-05-31 22:53:05');
 
         DB::table('account_auth')->insert([
             [
-                'id' => 345678912,
+                'id' => $account_auth_id,
                 'account_id' => $account_id,
                 'email' => StringEncrypt::encrypt('kurachiweb@gmail.com'),
                 'email_hash' => StringHash::convert('kurachiweb@gmail.com'),
