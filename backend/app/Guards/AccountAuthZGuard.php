@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Guards;
 
-use Illuminate\Http\Request;
+use Illuminate\Auth\GuardHelpers as GuardHelpers;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\UserProvider;
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Auth\GuardHelpers as GuardHelpers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use App\Constants\ConstBackend;
 use App\Models\AccountSession;
+use App\Rules\AccountIdValidation;
 use App\Utilities\BundleIdToken;
 
 /**
@@ -64,8 +66,17 @@ class AccountAuthZGuard implements Guard {
     $cookie_account_id = $cookie_id_token_map['id'];
     $cookie_account_token = $cookie_id_token_map['token'];
 
-    // リクエストパラメータやCookie保存値においてnullは許容しない
-    if (is_null($cookie_account_id) || is_null($cookie_account_token)) {
+    // Cookie保存値のIDがアカウント基本ID形式か判定
+    // トークンが文字列か判定
+    $validate_target = [
+      'account_id' => $cookie_account_id,
+      'token' => $cookie_account_token
+    ];
+    $validator = Validator::make($validate_target, [
+      'account_id' => [new AccountIdValidation],
+      'token' => ['required', 'string']
+    ]);
+    if ($validator->fails()) {
       return null;
     }
 

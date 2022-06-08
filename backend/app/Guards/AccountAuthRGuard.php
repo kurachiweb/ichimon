@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Guards;
 
-use Illuminate\Http\Request;
+use Illuminate\Auth\GuardHelpers as GuardHelpers;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\UserProvider;
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Auth\GuardHelpers as GuardHelpers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use App\Constants\ConstBackend;
 use App\Models\AccountSession;
+use App\Rules\AccountIdValidation;
 use App\Utilities\BundleIdToken;
 
 /**
@@ -61,11 +63,24 @@ class AccountAuthRGuard implements Guard {
     $req_account_id_raw = $this->_request->route('account');
     $cookie_account_id = $id_token_map['id'];
 
-    // リクエストパラメータやCookie保存値においてnullは許容しない
-    if (is_null($req_account_id_raw) || is_null($cookie_account_id)) {
-      return false;
+    // リクエストパラメータのアカウント基本IDは数字形式か判定
+    if (!is_numeric($req_account_id_raw)) {
+      return null;
     }
     $req_account_id = (int)$req_account_id_raw;
+
+    // リクエストパラメータ/Cookie保存値のIDがアカウント基本ID形式か判定
+    $validate_target = [
+      'req_account_id' => $req_account_id,
+      'cookie_account_id' => $cookie_account_id
+    ];
+    $validator = Validator::make($validate_target, [
+      'req_account_id' => [new AccountIdValidation],
+      'cookie_account_id' => [new AccountIdValidation]
+    ]);
+    if ($validator->fails()) {
+      return null;
+    }
 
     // リクエストURLのアカウントIDと一致していれば、認証できたと見なす
     return $req_account_id === $cookie_account_id;
