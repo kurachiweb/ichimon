@@ -6,9 +6,11 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use App\Models\Account;
 use App\Models\AccountAuth;
+use App\Rules\AccountIdValidation;
 use App\Utilities\RandomNumber;
 
 class AccountController extends Controller {
@@ -80,22 +82,30 @@ class AccountController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        $account = Account::find($id);
-        if ($account) {
-            $account_auth = $account->auth;
-            $account = $account->toArray();
-            $account['auth'] = $account_auth;
-            return response()->json([
-                'message' => 'Successful',
-                'data' => [
-                    'account' => $account
-                ]
-            ], 200, [], JSON_UNESCAPED_UNICODE);
-        } else {
-            return response()->json([
-                'message' => 'Not found',
-            ], 404);
+        // リクエストパラメータのアカウント基本IDを入力チェック
+        if (!is_numeric($id)) {
+            return null;
         }
+        $req_account_id = (int)$id;
+        $validate_target = [
+            'account_id' => $req_account_id
+        ];
+        Validator::make($validate_target, [
+            'account_id' => [new AccountIdValidation],
+        ])->validate();
+
+        // アカウント基本IDからアカウントを取得
+        $account = Account::findOrFail($req_account_id);
+        $account_auth = $account->auth;
+        $account = $account->toArray();
+        $account['auth'] = $account_auth;
+
+        return response()->json([
+            'message' => 'Successful',
+            'data' => [
+                'account' => $account
+            ]
+        ], 200, [], JSON_UNESCAPED_UNICODE);
     }
 
     /**
