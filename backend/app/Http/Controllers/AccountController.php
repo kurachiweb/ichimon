@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Models\Account;
 use App\Models\AccountAuth;
+use App\Rules\AccountIdStringValidation;
 use App\Rules\AccountIdValidation;
 use App\Utilities\RandomNumber;
 
@@ -83,15 +84,14 @@ class AccountController extends Controller {
      */
     public function show($id) {
         // リクエストパラメータのアカウント基本IDを入力チェック
-        if (!is_numeric($id)) {
-            return null;
-        }
         $req_account_id = (int)$id;
         $validate_target = [
+            'account_id_str' => $id,
             'account_id' => $req_account_id
         ];
         Validator::make($validate_target, [
-            'account_id' => [new AccountIdValidation],
+            'account_id_str' => [new AccountIdStringValidation],
+            'account_id' => [new AccountIdValidation]
         ])->validate();
 
         // アカウント基本IDからアカウントを取得

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Constants\ConstBackend;
 use App\Models\AccountSession;
+use App\Rules\AccountIdStringValidation;
 use App\Rules\AccountIdValidation;
 use App\Utilities\BundleIdToken;
 
@@ -60,21 +61,18 @@ class AccountAuthRGuard implements Guard {
     $id_token = $this->_request->cookie(ConstBackend::COOKIE_NAME_LOGIN_TOKEN);
     $id_token_map = BundleIdToken::expand($id_token);
 
-    $req_account_id_raw = $this->_request->route('account');
+    $req_account_id_str = $this->_request->route('account');
     $cookie_account_id = $id_token_map['id'];
-
-    // リクエストパラメータのアカウント基本IDは数字形式か判定
-    if (!is_numeric($req_account_id_raw)) {
-      return null;
-    }
-    $req_account_id = (int)$req_account_id_raw;
+    $req_account_id = (int)$req_account_id_str;
 
     // リクエストパラメータ/Cookie保存値のIDがアカウント基本ID形式か判定
     $validate_target = [
+      'req_account_id_str' => $req_account_id_str,
       'req_account_id' => $req_account_id,
       'cookie_account_id' => $cookie_account_id
     ];
     $validator = Validator::make($validate_target, [
+      'req_account_id_str' => [new AccountIdStringValidation],
       'req_account_id' => [new AccountIdValidation],
       'cookie_account_id' => [new AccountIdValidation]
     ]);
