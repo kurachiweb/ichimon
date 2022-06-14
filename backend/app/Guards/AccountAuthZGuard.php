@@ -72,10 +72,11 @@ class AccountAuthZGuard implements Guard {
       'account_id' => $cookie_account_id,
       'token' => $cookie_account_token
     ];
-    $validator = Validator::make($validate_target, [
+    $validate_by = [
       'account_id' => [new AccountIdValidation],
       'token' => ['required', 'string']
-    ]);
+    ];
+    $validator = Validator::make($validate_target, $validate_by);
     if ($validator->fails()) {
       return null;
     }

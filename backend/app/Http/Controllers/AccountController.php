@@ -89,10 +89,11 @@ class AccountController extends Controller {
             'account_id_str' => $id,
             'account_id' => $req_account_id
         ];
-        Validator::make($validate_target, [
+        $validate_by = [
             'account_id_str' => [new AccountIdStringValidation],
             'account_id' => [new AccountIdValidation]
-        ])->validate();
+        ];
+        Validator::make($validate_target, $validate_by)->validate();
 
         // アカウント基本IDからアカウントを取得
         $account = Account::findOrFail($req_account_id);
