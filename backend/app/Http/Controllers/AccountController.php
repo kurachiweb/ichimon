@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Models\Account;
 use App\Models\AccountAuth;
-use App\Rules\AccountIdStringValidation;
-use App\Rules\AccountIdValidation;
 use App\Utilities\RandomNumber;
 
 class AccountController extends Controller {

@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Guards\AccountAuthRGuard;
-use App\Guards\AccountAuthZGuard;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
+
+use App\Guards\AccountAuthRGuard;
+use App\Guards\AccountAuthZGuard;
 
 class AuthServiceProvider extends ServiceProvider {
     /**
