@@ -6,9 +6,9 @@ namespace App\Utilities\Validate;
 
 use App\Constants\ConstBackend;
 
-class DbValue {
+class DbValueValidate {
   /**
-   * テーブルの、主キー制約付きBigint型カラムに入れる値として適切か
+   * テーブルの、主キー制約付きbigint型カラムに入れる値として適切か
    *
    * @param mixed $value
    * @return true|string
@@ -19,7 +19,7 @@ class DbValue {
       return "Empty value.";
     }
     if (!is_int($value)) {
-      // 数値以外は不可
+      // 整数以外は不可
       return "Not number.";
     }
     if ($value < ConstBackend::DB_TABLE_ID_MIN) {

@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-use App\Utilities\Validate\DbValue;
+use App\Utilities\Validate\DbValueValidate;
 
 /**
  * アカウント基本IDのバリデーション
@@ -25,7 +25,8 @@ class AccountIdValidation implements Rule {
      * @return bool
      */
     public function passes($attribute, $value) {
-        $this->_result = DbValue::isPrimaryBigint($value);
+        // bigint型カラムのテーブル値形式か
+        $this->_result = DbValueValidate::isPrimaryBigint($value);
         return $this->_result === true;
     }
 
