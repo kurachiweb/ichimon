@@ -79,21 +79,12 @@ class AccountController extends Controller {
     /**
      * 1人取得
      *
-     * @param int $id
+     * @param mixed $id
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        // リクエストパラメータのアカウント基本IDを入力チェック
+        // リクエストパラメータのアカウント基本IDを入力チェック(Guard側で確認済み)
         $req_account_id = (int)$id;
-        $validate_target = [
-            'account_id_str' => $id,
-            'account_id' => $req_account_id
-        ];
-        $validate_by = [
-            'account_id_str' => [new AccountIdStringValidation],
-            'account_id' => [new AccountIdValidation]
-        ];
-        Validator::make($validate_target, $validate_by)->validate();
 
         // アカウント基本IDからアカウントを取得
         $account = Account::findOrFail($req_account_id);
@@ -113,26 +104,35 @@ class AccountController extends Controller {
      * 1人更新
      *
      * @param \Illuminate\Http\Request $request
-     * @param int $id
+     * @param mixed $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
         $body = $request->getContent();
         $req = json_decode($body, true);
-        if (!isset($req['account'])) {
-            return response()->json([
-                'message' => 'Need request \'account\'',
-            ], 404);
-        }
+
+        // リクエストボディを入力チェック
+        $validate_by = [
+            'account' => ['required'],
+            'account.display_id' => ['required', 'string'],
+            'account.name' => ['required', 'string'],
+            'account.tel_no' => ['required', 'string'],
+            'account.address' => ['required', 'string'],
+            'account.address_bill' => ['required', 'string'],
+        ];
+        $validate_message = [
+            'account.required' => 'Need request \'account\''
+        ];
+        Validator::make($req, $validate_by, $validate_message)->validate();
+
+        // リクエストボディのアカウント基本情報
         $req_account = $req['account'];
 
-        // 更新するアカウント
-        $account = Account::find($id);
-        if (!isset($account)) {
-            return response()->json([
-                'message' => 'Not found',
-            ], 404);
-        }
+        // リクエストパラメータのアカウント基本IDを入力チェック(Guard側で確認済み)
+        $req_account_id = (int)$id;
+
+        // 更新対象のアカウント
+        $account = Account::findOrFail($req_account_id);
 
         // 上書きするデータを限定する
         $account['display_id'] = $req_account['display_id'];
@@ -143,39 +143,40 @@ class AccountController extends Controller {
 
         // 上書きを反映する
         $successSaved = $account->save();
-        if ($successSaved) {
-            return response()->json([
-                'message' => 'Successful',
-            ], 200);
-        } else {
+        if (!$successSaved) {
             return response()->json([
                 'message' => 'Not found',
             ], 404);
         }
+
+        return response()->json([
+            'message' => 'Successful',
+        ], 200);
     }
 
     /**
      * 1人削除
      *
-     * @param int $id
+     * @param mixed $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        $account = Account::find($id);
-        if (!isset($account)) {
+        // リクエストパラメータのアカウント基本IDを入力チェック(Guard側で確認済み)
+        $req_account_id = (int)$id;
+
+        // 削除対象のアカウント
+        $account = Account::findOrFail($req_account_id);
+        $account_auth = $account->auth;
+        if (!isset($account_auth)) {
             return response()->json([
                 'message' => 'Not found',
             ], 404);
         }
-        $account_auth = $account->auth;
-        if (!isset($account_auth)) {
-            return response()->json([
-                'message' => 'sNot found',
-            ], 404);
-        }
 
+        // リレーション制約エラーにならない順番で削除
         $account_auth->delete();
         $account->delete();
+
         return response()->json([
             'message' => 'Successful',
         ], 200);
