@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Utilities\Validate;
+namespace App\Rules\Is;
 
-class IntegerValidate {
+class IsInteger {
   /**
    * 整数もしくは整数形式の文字列か
    *

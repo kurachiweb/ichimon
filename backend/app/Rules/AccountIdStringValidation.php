@@ -4,8 +4,8 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-use App\Utilities\Validate\DbValueValidate;
-use App\Utilities\Validate\IntegerValidate;
+use App\Rules\Is\IsDbValue;
+use App\Rules\Is\IsInteger;
 
 /**
  * アカウント基本ID(文字列形式での入力を含む)のバリデーション
@@ -27,12 +27,12 @@ class AccountIdStringValidation implements Rule {
      */
     public function passes($attribute, $value) {
         // 整数形式の文字列か
-        $this->_result = IntegerValidate::isIntegerString($value);
+        $this->_result = IsInteger::isIntegerString($value);
         if ($this->_result !== true) {
             return false;
         }
         // bigint型カラムのテーブル値形式か
-        $this->_result = DbValueValidate::isPrimaryBigint((int)$value);
+        $this->_result = IsDbValue::isPrimaryBigint((int)$value);
         if ($this->_result !== true) {
             return false;
         }

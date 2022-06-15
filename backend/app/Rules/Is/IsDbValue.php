@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Utilities\Validate;
+namespace App\Rules\Is;
 
 use App\Constants\ConstBackend;
 
-class DbValueValidate {
+class IsDbValue {
   /**
    * テーブルの、主キー制約付きbigint型カラムに入れる値として適切か
    *
