@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Constants\ConstBackend;
 use App\Models\AccountSession;
-use App\Rules\AccountIdValidation;
+use App\Rules\Account\AccountIdValidation;
 use App\Utilities\BundleIdToken;
 
 /**

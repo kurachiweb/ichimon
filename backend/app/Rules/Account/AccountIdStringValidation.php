@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\Account;
 
 use Illuminate\Contracts\Validation\Rule;
 
 use App\Rules\Is\IsDbValue;
+use App\Rules\Is\IsInteger;
 
 /**
- * アカウント基本IDのバリデーション
+ * アカウント基本ID(文字列形式での入力を含む)のバリデーション
  */
-class AccountIdValidation implements Rule {
+class AccountIdStringValidation implements Rule {
     /**
      * バリデーション結果
      *
@@ -25,9 +26,17 @@ class AccountIdValidation implements Rule {
      * @return bool
      */
     public function passes($attribute, $value) {
+        // 整数形式の文字列か
+        $this->_result = IsInteger::isIntegerString($value);
+        if ($this->_result !== true) {
+            return false;
+        }
         // bigint型カラムのテーブル値形式か
-        $this->_result = IsDbValue::isPrimaryBigint($value);
-        return $this->_result === true;
+        $this->_result = IsDbValue::isPrimaryBigint((int)$value);
+        if ($this->_result !== true) {
+            return false;
+        }
+        return true;
     }
 
     /**

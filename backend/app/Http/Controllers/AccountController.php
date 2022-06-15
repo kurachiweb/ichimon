@@ -82,6 +82,7 @@ class AccountController extends Controller {
      */
     public function show($id) {
         // リクエストパラメータのアカウント基本IDを入力チェック(Guard側で確認済み)
+        logger(gettype($id));
         $req_account_id = (int)$id;
 
         // アカウント基本IDからアカウントを取得
