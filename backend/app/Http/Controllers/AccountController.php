@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Models\Account;
 use App\Models\AccountAuth;
+use App\Rules\Account\AccountValidation;
 use App\Utilities\RandomNumber;
 
 class AccountController extends Controller {
@@ -82,7 +83,6 @@ class AccountController extends Controller {
      */
     public function show($id) {
         // リクエストパラメータのアカウント基本IDを入力チェック(Guard側で確認済み)
-        logger(gettype($id));
         $req_account_id = (int)$id;
 
         // アカウント基本IDからアカウントを取得
@@ -110,19 +110,11 @@ class AccountController extends Controller {
         $body = $request->getContent();
         $req = json_decode($body, true);
 
-        // リクエストボディを入力チェック
+        // リクエストボディのアカウント基本情報を入力チェック
         $validate_by = [
-            'account' => ['required'],
-            'account.display_id' => ['required', 'string'],
-            'account.name' => ['required', 'string'],
-            'account.tel_no' => ['required', 'string'],
-            'account.address' => ['required', 'string'],
-            'account.address_bill' => ['required', 'string'],
+            'account' => ['required', new AccountValidation],
         ];
-        $validate_message = [
-            'account.required' => 'Need request \'account\''
-        ];
-        Validator::make($req, $validate_by, $validate_message)->validate();
+        Validator::make($req, $validate_by)->validate();
 
         // リクエストボディのアカウント基本情報
         $req_account = $req['account'];
