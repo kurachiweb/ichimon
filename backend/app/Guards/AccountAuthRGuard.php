@@ -72,9 +72,9 @@ class AccountAuthRGuard implements Guard {
       'cookie_account_id' => $cookie_account_id
     ];
     $validate_by = [
-      'req_account_id_str' => [new AccountIdStringValidation],
-      'req_account_id' => [new AccountIdValidation],
-      'cookie_account_id' => [new AccountIdValidation]
+      'req_account_id_str' => [new AccountIdStringValidation()],
+      'req_account_id' => [new AccountIdValidation()],
+      'cookie_account_id' => [new AccountIdValidation()]
     ];
     $validator = Validator::make($validate_target, $validate_by);
     if ($validator->fails()) {
