@@ -28,13 +28,17 @@ export const Fetch = <Res>(
   data?: BodyInit | null,
   option?: FetchOptionCustom
 ): Promise<FetchCustomResponse<Res>> => {
+  if (option == null) {
+    option = {};
+  }
+
   const request: RequestInit = {};
   request.headers = new Headers();
 
   // HTTPメソッド
   // 未指定ならGET
-  if (option?.method != null) {
-    request.method = option.method.toString().toUpperCase();
+  if (option.method !== undefined) {
+    request.method = option.method.toUpperCase();
   } else {
     request.method = 'GET';
   }
@@ -54,7 +58,7 @@ export const Fetch = <Res>(
     mimeType = data.type;
   }
   // オプションでリクエストMIMEタイプが指定されていれば、それを強制する
-  switch (option?.requestType) {
+  switch (option.requestType) {
     case 'json':
       mimeType = 'application/json';
       break;
@@ -66,12 +70,12 @@ export const Fetch = <Res>(
   }
 
   // 別オリジンの許可
-  if (option?.allowCrossOrigin === true) {
+  if (option.allowCrossOrigin === true) {
     request.mode = 'cors';
   }
 
   // 認証情報の扱い
-  if (option?.withCredentials === true) {
+  if (option.withCredentials === true) {
     request.credentials = 'include';
   }
 
@@ -114,6 +118,7 @@ export const FetchJson = <Req, Res>(
   if (option == null) {
     option = {};
   }
+
   // JSON通信において、HTTPメソッドはPOSTをデフォルトとする
   if (option.method === undefined) {
     option.method = 'POST';
@@ -139,8 +144,10 @@ export const FetchApiJson = <Req, Res>(
   if (option == null) {
     option = {};
   }
+
   // クロスオリジンでもCookieを送信
   option.allowCrossOrigin = true;
   option.withCredentials = true;
+
   return FetchJson<Req, Res>(url, data, option);
 };
