@@ -30,12 +30,7 @@ class CheckEmailVerifyController extends Controller {
 
         // トークンを照合
         // 主キーがトークン
-        $token_column = VerifyEmailToken::find($req_token);
-        if (!isset($token_column)) {
-            return response()->json([
-                'message' => 'Not found token',
-            ], 404);
-        }
+        $token_column = VerifyEmailToken::findOrFail($req_token);
         $now = Carbon::now('UTC');
         $token_created = $token_column['created_at'];
         // トークンが作られてから一定時間が経過していれば、認証しない
@@ -47,20 +42,11 @@ class CheckEmailVerifyController extends Controller {
 
         // メールアドレスを認証したのでステータスを変更
         $account_id = $token_column['account_id'];
-        $account = Account::find($account_id);
-        if (!$account) {
-            return response()->json([
-                'message' => 'Not found',
-            ], 404);
-        }
+        $account = Account::findOrFail($account_id);
         $account_auth = $account->auth;
         $account_auth['verified_email'] = ConstBackend::ACCOUNT_VERIFY_VERIFY;
-        $auth_saved = $account_auth->save();
-        if (!$auth_saved) {
-            return response()->json([
-                'message' => 'Cannot Update',
-            ], 404);
-        }
+        $account_auth->saveOrFail();
+
         return response()->json([
             'message' => 'Successful',
             'data' => [

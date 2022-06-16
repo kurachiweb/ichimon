@@ -31,12 +31,7 @@ class SendVerifyEmailController extends Controller {
         $account_id = $req['account_id'];
 
         // 更新するアカウント
-        $account = Account::find($account_id);
-        if (!$account) {
-            return response()->json([
-                'message' => 'Not found',
-            ], 404);
-        }
+        $account = Account::findOrFail($account_id);
         $account_auth = $account->auth;
 
         // メールアドレスの検証対象か
@@ -65,13 +60,8 @@ class SendVerifyEmailController extends Controller {
 
         // 認証メールの送信フラグを送信済みにする
         $account_auth['verified_email'] = ConstBackend::ACCOUNT_VERIFY_SEND;
-        $auth_saved = $account_auth->save();
+        $account_auth->saveOrFail();
 
-        if (!$auth_saved) {
-            return response()->json([
-                'message' => 'Cannot Update',
-            ], 404);
-        }
         return response()->json([
             'message' => 'Successful',
             'data' => [

@@ -129,12 +129,7 @@ class AccountController extends Controller {
         $account['address_bill'] = $req_account['address_bill'];
 
         // 上書きを反映する
-        $successSaved = $account->save();
-        if (!$successSaved) {
-            return response()->json([
-                'message' => 'Not found',
-            ], 404);
-        }
+        $account->saveOrFail();
 
         return response()->json([
             'message' => 'Successful',
