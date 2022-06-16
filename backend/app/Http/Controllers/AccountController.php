@@ -8,9 +8,9 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+use App\Http\Requests\AccountRequest;
 use App\Models\Account;
 use App\Models\AccountAuth;
-use App\Rules\Account\AccountValidation;
 use App\Utilities\RandomNumber;
 
 class AccountController extends Controller {
@@ -36,11 +36,10 @@ class AccountController extends Controller {
     public function store(Request $request) {
         $body = $request->getContent();
         $req = json_decode($body, true);
-        if (!isset($req['account'])) {
-            return response()->json([
-                'message' => 'Need request \'account\'',
-            ], 404);
-        }
+
+        // リクエスト中のアカウント基本情報を入力チェック
+        Validator::make($req, (new AccountRequest())->rules())->validate();
+
         $req_account = $req['account'];
 
         $account = Account::getDefault(true);
@@ -110,11 +109,8 @@ class AccountController extends Controller {
         $body = $request->getContent();
         $req = json_decode($body, true);
 
-        // リクエストボディのアカウント基本情報を入力チェック
-        $validate_by = [
-            'account' => ['required', new AccountValidation],
-        ];
-        Validator::make($req, $validate_by)->validate();
+        // リクエスト中のアカウント基本情報を入力チェック
+        Validator::make($req, (new AccountRequest())->rules())->validate();
 
         // リクエストボディのアカウント基本情報
         $req_account = $req['account'];
