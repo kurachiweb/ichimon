@@ -12,9 +12,8 @@ use App\Models\Account;
 use App\Models\AccountAuth;
 use App\Models\AccountSession;
 use App\Utilities\BundleIdToken;
+use App\Utilities\Crypto;
 use App\Utilities\RandomNumber;
-use App\Utilities\PasswordHash;
-use App\Utilities\StringHash;
 
 class AccountLoginController extends Controller {
     /**
@@ -62,7 +61,7 @@ class AccountLoginController extends Controller {
         $account = null;
         $account_auth = null;
         if ($is_email) {
-            $account_auth = AccountAuth::where('email_hash', StringHash::convert($req_name))->first();
+            $account_auth = AccountAuth::where('email_hash', Crypto::toHashString($req_name))->first();
         } else {
             $account = Account::where('display_id', $req_name)->first();
         }
@@ -95,7 +94,7 @@ class AccountLoginController extends Controller {
         $account_session = AccountSession::getDefault(false);
         $account_session['id'] = RandomNumber::dbTableId();
         $account_session['account_id'] = $account['id'];
-        $account_session['token_hash'] = PasswordHash::convert($bundled_id_token);
+        $account_session['token_hash'] = Crypto::toHashPassword($bundled_id_token);
         $account_session['ip_address'] = $request->ip();
         $account_session['user_agent'] = $request->userAgent();
 

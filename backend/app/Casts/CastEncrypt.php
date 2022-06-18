@@ -6,7 +6,7 @@ namespace App\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
-use App\Utilities\StringEncrypt;
+use App\Utilities\Crypto;
 
 class CastEncrypt implements CastsAttributes {
     /**
@@ -19,7 +19,7 @@ class CastEncrypt implements CastsAttributes {
      * @return string|null
      */
     public function get($model, $key, $value, $attributes) {
-        return StringEncrypt::decrypt($value);
+        return Crypto::toDecryptString($value);
     }
 
     /**
@@ -32,6 +32,6 @@ class CastEncrypt implements CastsAttributes {
      * @return string|null
      */
     public function set($model, $key, $value, $attributes) {
-        return StringEncrypt::encrypt($value);
+        return Crypto::toEncryptString($value);
     }
 }

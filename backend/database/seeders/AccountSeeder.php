@@ -9,7 +9,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
-use App\Utilities\StringEncrypt;
+use App\Utilities\Crypto;
 
 class AccountSeeder extends Seeder {
     use WithoutModelEvents;
@@ -29,10 +29,10 @@ class AccountSeeder extends Seeder {
                 'id' => $account_id,
                 'display_id' => 'kurachi',
                 'name' => '倉地 俊輔',
-                'tel_no' => StringEncrypt::encrypt('0123123456'),
-                'mobile_no' => StringEncrypt::encrypt('09012345678'),
-                'address' => StringEncrypt::encrypt('石川県○○市○○町○○番地○○ ○○○○○建物'),
-                'address_bill' => StringEncrypt::encrypt('石川県○○市○○町○○番地○○ ○○○○○建物'),
+                'tel_no' => Crypto::toEncryptString('0123123456'),
+                'mobile_no' => Crypto::toEncryptString('09012345678'),
+                'address' => Crypto::toEncryptString('石川県○○市○○町○○番地○○ ○○○○○建物'),
+                'address_bill' => Crypto::toEncryptString('石川県○○市○○町○○番地○○ ○○○○○建物'),
                 'registered_at' => $registered_at,
                 'created_at' => $created_at,
                 'updated_at' => $registered_at,
