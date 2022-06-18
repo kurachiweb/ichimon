@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::group(['middleware' => ['auth:sanctum']], function () {
-//     Route::apiResource('/users', UserController::class);
-// });
 // アカウント作成
 Route::apiResource('/accounts', 'App\Http\Controllers\AccountController', ['only' => ['store']]);
 // アカウントログイン
