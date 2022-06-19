@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 
 use App\Constants\ConstBackend;
+use App\Http\Requests\AccountRequest;
 use App\Models\Account;
 use App\Models\VerifyEmailToken;
 use App\Mail\AccountEmailVerify;
@@ -23,7 +24,7 @@ class AccountEmailConfirmController extends Controller {
      */
     public function __invoke(Request $request, $id) {
         // リクエストパラメータのアカウント基本IDを入力チェック(Guard側で確認済み)
-        $req_account_id = (int)$id;
+        $req_account_id = AccountRequest::toAccountId($id);
 
         // 更新するアカウント
         $account = Account::findOrFail($req_account_id);

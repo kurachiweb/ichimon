@@ -45,4 +45,14 @@ class AccountRequest extends FormRequest {
         ], 400);
         throw new HttpResponseException($res);
     }
+
+    /**
+     * アカウントID形式の型違いを、正しい型に変換する
+     *
+     * @param mixed $value
+     * @return int
+     */
+    public static function toAccountId($value) {
+        return (int)$value;
+    }
 }

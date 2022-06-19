@@ -82,7 +82,7 @@ class AccountController extends Controller {
      */
     public function show($id) {
         // リクエストパラメータのアカウント基本IDを入力チェック(Guard側で確認済み)
-        $req_account_id = (int)$id;
+        $req_account_id = AccountRequest::toAccountId($id);
 
         // アカウント基本IDからアカウントを取得
         $account = Account::findOrFail($req_account_id);
@@ -116,7 +116,7 @@ class AccountController extends Controller {
         $req_account = $req['account'];
 
         // リクエストパラメータのアカウント基本IDを入力チェック(Guard側で確認済み)
-        $req_account_id = (int)$id;
+        $req_account_id = AccountRequest::toAccountId($id);
 
         // 更新対象のアカウント
         $account = Account::findOrFail($req_account_id);
@@ -144,7 +144,7 @@ class AccountController extends Controller {
      */
     public function destroy($id) {
         // リクエストパラメータのアカウント基本IDを入力チェック(Guard側で確認済み)
-        $req_account_id = (int)$id;
+        $req_account_id = AccountRequest::toAccountId($id);
 
         // 削除対象のアカウント
         $account = Account::findOrFail($req_account_id);

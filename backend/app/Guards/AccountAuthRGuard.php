@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 use App\Constants\ConstBackend;
+use App\Http\Requests\AccountRequest;
 use App\Models\AccountSession;
 use App\Rules\DbPrimaryNumberValidaton;
 use App\Rules\IntegerStringValidation;
@@ -63,7 +64,7 @@ class AccountAuthRGuard implements Guard {
 
     $req_account_id_str = $this->_request->route('account');
     $cookie_account_id = $id_token_map['id'];
-    $req_account_id = (int)$req_account_id_str;
+    $req_account_id = AccountRequest::toAccountId($req_account_id_str);
 
     // リクエストパラメータ/Cookie保存値のIDがアカウント基本ID形式か判定
     $validate_target = [
