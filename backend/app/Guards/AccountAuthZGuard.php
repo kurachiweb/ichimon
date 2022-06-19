@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Constants\ConstBackend;
 use App\Models\AccountSession;
-use App\Rules\Account\AccountIdValidation;
+use App\Rules\DbPrimaryNumberValidaton;
 use App\Utilities\BundleIdToken;
 
 /**
@@ -73,7 +73,7 @@ class AccountAuthZGuard implements Guard {
       'token' => $cookie_account_token
     ];
     $validate_by = [
-      'account_id' => [new AccountIdValidation()],
+      'account_id' => ['required', new DbPrimaryNumberValidaton()],
       'token' => ['required', 'string']
     ];
     $validator = Validator::make($validate_target, $validate_by);

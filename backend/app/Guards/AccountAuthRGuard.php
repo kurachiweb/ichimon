@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Constants\ConstBackend;
 use App\Models\AccountSession;
-use App\Rules\Account\AccountIdStringValidation;
-use App\Rules\Account\AccountIdValidation;
+use App\Rules\DbPrimaryNumberValidaton;
+use App\Rules\IntegerStringValidation;
 use App\Utilities\BundleIdToken;
 
 /**
@@ -72,9 +72,9 @@ class AccountAuthRGuard implements Guard {
       'cookie_account_id' => $cookie_account_id
     ];
     $validate_by = [
-      'req_account_id_str' => [new AccountIdStringValidation()],
-      'req_account_id' => [new AccountIdValidation()],
-      'cookie_account_id' => [new AccountIdValidation()]
+      'req_account_id_str' => ['bail', 'required', new IntegerStringValidation()],
+      'req_account_id' => ['required', new DbPrimaryNumberValidaton()],
+      'cookie_account_id' => ['required', new DbPrimaryNumberValidaton()]
     ];
     $validator = Validator::make($validate_target, $validate_by);
     if ($validator->fails()) {

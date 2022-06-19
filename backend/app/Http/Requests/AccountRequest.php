@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
+use App\Rules\DbPrimaryNumberValidaton;
+
 class AccountRequest extends FormRequest {
     /**
      * 認可チェック。ミドルウェアに任せる。
@@ -24,6 +26,7 @@ class AccountRequest extends FormRequest {
     public function rules() {
         return [
             'account' => ['bail', 'required'],
+            'account.id' => ['required', new DbPrimaryNumberValidaton()],
             'account.display_id' => ['required', 'string']
         ];
     }
