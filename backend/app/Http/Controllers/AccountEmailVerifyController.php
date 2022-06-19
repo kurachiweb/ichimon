@@ -11,7 +11,7 @@ use App\Constants\ConstBackend;
 use App\Models\Account;
 use App\Models\VerifyEmailToken;
 
-class CheckEmailVerifyController extends Controller {
+class AccountEmailVerifyController extends Controller {
     /**
      * メール認証トークンを照合できれば、アカウントのメール認証ステータスを更新
      *

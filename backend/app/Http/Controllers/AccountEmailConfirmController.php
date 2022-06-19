@@ -13,25 +13,20 @@ use App\Models\Account;
 use App\Models\VerifyEmailToken;
 use App\Mail\AccountEmailVerify;
 
-class SendVerifyEmailController extends Controller {
+class AccountEmailConfirmController extends Controller {
     /**
      * 指定IDのアカウントが未認証なら、認証メールを送る
      *
      * @param \Illuminate\Http\Request $request
+     * @param mixed $id
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request) {
-        $body = $request->getContent();
-        $req = json_decode($body, true);
-        if (!isset($req['account_id'])) {
-            return response()->json([
-                'message' => 'Need request \'account_id\'',
-            ], 401);
-        }
-        $account_id = $req['account_id'];
+    public function __invoke(Request $request, $id) {
+        // リクエストパラメータのアカウント基本IDを入力チェック(Guard側で確認済み)
+        $req_account_id = (int)$id;
 
         // 更新するアカウント
-        $account = Account::findOrFail($account_id);
+        $account = Account::findOrFail($req_account_id);
         $account_auth = $account->auth;
 
         // メールアドレスの検証対象か
@@ -46,7 +41,7 @@ class SendVerifyEmailController extends Controller {
         $token = Str::uuid()->toString(); // UUIDv4
         $verify_record = VerifyEmailToken::getDefault(false);
         $verify_record['token'] = $token;
-        $verify_record['account_id'] = $account_id;
+        $verify_record['account_id'] = $req_account_id;
         $verify_saved = VerifyEmailToken::create($verify_record);
         if (!$verify_saved) {
             return response()->json([

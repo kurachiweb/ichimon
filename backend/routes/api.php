@@ -28,10 +28,10 @@ Route::group(['middleware' => ['account.auth:authz']], function () {
     // アカウント基礎情報・認証情報のRUD
     Route::apiResource('/accounts', 'App\Http\Controllers\AccountController', ['except' => ['index', 'store']]);
 
-    // 認証メール送信
-    Route::post('/verify/email/send', 'App\Http\Controllers\SendVerifyEmailController');
+    // アカウントメールアドレスの認証メール送信
+    Route::post('/accounts/{account}/email/confirm', 'App\Http\Controllers\AccountEmailConfirmController');
 
-    // メール認証トークン照合
-    Route::post('/verify/email/check', 'App\Http\Controllers\CheckEmailVerifyController');
+    // アカウントメールアドレスの認証トークン検証
+    Route::post('/accounts/{account}/email/verify', 'App\Http\Controllers\AccountEmailVerifyController');
   });
 });

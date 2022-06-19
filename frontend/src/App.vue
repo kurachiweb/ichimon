@@ -23,7 +23,8 @@ export default class App extends Vue {
     /** メールアドレス認証のURLから来た場合 */
     const emailVerifyToken = this.$route.query.email_token;
     if (emailVerifyToken) {
-      this.requestCheckEmail(String(emailVerifyToken)).then(() => {
+      // @todo この処理はアカウント情報ページに移してaccountIdを指定したい
+      this.requestCheckEmail(0, String(emailVerifyToken)).then(() => {
         // メールアドレスを認証できてもできなくても、URLからクエリ文字列を取り除く
         this.$router.push({ name: this.$route.name || 'Home' });
       });
@@ -31,10 +32,13 @@ export default class App extends Vue {
   }
 
   /** アカウントのメールアドレス認証リクエストを送信 */
-  private requestCheckEmail(token: string): Promise<ResVerifyEmail | undefined> {
+  private requestCheckEmail(
+    accountId: number,
+    token: string
+  ): Promise<ResVerifyEmail | undefined> {
     return new Promise(resolve => {
       FetchApiJson<ReqVerifyEmail, ResVerifyEmail>(
-        Origin.backend + '/api/verify/email/check',
+        Origin.backend + '/api/accounts/' + accountId + '/email/verify',
         { token }
       ).then(res => {
         resolve(res.data);
