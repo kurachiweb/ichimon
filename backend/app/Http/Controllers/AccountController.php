@@ -6,12 +6,12 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 use App\Http\Requests\AccountRequest;
 use App\Models\Account;
 use App\Models\AccountAuth;
 use App\Utilities\RandomNumber;
+use App\Utilities\ValidateRequest;
 
 class AccountController extends Controller {
     /**
@@ -34,11 +34,8 @@ class AccountController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        $body = $request->getContent();
-        $req = json_decode($body, true);
-
         // リクエスト中のアカウント基本情報を入力チェック
-        Validator::make($req, (new AccountRequest())->rules())->validate();
+        $req = ValidateRequest::json($request, new AccountRequest());
 
         $req_account = $req['account'];
 
@@ -106,11 +103,8 @@ class AccountController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id) {
-        $body = $request->getContent();
-        $req = json_decode($body, true);
-
         // リクエスト中のアカウント基本情報を入力チェック
-        Validator::make($req, (new AccountRequest())->rules())->validate();
+        $req = ValidateRequest::json($request, new AccountRequest());
 
         // リクエストボディのアカウント基本情報
         $req_account = $req['account'];
