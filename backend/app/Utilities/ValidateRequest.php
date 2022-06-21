@@ -29,10 +29,10 @@ class ValidateRequest {
       throw new ValidationException('Request not JSON.', 400);
     }
 
-    try {
-      $req = json_decode($body, true, 512, JSON_THROW_ON_ERROR);
-    } catch (JsonException $e) {
-      throw new ValidationException('Request not JSON.', $e->getCode());
+    $req = json_decode($body, true);
+    if (gettype($req) !== "array") {
+      // リクエスト内容が[]や{}でなければ、総じてバリデーションエラー
+      throw new ValidationException('Request not JSON.', 400);
     }
 
     // リクエストを入力チェック
