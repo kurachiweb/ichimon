@@ -41,7 +41,7 @@ class AccountAuth extends Authenticatable {
      *
      * @var bool
      */
-    protected $keyType = 'bigint';
+    protected $keyType = 'string';
 
     /**
      * 追加できない列
@@ -63,8 +63,6 @@ class AccountAuth extends Authenticatable {
      * @var array<string, string>
      */
     protected $casts = [
-        'id' => 'int',
-        'account_id' => 'int',
         'email' => CastEncrypt::class,
         'email_hash' => CastHash::class,
         'email_alter' => CastEncrypt::class,
@@ -90,7 +88,7 @@ class AccountAuth extends Authenticatable {
      */
     public static function getDefault($relation = false) {
         $model = [
-            'id' => 0,
+            'id' => '',
             'account_id' => '',
             'email' => '',
             'email_hash' => '',

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-use App\Rules\DbPrimaryNumberValidaton;
+use App\Rules\DbPrimaryStringValidation;
 
 class AccountRequest extends FormRequest {
     /**
@@ -26,7 +26,7 @@ class AccountRequest extends FormRequest {
     public function rules() {
         return [
             'account' => ['bail', 'required'],
-            'account.id' => ['required', new DbPrimaryNumberValidaton()],
+            'account.id' => ['required', new DbPrimaryStringValidation()],
             'account.display_id' => ['required', 'string']
         ];
     }
@@ -50,9 +50,9 @@ class AccountRequest extends FormRequest {
      * アカウントID形式の型違いを、正しい型に変換する
      *
      * @param mixed $value
-     * @return int
+     * @return string
      */
     public static function toAccountId($value) {
-        return (int)$value;
+        return (string)$value;
     }
 }

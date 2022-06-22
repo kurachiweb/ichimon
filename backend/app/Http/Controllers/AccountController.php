@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\AccountRequest;
 use App\Models\Account;
 use App\Models\AccountAuth;
-use App\Utilities\RandomNumber;
+use App\Utilities\Random;
 use App\Utilities\ValidateRequest;
 
 class AccountController extends Controller {
@@ -43,8 +43,8 @@ class AccountController extends Controller {
         $account_auth = $account['auth'];
 
         $now = Carbon::now('UTC');
-        $account_id = RandomNumber::dbTableId();
-        $account_auth_id = RandomNumber::dbTableId();
+        $account_id = Random::dbTableId();
+        $account_auth_id = Random::dbTableId();
 
         // アカウント基本情報をリクエスト内容で上書き
         $account['id'] = $account_id;

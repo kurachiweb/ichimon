@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Constants\ConstBackend;
 use App\Http\Requests\AccountRequest;
 use App\Models\AccountSession;
-use App\Rules\DbPrimaryNumberValidaton;
-use App\Rules\IntegerStringValidation;
+use App\Rules\DbPrimaryStringValidation;
 use App\Utilities\BundleIdToken;
 
 /**
@@ -68,14 +67,12 @@ class AccountAuthRGuard implements Guard {
 
     // リクエストパラメータ/Cookie保存値のIDがアカウント基本ID形式か判定
     $validate_target = [
-      'req_account_id_str' => $req_account_id_str,
       'req_account_id' => $req_account_id,
       'cookie_account_id' => $cookie_account_id
     ];
     $validate_by = [
-      'req_account_id_str' => ['bail', 'required', new IntegerStringValidation()],
-      'req_account_id' => ['required', new DbPrimaryNumberValidaton()],
-      'cookie_account_id' => ['required', new DbPrimaryNumberValidaton()]
+      'req_account_id' => ['required', new DbPrimaryStringValidation()],
+      'cookie_account_id' => ['required', new DbPrimaryStringValidation()]
     ];
     $validator = Validator::make($validate_target, $validate_by);
     if ($validator->fails()) {

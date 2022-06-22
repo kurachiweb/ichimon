@@ -38,7 +38,7 @@ class AccountSession extends Model {
      *
      * @var bool
      */
-    protected $keyType = 'bigint';
+    protected $keyType = 'string';
 
     /**
      * 追加できない列
@@ -60,8 +60,6 @@ class AccountSession extends Model {
      * @var array<string, string>
      */
     protected $casts = [
-        'id' => 'int',
-        'account_id' => 'int',
         'ip_address' => CastEncrypt::class,
         'user_agent' => CastEncrypt::class
     ];
@@ -75,8 +73,8 @@ class AccountSession extends Model {
      */
     public static function getDefault($relation = false) {
         $model = [
-            'id' => 0,
-            'account_id' => 0,
+            'id' => '',
+            'account_id' => '',
             'token_hash' => '',
             'ip_address' => null,
             'user_agent' => null,

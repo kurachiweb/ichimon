@@ -40,7 +40,7 @@ class Account extends Authenticatable {
      *
      * @var string
      */
-    protected $keyType = 'bigint';
+    protected $keyType = 'string';
 
     /**
      * 追加できない列
@@ -64,7 +64,6 @@ class Account extends Authenticatable {
      * @var array<string, string>
      */
     protected $casts = [
-        'id' => 'int',
         'tel_no' => CastEncrypt::class,
         'address' => CastEncrypt::class,
         'address_bill' => CastEncrypt::class
@@ -88,7 +87,7 @@ class Account extends Authenticatable {
      */
     public static function getDefault($relation = false) {
         $model = [
-            'id' => 0,
+            'id' => '',
             'display_id' => '',
             'name' => '',
             'registered_at' => '',

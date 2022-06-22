@@ -57,9 +57,7 @@ class VerifyEmailToken extends Model {
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'account_id' => 'int'
-    ];
+    protected $casts = [];
 
     /**
      * モデルのデフォルト値
@@ -71,7 +69,7 @@ class VerifyEmailToken extends Model {
     public static function getDefault($relation = false) {
         $model = [
             'token' => '',
-            'account_id' => 0
+            'account_id' => ''
         ];
         return $model;
     }

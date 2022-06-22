@@ -20,8 +20,8 @@ class AccountAuthSeeder extends Seeder {
      * @return void
      */
     public function run() {
-        $account_id = 12345678901;
-        $account_auth_id = 34567890123;
+        $account_auth_id = 'ho10fufei1sk8008ogkkswwcosc4gkc';
+        $account_id = 'nflannyhk3k0kswo804sck04gcso4ck';
         $created_at = new Carbon('2022-05-31 15:04:05');
         $registered_at = new Carbon('2022-05-31 22:53:05');
 

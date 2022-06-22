@@ -13,7 +13,7 @@ use App\Models\AccountAuth;
 use App\Models\AccountSession;
 use App\Utilities\BundleIdToken;
 use App\Utilities\Crypto;
-use App\Utilities\RandomNumber;
+use App\Utilities\Random;
 
 class AccountLoginController extends Controller {
     /**
@@ -92,7 +92,7 @@ class AccountLoginController extends Controller {
 
         // ハッシュ化したログイントークンをDBに保存
         $account_session = AccountSession::getDefault(false);
-        $account_session['id'] = RandomNumber::dbTableId();
+        $account_session['id'] = Random::dbTableId();
         $account_session['account_id'] = $account['id'];
         $account_session['token_hash'] = Crypto::toHashPassword($bundled_id_token);
         $account_session['ip_address'] = $request->ip();

@@ -4,12 +4,10 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-use App\Constants\ConstBackend;
-
 /**
- * テーブルの、主キー値用数値として適切か
+ * テーブルの、主キー値用文字列として適切か
  */
-class DbPrimaryNumberValidaton implements Rule {
+class DbPrimaryStringValidation implements Rule {
     /**
      * バリデーション結果
      *
@@ -29,17 +27,9 @@ class DbPrimaryNumberValidaton implements Rule {
             // 未定義やnullは不可
             return "Empty value.";
         }
-        if (!is_int($value)) {
-            // 整数以外は不可
-            return "Not number.";
-        }
-        if ($value < ConstBackend::DB_TABLE_ID_MIN) {
-            // 想定最小値より小さい数値は不可
-            return "Less than min number.";
-        }
-        if (ConstBackend::DB_TABLE_ID_MAX < $value) {
-            // 想定最大値より大きい数値は不可
-            return "More than max number.";
+        if (gettype($value) !== 'string') {
+            // 文字列型以外は不可
+            return "Not string.";
         }
         return true;
     }
