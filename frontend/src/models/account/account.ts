@@ -4,7 +4,7 @@ import { AccountAuth, DefaultAccountAuth } from '@/models/account/auth';
 /*+ アカウント基本情報 */
 export interface Account extends ColumnBase {
   auth: AccountAuth | null;
-  id: number;
+  id: string;
   display_id: string;
   name: string;
   registered_at: string;
@@ -17,7 +17,7 @@ export interface Account extends ColumnBase {
 /*+ アカウント基本情報のデフォルト値 */
 export const DefaultAccount = (relation: boolean): Account => ({
   auth: relation ? DefaultAccountAuth() : null,
-  id: 0,
+  id: '',
   display_id: '',
   name: '',
   registered_at: '',

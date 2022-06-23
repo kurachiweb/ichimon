@@ -44,11 +44,15 @@ export default class AccountCreate extends Vue {
         return this.requestAccountLogin(this.account);
       })
       .then((loginInfo?: ResLoginAccount) => {
-        if (!loginInfo || loginInfo.login !== true || loginInfo.account_id == null) {
+        if (
+          loginInfo == null ||
+          loginInfo.login !== true ||
+          loginInfo.account_id == null
+        ) {
           return;
         }
         // アカウントにログインできた場合、即メールアドレスの認証リクエストを送信
-        this.requestAccountEmailVerify(loginInfo?.account_id);
+        this.requestAccountEmailVerify(loginInfo.account_id);
         this.$router.push({ name: 'Home' });
       });
   }
@@ -65,7 +69,7 @@ export default class AccountCreate extends Vue {
   }
 
   /** アカウントのメールアドレス認証リクエストを送信 */
-  private requestAccountEmailVerify(accountId: number) {
+  private requestAccountEmailVerify(accountId: string) {
     FetchApiJson<ReqSendEmail, ResSendEmail>(
       Origin.backend + '/api/accounts/' + accountId + '/email/confirm'
     );

@@ -6,6 +6,6 @@ export interface ReqLoginAccount {
 
 /*+ レスポンス：アカウントログイン */
 export interface ResLoginAccount {
-  account_id?: number; // ログインしたアカウントID
+  account_id?: string; // ログインしたアカウントID
   login?: boolean; // ログインに成功したか
 }
