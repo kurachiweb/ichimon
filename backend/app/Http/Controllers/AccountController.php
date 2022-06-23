@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests\AccountRequest;
 use App\Models\Account\Account;
+use App\Models\Account\AccountUpdate;
 use App\Models\Account\AccountAuth;
 use App\Utilities\Random;
 use App\Utilities\ValidateRequest;
@@ -113,16 +114,10 @@ class AccountController extends Controller {
         $req_account_id = AccountRequest::toAccountId($id);
 
         // 更新対象のアカウント
-        $account = Account::findOrFail($req_account_id);
+        $account = AccountUpdate::findOrFail($req_account_id);
+        $account->fill($req_account);
 
-        // 上書きするデータを限定する
-        $account['display_id'] = $req_account['display_id'];
-        $account['name'] = $req_account['name'];
-        $account['tel_no'] = $req_account['tel_no'];
-        $account['address'] = $req_account['address'];
-        $account['address_bill'] = $req_account['address_bill'];
-
-        // 上書きを反映する
+        // 更新を反映する(更新可能カラムはモデルで定義済み)
         $account->saveOrFail();
 
         return response()->json([
