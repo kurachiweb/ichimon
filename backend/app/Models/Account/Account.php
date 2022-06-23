@@ -65,6 +65,7 @@ class Account extends Authenticatable {
      */
     protected $casts = [
         'tel_no' => CastEncrypt::class,
+        'mobile_no' => CastEncrypt::class,
         'address' => CastEncrypt::class,
         'address_bill' => CastEncrypt::class
     ];
