@@ -92,7 +92,7 @@ class AccountLoginController extends Controller {
 
         // ハッシュ化したログイントークンをDBに保存
         $account_session = AccountSession::getDefault(false);
-        $account_session['id'] = Random::dbTableId();
+        $account_session['id'] = Random::dbPrimaryId();
         $account_session['account_id'] = $account['id'];
         $account_session['token_hash'] = Crypto::toHashPassword($bundled_id_token);
         $account_session['ip_address'] = $request->ip();

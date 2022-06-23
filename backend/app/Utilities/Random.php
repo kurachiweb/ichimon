@@ -22,13 +22,13 @@ class Random {
     // PHP_INT_MAXを超えない大きな36の乗数を最大値とする乱数から、36進数に変換する
     // 指定文字数に達するまで何度も生成し、文字結合をする
     while ($part_len < $length) {
-      $need_part_len = 5; // 36^5-1
+      $need_part_len = 5; // 36**5-1
       if (PHP_INT_SIZE >= 8) {
-        $need_part_len = 12; // 36^12-1
+        $need_part_len = 12; // 36**12-1
       }
 
       // 最大値、32ビット環境を考えてデフォルトは36^5-1、64ビット環境なら36^12-1
-      $max = pow(36, $need_part_len) - 1;
+      $max = 36 ** $need_part_len - 1;
       $random_dec = random_int(0, $max);
 
       // 5文字か12文字の36進数ランダム文字列に変換
@@ -44,9 +44,12 @@ class Random {
   /**
    * 乱数生成、DBテーブル主キー用
    *
-   * @return int
+   * @return string
    */
-  public static function dbTableId() {
-    return self::generateString(ConstBackend::DB_TABLE_ID_LENGTH);
+  public static function dbPrimaryId() {
+    // 僅かでも数字だけになることのないように、1文字目は0~9にしない
+    $az = "abcdefghijklmnopqrstuvwxyz";
+    $firstChar = substr($az, random_int(0, strlen($az) - 1), 1);
+    return $firstChar . self::generateString(ConstBackend::DB_TABLE_ID_LENGTH - 1);
   }
 }

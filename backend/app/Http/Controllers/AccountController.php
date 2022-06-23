@@ -43,8 +43,8 @@ class AccountController extends Controller {
         $account_auth = $account['auth'];
 
         $now = Carbon::now('UTC');
-        $account_id = Random::dbTableId();
-        $account_auth_id = Random::dbTableId();
+        $account_id = Random::dbPrimaryId();
+        $account_auth_id = Random::dbPrimaryId();
 
         // アカウント基本情報をリクエスト内容で上書き
         $account['id'] = $account_id;
