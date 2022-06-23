@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Constants\ConstBackend;
 use App\Http\Requests\AccountRequest;
-use App\Models\AccountSession;
+use App\Models\Account\AccountSession;
 use App\Rules\DbPrimaryStringValidation;
 use App\Utilities\BundleIdToken;
 

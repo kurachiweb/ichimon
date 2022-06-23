@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 
 use App\Constants\ConstBackend;
-use App\Models\Account;
-use App\Models\AccountAuth;
-use App\Models\AccountSession;
+use App\Models\Account\Account;
+use App\Models\Account\AccountAuth;
+use App\Models\Account\AccountSession;
 use App\Utilities\BundleIdToken;
 use App\Utilities\Crypto;
 use App\Utilities\Random;

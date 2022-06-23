@@ -7,7 +7,7 @@ namespace App\Providers;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 
-use App\Models\AccountSession;
+use App\Models\Account\AccountSession;
 use App\Utilities\BundleIdToken;
 
 class AccountProvider implements UserProvider {

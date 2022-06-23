@@ -8,8 +8,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Constants\ConstBackend;
-use App\Models\Account;
-use App\Models\VerifyEmailToken;
+use App\Models\Account\Account;
+use App\Models\Account\VerifyEmailToken;
 
 class AccountEmailVerifyController extends Controller {
     /**

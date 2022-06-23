@@ -8,8 +8,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\AccountRequest;
-use App\Models\Account;
-use App\Models\AccountAuth;
+use App\Models\Account\Account;
+use App\Models\Account\AccountAuth;
 use App\Utilities\Random;
 use App\Utilities\ValidateRequest;
 

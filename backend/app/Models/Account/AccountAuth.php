@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Models;
+namespace App\Models\Account;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -76,7 +76,7 @@ class AccountAuth extends Authenticatable {
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function account() {
-        return $this->belongsTo('App\Models\Account', 'account_id', 'id');
+        return $this->belongsTo('App\Models\Account\Account', 'account_id', 'id');
     }
 
     /**

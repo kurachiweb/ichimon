@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Mail;
 
 use App\Constants\ConstBackend;
 use App\Http\Requests\AccountRequest;
-use App\Models\Account;
-use App\Models\VerifyEmailToken;
+use App\Models\Account\Account;
+use App\Models\Account\VerifyEmailToken;
 use App\Mail\AccountEmailVerify;
 use App\Utilities\Random;
 

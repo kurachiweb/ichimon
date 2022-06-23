@@ -2,16 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Models;
+namespace App\Models\Account;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 
 use App\Casts\CastEncrypt;
-use App\Models\AccountAuth;
 
-/** アカウント基本情報 */
-class Account extends Authenticatable {
+class AccountSession extends Model {
     use HasFactory;
 
     /**
@@ -19,7 +17,7 @@ class Account extends Authenticatable {
      *
      * @var string
      */
-    protected $table = 'account';
+    protected $table = 'account_session';
 
     /**
      * IDはオートインクリメントか
@@ -38,7 +36,7 @@ class Account extends Authenticatable {
     /**
      * プライマリキーの型
      *
-     * @var string
+     * @var bool
      */
     protected $keyType = 'string';
 
@@ -47,9 +45,7 @@ class Account extends Authenticatable {
      *
      * @var array<int, string>
      */
-    protected $guarded = [
-        'auth'
-    ];
+    protected $guarded = [];
 
     /**
      * 取得できない列
@@ -59,24 +55,14 @@ class Account extends Authenticatable {
     protected $hidden = [];
 
     /**
-     *  取得/更新時に型を変換する
+     * 取得/更新時に型を変換する
      *
      * @var array<string, string>
      */
     protected $casts = [
-        'tel_no' => CastEncrypt::class,
-        'address' => CastEncrypt::class,
-        'address_bill' => CastEncrypt::class
+        'ip_address' => CastEncrypt::class,
+        'user_agent' => CastEncrypt::class
     ];
-
-    /**
-     * DBリレーション先
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function auth() {
-        return $this->hasOne('App\Models\AccountAuth', 'account_id', $this->primaryKey);
-    }
 
     /**
      * モデルのデフォルト値
@@ -88,17 +74,11 @@ class Account extends Authenticatable {
     public static function getDefault($relation = false) {
         $model = [
             'id' => '',
-            'display_id' => '',
-            'name' => '',
-            'registered_at' => '',
-            'tel_no' => null,
-            'mobile_no' => null,
-            'address' => null,
-            'address_bill' => null
+            'account_id' => '',
+            'token_hash' => '',
+            'ip_address' => null,
+            'user_agent' => null,
         ];
-        if ($relation) {
-            $model['auth'] = AccountAuth::getDefault($relation);
-        }
         return $model;
     }
 }
