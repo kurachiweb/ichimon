@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 
 use App\Constants\ConstBackend;
@@ -13,10 +12,11 @@ use App\Http\Requests\AccountRequest;
 use App\Models\Account;
 use App\Models\VerifyEmailToken;
 use App\Mail\AccountEmailVerify;
+use App\Utilities\Random;
 
 class AccountEmailConfirmController extends Controller {
     /**
-     * 指定IDのアカウントが未認証なら、認証メールを送る
+     * 指定IDのアカウントがメールアドレス未認証なら、認証メールを送る
      *
      * @param \Illuminate\Http\Request $request
      * @param mixed $id
@@ -39,16 +39,11 @@ class AccountEmailConfirmController extends Controller {
         }
 
         // トークンを作成し、DBに保存する
-        $token = Str::uuid()->toString(); // UUIDv4
+        $token = Random::generateString(63);
         $verify_record = VerifyEmailToken::getDefault(false);
         $verify_record['token'] = $token;
         $verify_record['account_id'] = $req_account_id;
-        $verify_saved = VerifyEmailToken::create($verify_record);
-        if (!$verify_saved) {
-            return response()->json([
-                'message' => 'Cannot Save Token',
-            ], 404);
-        }
+        VerifyEmailToken::create($verify_record);
 
         // メールアドレスを送信する
         $mail_address = $account_auth['email'];
