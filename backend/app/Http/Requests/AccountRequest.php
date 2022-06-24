@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -26,15 +28,15 @@ class AccountRequest extends FormRequest {
     public function rules() {
         return [
             'account' => ['bail', 'required'],
-            'account.id' => ['required', new DbPrimaryStringValidation()],
-            'account.display_id' => ['required', 'string']
+            'account.id' => [new DbPrimaryStringValidation()],
+            'account.display_id' => ['string']
         ];
     }
 
     /**
      * バリデーションエラー時
      *
-     * @param  \Illuminate\Contracts\Validation\Validator $validator
+     * @param \Illuminate\Contracts\Validation\Validator $validator
      * @return void
      *
      * @throws \Illuminate\Http\Exceptions\HttpResponseException
