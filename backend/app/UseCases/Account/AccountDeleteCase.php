@@ -13,7 +13,6 @@ class AccountDeleteCase {
      * アカウント削除
      *
      * @param string $req_account_id
-     * @return boolean
      */
     public function __invoke($req_account_id) {
         // 削除対象のアカウント
@@ -27,7 +26,5 @@ class AccountDeleteCase {
         // リレーション制約エラーにならない順番で削除
         $account_auth->delete();
         $account->delete();
-
-        return true;
     }
 }

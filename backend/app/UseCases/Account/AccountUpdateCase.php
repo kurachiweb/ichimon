@@ -17,7 +17,7 @@ class AccountUpdateCase {
     public function __invoke($req_account) {
         // 更新対象のアカウント
         $account = Account::findOrFail($req_account['id']);
-        // 更新可能なカラム
+        // 更新可能なカラムの絞り込み
         $account->fill(KeysOnly::select($req_account, [
             'display_id',
             'name',

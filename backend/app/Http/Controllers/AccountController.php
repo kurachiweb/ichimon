@@ -7,9 +7,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\AccountRequest;
-use App\Models\Account\Account;
 use App\UseCases\Account\AccountCreateCase;
 use App\UseCases\Account\AccountDeleteCase;
+use App\UseCases\Account\AccountGetCase;
+use App\UseCases\Account\AccountListCase;
 use App\UseCases\Account\AccountUpdateCase;
 use App\Utilities\ValidateRequest;
 
@@ -20,10 +21,13 @@ class AccountController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $account = Account::all(['id', 'display_id', 'name', 'registered_at']);
+        // DBにアクセスしてアカウント一覧を取得する
+        $accountListCase = new AccountListCase();
+        $res_accounts = $accountListCase();
+
         return response()->json([
             'message' => 'Successful',
-            'data' => $account
+            'data' => $res_accounts
         ], 200, [], JSON_UNESCAPED_UNICODE);
     }
 
@@ -61,16 +65,14 @@ class AccountController extends Controller {
         // リクエストパラメータのアカウント基本IDを入力チェック(Guard側で確認済み)
         $req_account_id = AccountRequest::toAccountId($id);
 
-        // アカウント基本IDからアカウントを取得
-        $account = Account::findOrFail($req_account_id);
-        $account_auth = $account->auth;
-        $account = $account->toArray();
-        $account['auth'] = $account_auth;
+        // DBにアクセスしてアカウントを取得する
+        $accountGetCase = new AccountGetCase();
+        $res_account = $accountGetCase($req_account_id);
 
         return response()->json([
             'message' => 'Successful',
             'data' => [
-                'account' => $account
+                'account' => $res_account
             ]
         ], 200, [], JSON_UNESCAPED_UNICODE);
     }
