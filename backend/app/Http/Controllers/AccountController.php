@@ -25,10 +25,7 @@ class AccountController extends Controller {
         $accountListCase = new AccountListCase();
         $res_accounts = $accountListCase();
 
-        return response()->json([
-            'message' => 'Successful',
-            'data' => $res_accounts
-        ], 200, [], JSON_UNESCAPED_UNICODE);
+        return response()->success(['accounts' => $res_accounts]);
     }
 
     /**
@@ -47,12 +44,7 @@ class AccountController extends Controller {
         $accountCreateCase = new AccountCreateCase();
         $res_account = $accountCreateCase($req_account);
 
-        return response()->json([
-            'message' => 'Successful',
-            'data' => [
-                'account' => $res_account,
-            ]
-        ], 201, [], JSON_UNESCAPED_UNICODE);
+        return response()->successCreate(['account' => $res_account]);
     }
 
     /**
@@ -69,12 +61,7 @@ class AccountController extends Controller {
         $accountGetCase = new AccountGetCase();
         $res_account = $accountGetCase($req_account_id);
 
-        return response()->json([
-            'message' => 'Successful',
-            'data' => [
-                'account' => $res_account
-            ]
-        ], 200, [], JSON_UNESCAPED_UNICODE);
+        return response()->success(['account' => $res_account]);
     }
 
     /**
@@ -94,9 +81,7 @@ class AccountController extends Controller {
         $accountUpdateCase = new AccountUpdateCase();
         $accountUpdateCase($req_account);
 
-        return response()->json([
-            'message' => 'Successful',
-        ], 200);
+        return response()->success();
     }
 
     /**
@@ -113,8 +98,6 @@ class AccountController extends Controller {
         $accountDeleteCase = new AccountDeleteCase();
         $accountDeleteCase($req_account_id);
 
-        return response()->json([
-            'message' => 'Successful',
-        ], 200);
+        return response()->success();
     }
 }

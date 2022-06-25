@@ -42,9 +42,7 @@ class AccountRequest extends FormRequest {
      * @throws \Illuminate\Http\Exceptions\HttpResponseException
      */
     protected function failedValidation(Validator $validator) {
-        $res = response()->json([
-            'message' => $validator->errors(),
-        ], 400);
+        $res = response()->badRequest(null, $validator->errors());
         throw new HttpResponseException($res);
     }
 

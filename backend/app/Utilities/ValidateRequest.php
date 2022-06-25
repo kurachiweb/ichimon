@@ -6,6 +6,7 @@ namespace App\Utilities;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
@@ -25,13 +26,13 @@ class ValidateRequest {
     $body = $request->getContent();
     if (gettype($body) !== "string") {
       // リクエストボディが文字列型以外では、json_decodeできない
-      throw new ValidationException('Request not JSON.', 400);
+      throw new ValidationException('Request not JSON.', Response::HTTP_BAD_REQUEST);
     }
 
     $req = json_decode($body, true);
     if (gettype($req) !== "array") {
       // リクエスト内容が[]や{}でなければ、総じてバリデーションエラー
-      throw new ValidationException('Request not JSON.', 400);
+      throw new ValidationException('Request not JSON.', Response::HTTP_BAD_REQUEST);
     }
 
     // リクエストを入力チェック
