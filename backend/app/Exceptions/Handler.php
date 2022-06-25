@@ -6,6 +6,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
@@ -51,44 +52,39 @@ class Handler extends ExceptionHandler {
      * @return \Illuminate\Http\Response
      */
     private function createApiErrorResponse(HttpException $exception) {
-        $status = 0;
-        $errorMessage = '';
+        $status_code = 0;
+        $error_message = '';
 
         if ($this->isHttpException($exception)) {
             // リクエスト・処理のエラー種類によりレスポンスを変える
-            $status = $exception->getStatusCode();
-            switch ($status) {
-                case 401:
-                    $errorMessage = 'Unauthorized';
+            $status_code = $exception->getStatusCode();
+            switch ($status_code) {
+                case Response::HTTP_UNAUTHORIZED:
+                    $error_message = 'Unauthorized.';
                     break;
-                case 403:
-                    $errorMessage = $exception->getMessage() ?: 'Forbiddden';
+                case Response::HTTP_FORBIDDEN:
+                    $error_message = 'Forbiddden.';
                     break;
-                case 404:
-                    $errorMessage = 'Not Found';
+                case Response::HTTP_NOT_FOUND:
+                    $error_message = 'Not Found.';
                     break;
-                case 419:
-                    $errorMessage = 'Page Expired';
+                case Response::HTTP_TOO_MANY_REQUESTS:
+                    $error_message = 'Too Many Requests.';
                     break;
-                case 429:
-                    $errorMessage = 'Too Many Requests';
+                case Response::HTTP_INTERNAL_SERVER_ERROR:
+                    $error_message = 'Server Error.';
                     break;
-                case 500:
-                    $errorMessage = 'Server Error';
-                    break;
-                case 503:
-                    $errorMessage = 'Service Unavailable';
+                case Response::HTTP_SERVICE_UNAVAILABLE:
+                    $error_message = 'Service Unavailable.';
                     break;
                 default:
                     // その他のエラー
-                    $status = 400;
-                    $errorMessage = $exception->getMessage();
+                    $status_code = Response::HTTP_BAD_REQUEST;
+                    $error_message = $exception->getMessage();
             }
         }
 
-        return response()->json([
-            'message' => $errorMessage
-        ], $status, [
+        return response()->otherError(null, $error_message, $status_code, [
             'Content-Type' => 'application/problem+json'
         ]);
     }
