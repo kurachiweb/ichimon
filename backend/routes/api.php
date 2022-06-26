@@ -2,6 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\AccountEmailConfirmController;
+use App\Http\Controllers\AccountEmailVerifyController;
+use App\Http\Controllers\AccountLoginController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,24 +19,24 @@ use Illuminate\Support\Facades\Route;
 */
 
 // アカウント作成
-Route::apiResource('/accounts', 'App\Http\Controllers\AccountController', ['only' => ['store']]);
+Route::apiResource('/accounts', AccountController::class, ['only' => ['store']]);
 // アカウントログイン
-Route::post('/accounts/login', 'App\Http\Controllers\AccountLoginController');
+Route::post('/accounts/login', AccountLoginController::class);
 
 // ログイン状態なら
 Route::group(['middleware' => ['account.auth:authz']], function () {
   // アカウント基礎情報・認証情報のRUD
-  Route::apiResource('/accounts', 'App\Http\Controllers\AccountController', ['only' => ['index']]);
+  Route::apiResource('/accounts', AccountController::class, ['only' => ['index']]);
 
   // ログインユーザーを認証できれば
   Route::group(['middleware' => ['account.auth:authr']], function () {
     // アカウント基礎情報・認証情報のRUD
-    Route::apiResource('/accounts', 'App\Http\Controllers\AccountController', ['except' => ['index', 'store']]);
+    Route::apiResource('/accounts', AccountController::class, ['except' => ['index', 'store']]);
 
     // アカウントメールアドレスの認証メール送信
-    Route::post('/accounts/{account}/email/confirm', 'App\Http\Controllers\AccountEmailConfirmController');
+    Route::post('/accounts/{account}/email/confirm', AccountEmailConfirmController::class);
 
     // アカウントメールアドレスの認証トークン検証
-    Route::post('/accounts/{account}/email/verify', 'App\Http\Controllers\AccountEmailVerifyController');
+    Route::post('/accounts/{account}/email/verify', AccountEmailVerifyController::class);
   });
 });
