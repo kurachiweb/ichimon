@@ -7,14 +7,14 @@ namespace App\Guards;
 use Illuminate\Auth\GuardHelpers as GuardHelpers;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 use App\Constants\ConstBackend;
 use App\Models\Account\AccountSession;
+use App\Providers\AccountProvider;
 use App\Rules\DbPrimaryStringValidation;
 use App\Utilities\BundleIdToken;
+use App\Utilities\ValidateVariable;
 
 /**
  * アカウントにログインしているか(認可)
@@ -23,7 +23,7 @@ class AccountAuthZGuard implements Guard {
   use GuardHelpers;
 
   protected string $_name;
-  protected UserProvider $_provider;
+  protected AccountProvider $_provider;
   protected ?Request $_request;
   protected ?AccountSession $_account_session;
 
@@ -31,10 +31,10 @@ class AccountAuthZGuard implements Guard {
    * Create a new authentication guard.
    *
    * @param string $name
-   * @param UserProvider $provider
+   * @param AccountProvider $provider
    * @param Request $request
    */
-  public function __construct(string $name, UserProvider $provider, Request $request = null) {
+  public function __construct(string $name, AccountProvider $provider, Request $request = null) {
     $this->_name = $name;
     $this->_request = $request;
     $this->_provider = $provider;
@@ -61,22 +61,17 @@ class AccountAuthZGuard implements Guard {
     }
 
     // Cookieの保存値からアカウントIDとログイントークンを取得
-    $cookie_id_token = $this->_request->cookie(ConstBackend::COOKIE_NAME_LOGIN_TOKEN);
-    $cookie_id_token_map = BundleIdToken::expand($cookie_id_token);
-    $cookie_account_id = $cookie_id_token_map['id'];
-    $cookie_account_token = $cookie_id_token_map['token'];
+    $cookie_id_token_stringify = $this->_request->cookie(ConstBackend::COOKIE_NAME_LOGIN_TOKEN);
+    $cookie_id_token = BundleIdToken::expand($cookie_id_token_stringify);
+    $cookie_account_id = $cookie_id_token['id'];
+    $cookie_account_token = $cookie_id_token['token'];
 
     // Cookie保存値のIDがアカウント基本ID形式か判定
     // トークンが文字列か判定
-    $validate_target = [
-      'account_id' => $cookie_account_id,
-      'token' => $cookie_account_token
-    ];
-    $validate_by = [
-      'account_id' => ['required', new DbPrimaryStringValidation()],
-      'token' => ['required', 'string']
-    ];
-    $validator = Validator::make($validate_target, $validate_by);
+    $validator = ValidateVariable::make([
+      [$cookie_account_id, 'required', new DbPrimaryStringValidation()],
+      [$cookie_account_token, 'required', 'string']
+    ]);
     if ($validator->fails()) {
       return null;
     }

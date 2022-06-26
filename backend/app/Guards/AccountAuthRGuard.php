@@ -7,15 +7,15 @@ namespace App\Guards;
 use Illuminate\Auth\GuardHelpers as GuardHelpers;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 use App\Constants\ConstBackend;
 use App\Http\Requests\AccountRequest;
 use App\Models\Account\AccountSession;
+use App\Providers\AccountProvider;
 use App\Rules\DbPrimaryStringValidation;
 use App\Utilities\BundleIdToken;
+use App\Utilities\ValidateVariable;
 
 /**
  * ログインアカウントを認証できるか
@@ -24,7 +24,7 @@ class AccountAuthRGuard implements Guard {
   use GuardHelpers;
 
   protected string $_name;
-  protected UserProvider $_provider;
+  protected AccountProvider $_provider;
   protected ?Request $_request;
   protected ?AccountSession $_account_session;
 
@@ -32,10 +32,10 @@ class AccountAuthRGuard implements Guard {
    * Create a new authentication guard.
    *
    * @param string $name
-   * @param UserProvider $provider
+   * @param AccountProvider $provider
    * @param Request $request
    */
-  public function __construct(string $name, UserProvider $provider, Request $request = null) {
+  public function __construct(string $name, AccountProvider $provider, Request $request = null) {
     $this->_name = $name;
     $this->_request = $request;
     $this->_provider = $provider;
@@ -58,23 +58,18 @@ class AccountAuthRGuard implements Guard {
    */
   public function user() {
     // Cookieに保存されているアカウントIDを取得
-    $id_token = $this->_request->cookie(ConstBackend::COOKIE_NAME_LOGIN_TOKEN);
-    $id_token_map = BundleIdToken::expand($id_token);
+    $cookie_id_token_stringify = $this->_request->cookie(ConstBackend::COOKIE_NAME_LOGIN_TOKEN);
+    $cookie_id_token = BundleIdToken::expand($cookie_id_token_stringify);
 
-    $req_account_id_str = $this->_request->route('account');
-    $cookie_account_id = $id_token_map['id'];
-    $req_account_id = AccountRequest::toAccountId($req_account_id_str);
+    $req_account_id_raw = $this->_request->route('account');
+    $cookie_account_id = $cookie_id_token['id'];
+    $req_account_id = AccountRequest::toAccountId($req_account_id_raw);
 
     // リクエストパラメータ/Cookie保存値のIDがアカウント基本ID形式か判定
-    $validate_target = [
-      'req_account_id' => $req_account_id,
-      'cookie_account_id' => $cookie_account_id
-    ];
-    $validate_by = [
-      'req_account_id' => ['required', new DbPrimaryStringValidation()],
-      'cookie_account_id' => ['required', new DbPrimaryStringValidation()]
-    ];
-    $validator = Validator::make($validate_target, $validate_by);
+    $validator = ValidateVariable::make([
+      [$req_account_id, 'required', new DbPrimaryStringValidation()],
+      [$cookie_account_id, 'required', new DbPrimaryStringValidation()]
+    ]);
     if ($validator->fails()) {
       return null;
     }
