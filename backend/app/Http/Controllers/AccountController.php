@@ -59,7 +59,7 @@ class AccountController extends Controller {
 
         // DBにアクセスしてアカウントを取得する
         $accountGetCase = new AccountGetCase();
-        $res_account = $accountGetCase($req_account_id);
+        $res_account = $accountGetCase($req_account_id, true);
 
         return response()->success(['account' => $res_account]);
     }

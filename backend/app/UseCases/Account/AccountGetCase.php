@@ -11,15 +11,15 @@ class AccountGetCase {
      * アカウント取得
      *
      * @param string $req_account_id
-     * @return array
+     * @param array<int, string> $with
+     * @return \App\Models\Account\Account
      */
-    public function __invoke($req_account_id) {
+    public function __invoke($req_account_id, $relation = false) {
         // アカウント基本IDからアカウントを取得
-        $account = Account::findOrFail($req_account_id);
-        $account_auth = $account->auth;
-        $account = $account->toArray();
-        $account['auth'] = $account_auth;
-
-        return $account;
+        $with = [];
+        if ($relation) {
+            $with = ['auth'];
+        }
+        return Account::with($with)->findOrFail($req_account_id);
     }
 }
