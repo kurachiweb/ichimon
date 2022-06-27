@@ -9,7 +9,7 @@ use App\Utilities\KeysOnly;
 
 class AccountUpdateCase {
     /**
-     * アカウント更新
+     * アカウント基本情報更新
      *
      * @param array $req_account
      * @return bool
@@ -25,8 +25,7 @@ class AccountUpdateCase {
             'address',
             'address_bill'
         ]));
-
-        // 更新を反映する(更新可能カラムはモデルで定義済み)
+        // 更新を反映する
         $is_saved = $account->saveOrFail();
 
         return $is_saved;

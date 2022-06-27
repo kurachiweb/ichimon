@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-use App\Constants\ConstBackend;
-use App\Models\Account\Account;
-use App\Models\Account\VerifyEmailToken;
+use App\Http\Requests\AccountEmailVerifyRequest;
+use App\Services\Account\AccountEmailVerifyService;
+use App\Utilities\ValidateRequest;
 
 class AccountEmailVerifyController extends Controller {
     /**
@@ -19,39 +18,12 @@ class AccountEmailVerifyController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function __invoke(Request $request) {
-        $body = $request->getContent();
-        $req = json_decode($body, true);
-        if (!isset($req['token'])) {
-            return response()->json([
-                'message' => 'Need request \'token\'',
-            ], 404);
-        }
-        $req_token = $req['token'];
+        // リクエスト中の認証トークンを入力チェック
+        $req = ValidateRequest::json($request, new AccountEmailVerifyRequest());
 
-        // トークンを照合
-        // 主キーがトークン
-        $token_column = VerifyEmailToken::findOrFail($req_token);
-        $now = Carbon::now('UTC');
-        $token_created = $token_column['created_at'];
-        // トークンが作られてから一定時間が経過していれば、認証しない
-        if ($token_created->diffInSeconds($now) > ConstBackend::ACCOUNT_VERIFY_EXPIRE_SECOND) {
-            return response()->json([
-                'message' => 'Token expired',
-            ], 401);
-        }
+        // トークンを照合し、アカウントメールアドレスの認証を完了する
+        AccountEmailVerifyService::verify($req['token']);
 
-        // メールアドレスを認証したのでステータスを変更
-        $account_id = $token_column['account_id'];
-        $account = Account::findOrFail($account_id);
-        $account_auth = $account->auth;
-        $account_auth['verified_email'] = ConstBackend::ACCOUNT_VERIFY_VERIFY;
-        $account_auth->saveOrFail();
-
-        return response()->json([
-            'message' => 'Successful',
-            'data' => [
-                'verify' => true,
-            ]
-        ], 201, [], JSON_UNESCAPED_UNICODE);
+        return response()->success();
     }
 }
