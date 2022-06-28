@@ -11,7 +11,7 @@ class AccountGetCase {
      * アカウント取得
      *
      * @param string $req_account_id
-     * @param array<int, string> $with
+     * @param boolean $relation
      * @return \App\Models\Account\Account
      */
     public function __invoke($req_account_id, $relation = false) {
