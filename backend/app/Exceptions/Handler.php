@@ -55,33 +55,34 @@ class Handler extends ExceptionHandler {
         $status_code = 0;
         $error_message = '';
 
-        if ($this->isHttpException($exception)) {
-            // リクエスト・処理のエラー種類によりレスポンスを変える
-            $status_code = $exception->getStatusCode();
-            switch ($status_code) {
-                case Response::HTTP_UNAUTHORIZED:
-                    $error_message = 'Unauthorized.';
-                    break;
-                case Response::HTTP_FORBIDDEN:
-                    $error_message = 'Forbiddden.';
-                    break;
-                case Response::HTTP_NOT_FOUND:
-                    $error_message = 'Not Found.';
-                    break;
-                case Response::HTTP_TOO_MANY_REQUESTS:
-                    $error_message = 'Too Many Requests.';
-                    break;
-                case Response::HTTP_INTERNAL_SERVER_ERROR:
-                    $error_message = 'Server Error.';
-                    break;
-                case Response::HTTP_SERVICE_UNAVAILABLE:
-                    $error_message = 'Service Unavailable.';
-                    break;
-                default:
-                    // その他のエラー
-                    $status_code = Response::HTTP_BAD_REQUEST;
-                    $error_message = $exception->getMessage();
-            }
+        // リクエスト・処理のエラー種類によりレスポンスを変える
+        $status_code = $exception->getStatusCode();
+        switch ($status_code) {
+            case Response::HTTP_UNAUTHORIZED:
+                $error_message = 'Unauthorized.';
+                break;
+            case Response::HTTP_FORBIDDEN:
+                $error_message = 'Forbiddden.';
+                break;
+            case Response::HTTP_NOT_FOUND:
+                $error_message = 'Not Found.';
+                break;
+            case Response::HTTP_METHOD_NOT_ALLOWED:
+                $error_message = 'Method not allowed.';
+                break;
+            case Response::HTTP_TOO_MANY_REQUESTS:
+                $error_message = 'Too Many Requests.';
+                break;
+            case Response::HTTP_INTERNAL_SERVER_ERROR:
+                $error_message = 'Server Error.';
+                break;
+            case Response::HTTP_SERVICE_UNAVAILABLE:
+                $error_message = 'Service Unavailable.';
+                break;
+            default:
+                // その他のエラー
+                $status_code = Response::HTTP_BAD_REQUEST;
+                $error_message = $exception->getMessage();
         }
 
         return response()->otherError(null, $error_message, $status_code, [
