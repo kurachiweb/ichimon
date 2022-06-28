@@ -36,11 +36,13 @@ class BundleIdToken {
   public static function expand($joined) {
     $id = null;
     $token = null;
-    if (!is_null($joined)) {
+    if (is_string($joined)) {
       // 配列としてデコード
-      $expander = json_decode($joined, true);
-      $id = $expander['id'];
-      $token = $expander['token'];
+      $decoded = json_decode($joined, true);
+      if (is_array($decoded)) {
+        $id = $decoded['id'];
+        $token = $decoded['token'];
+      }
     }
     return ['id' => $id, 'token' => $token];
   }
