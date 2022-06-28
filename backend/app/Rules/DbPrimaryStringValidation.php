@@ -27,7 +27,7 @@ class DbPrimaryStringValidation implements Rule {
             // 未定義やnullは不可
             return "Empty value.";
         }
-        if (gettype($value) !== 'string') {
+        if (!is_string($value)) {
             // 文字列型以外は不可
             return "Not string.";
         }

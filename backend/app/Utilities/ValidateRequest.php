@@ -24,13 +24,13 @@ class ValidateRequest {
    */
   public static function json(Request $request, FormRequest $form_request) {
     $body = $request->getContent();
-    if (gettype($body) !== "string") {
+    if (!is_string($body)) {
       // リクエストボディが文字列型以外では、json_decodeできない
       throw new ValidationException('Request not JSON.', Response::HTTP_BAD_REQUEST);
     }
 
     $req = json_decode($body, true);
-    if (gettype($req) !== "array") {
+    if (!is_array($req)) {
       // リクエスト内容が[]や{}でなければ、総じてバリデーションエラー
       throw new ValidationException('Request not JSON.', Response::HTTP_BAD_REQUEST);
     }
