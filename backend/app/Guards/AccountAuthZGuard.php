@@ -22,7 +22,6 @@ use App\Utilities\ValidateVariable;
 class AccountAuthZGuard implements Guard {
   use GuardHelpers;
 
-  protected string $_name;
   protected AccountProvider $_provider;
   protected ?Request $_request;
   protected ?AccountLoginSession $_account_session;

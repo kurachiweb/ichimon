@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 
 use App\Constants\ConstBackend;
 use App\Http\Requests\AccountRequest;
-use App\Models\Account\AccountLoginSession;
 use App\Providers\AccountProvider;
 use App\Rules\DbPrimaryStringValidation;
 use App\Utilities\BundleIdToken;
@@ -23,8 +22,6 @@ use App\Utilities\ValidateVariable;
 class AccountAuthRGuard implements Guard {
   use GuardHelpers;
 
-  protected string $_name;
-  protected AccountProvider $_provider;
   protected ?Request $_request;
 
   /**
@@ -35,9 +32,7 @@ class AccountAuthRGuard implements Guard {
    * @param Request $request
    */
   public function __construct(string $name, AccountProvider $provider, Request $request = null) {
-    $this->_name = $name;
     $this->_request = $request;
-    $this->_provider = $provider;
   }
 
   /**
