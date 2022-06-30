@@ -10,7 +10,7 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 
 use App\Constants\ConstBackend;
-use App\Models\Account\AccountSession;
+use App\Models\Account\AccountLoginSession;
 use App\Providers\AccountProvider;
 use App\Rules\DbPrimaryStringValidation;
 use App\Utilities\BundleIdToken;
@@ -25,7 +25,7 @@ class AccountAuthZGuard implements Guard {
   protected string $_name;
   protected AccountProvider $_provider;
   protected ?Request $_request;
-  protected ?AccountSession $_account_session;
+  protected ?AccountLoginSession $_account_session;
 
   /**
    * Create a new authentication guard.

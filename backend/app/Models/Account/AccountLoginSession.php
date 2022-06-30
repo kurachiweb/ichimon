@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Casts\CastEncrypt;
 
-class AccountSession extends Model {
+class AccountLoginSession extends Model {
     use HasFactory;
 
     /**
@@ -17,7 +17,7 @@ class AccountSession extends Model {
      *
      * @var string
      */
-    protected $table = 'account_session';
+    protected $table = 'account_login_session';
 
     /**
      * IDはオートインクリメントか

@@ -7,7 +7,7 @@ namespace App\Providers;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 
-use App\Models\Account\AccountSession;
+use App\Models\Account\AccountLoginSession;
 use App\Utilities\BundleIdToken;
 
 class AccountProvider implements UserProvider {
@@ -32,7 +32,7 @@ class AccountProvider implements UserProvider {
    */
   public function retrieveByToken($identifier, $token) {
     // 指定アカウントIDでのセッション履歴を全て取得
-    $account_sessions = AccountSession::where('account_id', $identifier)->orderBy('created_at', 'desc')->get();
+    $account_sessions = AccountLoginSession::where('account_id', $identifier)->orderBy('created_at', 'desc')->get();
     // そのアカウントIDでのセッション履歴が存在しなければ空
     if (!$account_sessions) {
       return null;

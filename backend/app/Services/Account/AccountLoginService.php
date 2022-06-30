@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Cookie;
 
 use App\Constants\ConstBackend;
 use App\UseCases\Account\AccountLoginTargetCase;
-use App\UseCases\Account\AccountSessionCreateCase;
+use App\UseCases\Account\AccountLoginSessionCreateCase;
 use App\Utilities\BundleIdToken;
 
 class AccountLoginService {
@@ -50,7 +50,7 @@ class AccountLoginService {
         $bundled_id_token = BundleIdToken::bundle($account['id'], $token);
 
         // ハッシュ化したログイントークンをDBに保存
-        $accountSessionCreateCase = new AccountSessionCreateCase();
+        $accountSessionCreateCase = new AccountLoginSessionCreateCase();
         $accountSessionCreateCase($account['id'], $bundled_id_token, $req_ip, $req_user_agent);
 
         return $bundled_id_token;
