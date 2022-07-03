@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Casts\CastEncrypt;
 use App\Casts\CastHash;
 use App\Casts\CastHashPassword;
+use App\Models\Account\Account;
 
 /** アカウント認証情報 */
 class AccountAuth extends Authenticatable {
@@ -66,17 +67,18 @@ class AccountAuth extends Authenticatable {
         'email' => CastEncrypt::class,
         'email_hash' => CastHash::class,
         'email_alter' => CastEncrypt::class,
+        'mobile_no' => CastEncrypt::class,
         'password' => CastHashPassword::class,
         'billing_token' => CastEncrypt::class
     ];
 
     /**
-     * DBリレーション元
+     * アカウント基本情報へのリレーション
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function account() {
-        return $this->belongsTo('App\Models\Account\Account', 'account_id', 'id');
+        return $this->belongsTo(Account::class, 'account_id', (new Account())->getKeyName());
     }
 
     /**
@@ -93,6 +95,7 @@ class AccountAuth extends Authenticatable {
             'email' => '',
             'email_hash' => '',
             'email_alter' => null,
+            'mobile_no' => null,
             'verified_email' => 0,
             'verified_mobile_no' => 0,
             'password' => '',

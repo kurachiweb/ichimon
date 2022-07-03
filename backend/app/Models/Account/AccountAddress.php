@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Models\Account;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use App\Casts\CastEncrypt;
 use App\Models\Account\Account;
 
-class AccountLoginSession extends Model {
+/** アカウント住所情報 */
+class AccountAddress extends Authenticatable {
     use HasFactory;
 
     /**
@@ -18,7 +19,7 @@ class AccountLoginSession extends Model {
      *
      * @var string
      */
-    protected $table = 'account_login_session';
+    protected $table = 'account_address';
 
     /**
      * IDはオートインクリメントか
@@ -61,8 +62,10 @@ class AccountLoginSession extends Model {
      * @var array<string, string>
      */
     protected $casts = [
-        'ip_address' => CastEncrypt::class,
-        'user_agent' => CastEncrypt::class
+        'post_code' => CastEncrypt::class,
+        'city' => CastEncrypt::class,
+        'area1' => CastEncrypt::class,
+        'area2' => CastEncrypt::class
     ];
 
     /**
@@ -84,10 +87,13 @@ class AccountLoginSession extends Model {
     public static function getDefault($relation = false) {
         $model = [
             'id' => '',
-            'account_id' => '',
-            'token_hash' => '',
-            'ip_address' => null,
-            'user_agent' => null,
+            'post_code' => '',
+            'country' => 0,
+            'region' => '',
+            'city' => '',
+            'area1' => '',
+            'area2' => '',
+            'use_for' => 0,
         ];
         return $model;
     }

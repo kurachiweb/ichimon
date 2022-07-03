@@ -7,8 +7,9 @@ namespace App\Models\Account;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-use App\Casts\CastEncrypt;
+use App\Models\Account\AccountAddress;
 use App\Models\Account\AccountAuth;
+use App\Models\Account\AccountHistory;
 
 /** アカウント基本情報 */
 class Account extends Authenticatable {
@@ -48,7 +49,9 @@ class Account extends Authenticatable {
      * @var array<int, string>
      */
     protected $guarded = [
-        'auth'
+        'auth',
+        'info',
+        'addresses'
     ];
 
     /**
@@ -63,20 +66,33 @@ class Account extends Authenticatable {
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'tel_no' => CastEncrypt::class,
-        'mobile_no' => CastEncrypt::class,
-        'address' => CastEncrypt::class,
-        'address_bill' => CastEncrypt::class
-    ];
+    protected $casts = [];
 
     /**
-     * DBリレーション先
+     * アカウント履歴情報へのリレーション
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function infos() {
+        return $this->hasMany(AccountHistory::class, 'account_id', $this->primaryKey);
+    }
+
+    /**
+     * アカウント認証情報へのリレーション
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function auth() {
-        return $this->hasOne('App\Models\Account\AccountAuth', 'account_id', $this->primaryKey);
+        return $this->hasOne(AccountAuth::class, 'account_id', $this->primaryKey);
+    }
+
+    /**
+     * アカウント住所情報へのリレーション
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function addresses() {
+        return $this->hasMany(AccountAddress::class, 'account_id', $this->primaryKey);
     }
 
     /**
@@ -90,15 +106,13 @@ class Account extends Authenticatable {
         $model = [
             'id' => '',
             'display_id' => '',
-            'name' => '',
+            'nickname' => '',
             'registered_at' => '',
-            'tel_no' => null,
-            'mobile_no' => null,
-            'address' => null,
-            'address_bill' => null
         ];
         if ($relation) {
+            $model['info'] = AccountHistory::getDefault($relation);
             $model['auth'] = AccountAuth::getDefault($relation);
+            $model['addresses'] = AccountAddress::getDefault($relation);
         }
         return $model;
     }

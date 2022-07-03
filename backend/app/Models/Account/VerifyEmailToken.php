@@ -7,6 +7,8 @@ namespace App\Models\Account;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Account\Account;
+
 class VerifyEmailToken extends Model {
     use HasFactory;
 
@@ -58,6 +60,15 @@ class VerifyEmailToken extends Model {
      * @var array<string, string>
      */
     protected $casts = [];
+
+    /**
+     * アカウント基本情報へのリレーション
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function account() {
+        return $this->belongsTo(Account::class, 'account_id', (new Account())->getKeyName());
+    }
 
     /**
      * モデルのデフォルト値
