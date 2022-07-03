@@ -1,29 +1,27 @@
 import { ColumnBase, DefaultColumnBase } from '@/models/db-base';
+import { AccountHistory, DefaultAccountHistory } from '@/models/account/history';
 import { AccountAuth, DefaultAccountAuth } from '@/models/account/auth';
+import { AccountAddress, DefaultAccountAddress } from '@/models/account/address';
 
 /*+ アカウント基本情報 */
 export interface Account extends ColumnBase {
   auth: AccountAuth | null;
+  settings: AccountHistory[] | null;
+  addresses: AccountAddress[] | null;
   id: string;
   display_id: string;
-  name: string;
+  nickname: string;
   registered_at: string;
-  tel_no: string | null;
-  mobile_no: string | null;
-  address: string | null;
-  address_bill: string | null;
 }
 
 /*+ アカウント基本情報のデフォルト値 */
 export const DefaultAccount = (relation: boolean): Account => ({
+  settings: relation ? [DefaultAccountHistory()] : null,
   auth: relation ? DefaultAccountAuth() : null,
+  addresses: relation ? [DefaultAccountAddress()] : null,
   id: '',
   display_id: '',
-  name: '',
+  nickname: '',
   registered_at: '',
-  tel_no: null,
-  mobile_no: null,
-  address: null,
-  address_bill: null,
   ...DefaultColumnBase()
 });

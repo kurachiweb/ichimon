@@ -7,6 +7,7 @@ export interface AccountAuth extends ColumnBase {
   email: string;
   email_hash: string;
   email_alter: string | null;
+  mobile_no: string | null;
   verified_email: number;
   verified_mobile_no: number;
   password: string;
@@ -21,6 +22,7 @@ export const DefaultAccountAuth = (): AccountAuth => ({
   email: '',
   email_hash: '',
   email_alter: null,
+  mobile_no: null,
   verified_email: 0,
   verified_mobile_no: 0,
   password: '',
