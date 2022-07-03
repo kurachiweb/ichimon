@@ -44,11 +44,7 @@ export default class AccountCreate extends Vue {
         return this.requestAccountLogin(this.account);
       })
       .then((loginInfo?: ResLoginAccount) => {
-        if (
-          loginInfo == null ||
-          loginInfo.login !== true ||
-          loginInfo.account_id == null
-        ) {
+        if (loginInfo == null || loginInfo.account_id == null) {
           return;
         }
         // アカウントにログインできた場合、即メールアドレスの認証リクエストを送信
