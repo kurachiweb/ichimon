@@ -50,7 +50,7 @@ class Account extends Authenticatable {
      */
     protected $guarded = [
         'auth',
-        'info',
+        'settings',
         'addresses'
     ];
 
@@ -73,7 +73,7 @@ class Account extends Authenticatable {
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function infos() {
+    public function settings() {
         return $this->hasMany(AccountHistory::class, 'account_id', $this->primaryKey);
     }
 
@@ -110,9 +110,9 @@ class Account extends Authenticatable {
             'registered_at' => '',
         ];
         if ($relation) {
-            $model['info'] = AccountHistory::getDefault($relation);
+            $model['settings'] = [AccountHistory::getDefault($relation)];
             $model['auth'] = AccountAuth::getDefault($relation);
-            $model['addresses'] = AccountAddress::getDefault($relation);
+            $model['addresses'] = [AccountAddress::getDefault($relation)];
         }
         return $model;
     }
