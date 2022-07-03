@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use App\Casts\CastEncrypt;
-use App\Models\Account\Account;
 
 /** アカウント住所情報 */
 class AccountAddress extends Authenticatable {
@@ -69,22 +68,13 @@ class AccountAddress extends Authenticatable {
     ];
 
     /**
-     * アカウント基本情報へのリレーション
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function account() {
-        return $this->belongsTo(Account::class, 'account_id', (new Account())->getKeyName());
-    }
-
-    /**
      * モデルのデフォルト値
      * テーブルカラム・リレーション設定と合わせる
      *
      * @param boolean $relation - リレーション先のデータも併せて設定するか
      * @return array<string, any>
      */
-    public static function getDefault($relation = false) {
+    public static function getDefault() {
         $model = [
             'id' => '',
             'post_code' => '',
