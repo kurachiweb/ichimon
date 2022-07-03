@@ -6,9 +6,7 @@ namespace App\Services\Account;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Response as HttpResponse;
-use Illuminate\Support\Facades\Cookie;
 
-use App\Constants\ConstBackend;
 use App\UseCases\Account\AccountLoginTargetCase;
 use App\UseCases\Account\AccountLoginSessionCreateCase;
 use App\Utilities\BundleIdToken;

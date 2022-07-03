@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Constants\ConstBackend;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 
+use App\Constants\ConstBackend;
 use App\Http\Requests\AccountLoginRequest;
 use App\Services\Account\AccountLoginService;
 use App\Utilities\ValidateRequest;
-use Illuminate\Support\Facades\Cookie;
 
 class AccountLoginController extends Controller {
     /**
@@ -30,6 +30,7 @@ class AccountLoginController extends Controller {
             $request->ip(),
             $request->userAgent()
         );
+        $res_account_id = $bundled_id_token['id'];
 
         // ログイン状態を保持するため、Cookieを設定
         // 有効期限は24時間・基本的にnot secure・http-only
@@ -43,6 +44,6 @@ class AccountLoginController extends Controller {
             true
         );
 
-        return response()->success();
+        return response()->success(['account_id' => $res_account_id]);
     }
 }
