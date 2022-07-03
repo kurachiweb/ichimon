@@ -85,7 +85,7 @@ class Handler extends ExceptionHandler {
                 $error_message = $exception->getMessage();
         }
 
-        return response()->otherError(null, $error_message, $status_code, [
+        return response()->otherError(null, $status_code, $error_message, [
             'Content-Type' => 'application/problem+json'
         ]);
     }

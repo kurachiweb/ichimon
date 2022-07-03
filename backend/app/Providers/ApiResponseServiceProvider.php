@@ -64,7 +64,7 @@ class ApiResponseServiceProvider extends ServiceProvider {
         // 何らかのエラーが発生した場合のレスポンス
         Response::macro(
             'otherError',
-            function ($data = null, $message = 'Error.', $status_code, $headers = []) {
+            function ($data = null, $status_code = HttpResponse::HTTP_BAD_REQUEST, $message = 'Error.', $headers = []) {
                 return unifiedResponse($data, $status_code, $headers, $message);
             }
         );
