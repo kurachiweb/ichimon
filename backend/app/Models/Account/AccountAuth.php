@@ -45,13 +45,6 @@ class AccountAuth extends Authenticatable {
     protected $guarded = [];
 
     /**
-     * 取得できない列
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [];
-
-    /**
      * 取得/更新時に型を変換する
      *
      * @var array<string, string>

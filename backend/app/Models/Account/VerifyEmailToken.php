@@ -46,20 +46,6 @@ class VerifyEmailToken extends Model {
     protected $guarded = [];
 
     /**
-     * 取得できない列
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [];
-
-    /**
-     * 取得/更新時に型を変換する
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [];
-
-    /**
      * モデルのデフォルト値
      * テーブルカラム・リレーション設定と合わせる
      *

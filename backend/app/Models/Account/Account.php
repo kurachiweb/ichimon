@@ -48,20 +48,6 @@ class Account extends Authenticatable {
     ];
 
     /**
-     * 取得できない列
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [];
-
-    /**
-     *  取得/更新時に型を変換する
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [];
-
-    /**
      * アカウント履歴情報へのリレーション
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
