@@ -29,11 +29,12 @@ class AccountAddressSeeder extends Seeder {
             'id' => $account_address_id,
             'account_id' => $account_id,
             'post_code' => Crypto::toEncryptString('0000000'),
-            'country' => 81,
+            // ISO 3166-1における国コードの数字版 392:日本
+            'country' => 392,
             'region' => '石川県',
             'city' => Crypto::toEncryptString('金沢市'),
-            'area1' => Crypto::toEncryptString('何渡河町'),
-            'area2' => Crypto::toEncryptString('何渡河建物'),
+            'area1' => Crypto::toEncryptString('何渡河町1丁目5-3'),
+            'area2' => Crypto::toEncryptString('シャルマンフジビルト・モアー住之江公園駅前アーバンヴィレッジ 204号室'),
             'use_for' => 0,
             'created_at' => $created_at,
             'updated_at' => $registered_at,
@@ -50,7 +51,8 @@ class AccountAddressSeeder extends Seeder {
             'account_id' => $account_id,
             // ロンドンに実在する英字入り郵便番号
             'post_code' => Crypto::toEncryptString('SW1W0NY'),
-            'country' => 81,
+            // ISO 3166-1における国コードの数字版 826:イギリス
+            'country' => 826,
             'region' => '𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽𩸽',
             'city' => Crypto::toEncryptString('𩸽𠀳𠁙𠀾𠀿𠁀𠁎𠂉𠂤𠃅𠃵𠅘𠅍𠆢𠆤𠊙𠊜𠊞𠊷𠋥𠋦𠌥𠍆𠎊𠎠𥧄𥫩𥯪𣱆𣱽𣲚𣴛𦐒𦒘𦗝𦖭𦘩𦙱𦝋𦝺𦟻𩠘𩠭𩥋𩦝𩮭𪐀𪐴𪘚𪗱𪛅𡐚𡒊𡓈𡔍𡔔𡗊𡙧𡜺𥱫'),
             'area1' => Crypto::toEncryptString('𩸽𠀳𠁙𠀾𠀿𠁀𠁎𠂉𠂤𠃅𠃵𠅘𠅍𠆢𠆤𠊙𠊜𠊞𠊷𠋥𠋦𠌥𠍆𠎊𠎠𥧄𥫩𥯪𣱆𣱽𣲚𣴛𦐒𦒘𦗝𦖭𦘩𦙱𦝋𦝺𦟻𩠘𩠭𩥋𩦝𩮭𪐀𪐴𪘚𪗱𪛅𡐚𡒊𡓈𡔍𡔔𡗊𡙧𡜺𥱫𩸽𠀳𠁙𠀾𠀿𠁀𠁎𠂉𠂤𠃅𠃵𠅘𠅍𠆢𠆤𠊙𠊜𠊞𠊷𠋥𠋦𠌥𠍆𠎊𠎠𥧄𥫩𥯪𣱆𣱽𣲚𣴛𦐒𦒘𦗝𦖭𦘩𦙱𦝋𦝺𦟻𩠘𩠭𩥋𩦝𩮭𪐀𪐴𪘚𪗱𪛅𡐚𡒊𡓈𡔍𡔔𡗊𡙧𡜺𥱫'),
