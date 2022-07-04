@@ -30,13 +30,6 @@ class Account extends Authenticatable {
     public $incrementing = false;
 
     /**
-     * プライマリキーのカラム名
-     *
-     * @var string
-     */
-    protected $primaryKey = 'id';
-
-    /**
      * プライマリキーの型
      *
      * @var string
@@ -110,9 +103,9 @@ class Account extends Authenticatable {
             'registered_at' => '',
         ];
         if ($relation) {
-            $model['settings'] = [AccountHistory::getDefault($relation)];
-            $model['auth'] = AccountAuth::getDefault($relation);
-            $model['addresses'] = [AccountAddress::getDefault($relation)];
+            $model['settings'] = [AccountHistory::getDefault()];
+            $model['auth'] = AccountAuth::getDefault();
+            $model['addresses'] = [AccountAddress::getDefault()];
         }
         return $model;
     }

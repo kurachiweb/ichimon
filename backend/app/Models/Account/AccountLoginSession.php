@@ -27,13 +27,6 @@ class AccountLoginSession extends Model {
     public $incrementing = false;
 
     /**
-     * プライマリキーのカラム名
-     *
-     * @var string
-     */
-    protected $primaryKey = 'id';
-
-    /**
      * プライマリキーの型
      *
      * @var bool

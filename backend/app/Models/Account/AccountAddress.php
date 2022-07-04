@@ -28,13 +28,6 @@ class AccountAddress extends Authenticatable {
     public $incrementing = false;
 
     /**
-     * プライマリキーのカラム名
-     *
-     * @var string
-     */
-    protected $primaryKey = 'id';
-
-    /**
      * プライマリキーの型
      *
      * @var bool
@@ -71,7 +64,6 @@ class AccountAddress extends Authenticatable {
      * モデルのデフォルト値
      * テーブルカラム・リレーション設定と合わせる
      *
-     * @param boolean $relation - リレーション先のデータも併せて設定するか
      * @return array<string, any>
      */
     public static function getDefault() {
