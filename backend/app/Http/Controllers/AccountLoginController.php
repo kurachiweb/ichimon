@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Cookie;
 use App\Constants\ConstBackend;
 use App\Http\Requests\AccountLoginRequest;
 use App\Services\Account\AccountLoginService;
+use App\UseCases\Account\AccountLoginSessionCreateCase;
+use App\Utilities\BundleIdToken;
 use App\Utilities\ValidateRequest;
 
 class AccountLoginController extends Controller {
@@ -24,13 +26,14 @@ class AccountLoginController extends Controller {
         $req = ValidateRequest::json($request, new AccountLoginRequest());
 
         // アカウントにログインする
-        $bundled_id_token = AccountLoginService::verify(
-            $req['name'],
-            $req['password'],
-            $request->ip(),
-            $request->userAgent()
-        );
-        $res_account_id = $bundled_id_token['id'];
+        $verifyied = AccountLoginService::verify($req['name'], $req['password']);
+
+        $res_account_id = $verifyied['id'];
+        $bundled_id_token = BundleIdToken::bundle($res_account_id, $verifyied['token']);
+
+        // ハッシュ化したログイントークンをDBに保存
+        $accountSessionCreateCase = new AccountLoginSessionCreateCase();
+        $accountSessionCreateCase($res_account_id, $bundled_id_token, $request->ip(), $request->userAgent());
 
         // ログイン状態を保持するため、Cookieを設定
         // 有効期限は24時間・基本的にnot secure・http-only

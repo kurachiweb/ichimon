@@ -8,8 +8,6 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Response as HttpResponse;
 
 use App\UseCases\Account\AccountLoginTargetCase;
-use App\UseCases\Account\AccountLoginSessionCreateCase;
-use App\Utilities\BundleIdToken;
 
 class AccountLoginService {
     /**
@@ -17,10 +15,8 @@ class AccountLoginService {
      *
      * @param string $req_name
      * @param string $req_password
-     * @param string|null $req_ip
-     * @param string|null $req_user_agent
      */
-    public static function verify($req_name, $req_password, $req_ip, $req_user_agent) {
+    public static function verify($req_name, $req_password) {
         // @が2文字目以降にあればメールアドレス扱い
         $is_email = true;
         if (strpos($req_name, '@', 1) === false) {
@@ -45,12 +41,8 @@ class AccountLoginService {
 
         // ログイントークンを生成
         $token = bin2hex(random_bytes(48));
-        $bundled_id_token = BundleIdToken::bundle($account['id'], $token);
+        $id_token = ['id' => $account['id'], 'token' => $token];
 
-        // ハッシュ化したログイントークンをDBに保存
-        $accountSessionCreateCase = new AccountLoginSessionCreateCase();
-        $accountSessionCreateCase($account['id'], $bundled_id_token, $req_ip, $req_user_agent);
-
-        return $bundled_id_token;
+        return $id_token;
     }
 }
