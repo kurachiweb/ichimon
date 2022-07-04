@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace App\Models\Account;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class VerifyEmailToken extends Model {
+use App\Casts\CastEncrypt;
+
+/** アカウント履歴情報 */
+class AccountHistory extends Authenticatable {
     use HasFactory;
 
     /**
@@ -15,7 +18,7 @@ class VerifyEmailToken extends Model {
      *
      * @var string
      */
-    protected $table = 'verify_email_token';
+    protected $table = 'account_history';
 
     /**
      * IDはオートインクリメントか
@@ -23,13 +26,6 @@ class VerifyEmailToken extends Model {
      * @var bool
      */
     public $incrementing = false;
-
-    /**
-     * プライマリキーのカラム名
-     *
-     * @var string
-     */
-    protected $primaryKey = 'token';
 
     /**
      * プライマリキーの型
@@ -46,6 +42,17 @@ class VerifyEmailToken extends Model {
     protected $guarded = [];
 
     /**
+     * 取得/更新時に型を変換する
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'first_name' => CastEncrypt::class,
+        'middle_name' => CastEncrypt::class,
+        'last_name' => CastEncrypt::class,
+    ];
+
+    /**
      * モデルのデフォルト値
      * テーブルカラム・リレーション設定と合わせる
      *
@@ -53,8 +60,13 @@ class VerifyEmailToken extends Model {
      */
     public static function getDefault() {
         $model = [
-            'token' => '',
-            'account_id' => ''
+            'id' => '',
+            'account_id' => '',
+            'first_name' => null,
+            'middle_name' => null,
+            'last_name' => null,
+            'sex' => 0,
+            'birthday' => null
         ];
         return $model;
     }
