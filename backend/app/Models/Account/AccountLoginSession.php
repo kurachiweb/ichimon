@@ -27,13 +27,6 @@ class AccountLoginSession extends Model {
     public $incrementing = false;
 
     /**
-     * プライマリキーのカラム名
-     *
-     * @var string
-     */
-    protected $primaryKey = 'id';
-
-    /**
      * プライマリキーの型
      *
      * @var bool
@@ -46,13 +39,6 @@ class AccountLoginSession extends Model {
      * @var array<int, string>
      */
     protected $guarded = [];
-
-    /**
-     * 取得できない列
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [];
 
     /**
      * 取得/更新時に型を変換する
@@ -68,10 +54,9 @@ class AccountLoginSession extends Model {
      * モデルのデフォルト値
      * テーブルカラム・リレーション設定と合わせる
      *
-     * @param boolean $relation - リレーション先のデータも併せて設定するか
      * @return array<string, any>
      */
-    public static function getDefault($relation = false) {
+    public static function getDefault() {
         $model = [
             'id' => '',
             'account_id' => '',

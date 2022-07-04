@@ -7,8 +7,9 @@ namespace App\Models\Account;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-use App\Casts\CastEncrypt;
+use App\Models\Account\AccountAddress;
 use App\Models\Account\AccountAuth;
+use App\Models\Account\AccountHistory;
 
 /** アカウント基本情報 */
 class Account extends Authenticatable {
@@ -29,13 +30,6 @@ class Account extends Authenticatable {
     public $incrementing = false;
 
     /**
-     * プライマリキーのカラム名
-     *
-     * @var string
-     */
-    protected $primaryKey = 'id';
-
-    /**
      * プライマリキーの型
      *
      * @var string
@@ -48,35 +42,36 @@ class Account extends Authenticatable {
      * @var array<int, string>
      */
     protected $guarded = [
-        'auth'
+        'auth',
+        'settings',
+        'addresses'
     ];
 
     /**
-     * 取得できない列
+     * アカウント履歴情報へのリレーション
      *
-     * @var array<int, string>
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    protected $hidden = [];
+    public function settings() {
+        return $this->hasMany(AccountHistory::class, 'account_id', $this->primaryKey);
+    }
 
     /**
-     *  取得/更新時に型を変換する
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'tel_no' => CastEncrypt::class,
-        'mobile_no' => CastEncrypt::class,
-        'address' => CastEncrypt::class,
-        'address_bill' => CastEncrypt::class
-    ];
-
-    /**
-     * DBリレーション先
+     * アカウント認証情報へのリレーション
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function auth() {
-        return $this->hasOne('App\Models\Account\AccountAuth', 'account_id', $this->primaryKey);
+        return $this->hasOne(AccountAuth::class, 'account_id', $this->primaryKey);
+    }
+
+    /**
+     * アカウント住所情報へのリレーション
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function addresses() {
+        return $this->hasMany(AccountAddress::class, 'account_id', $this->primaryKey);
     }
 
     /**
@@ -90,15 +85,13 @@ class Account extends Authenticatable {
         $model = [
             'id' => '',
             'display_id' => '',
-            'name' => '',
+            'nickname' => '',
             'registered_at' => '',
-            'tel_no' => null,
-            'mobile_no' => null,
-            'address' => null,
-            'address_bill' => null
         ];
         if ($relation) {
-            $model['auth'] = AccountAuth::getDefault($relation);
+            $model['settings'] = [AccountHistory::getDefault()];
+            $model['auth'] = AccountAuth::getDefault();
+            $model['addresses'] = [AccountAddress::getDefault()];
         }
         return $model;
     }

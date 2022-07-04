@@ -18,7 +18,7 @@ class AccountGetCase {
         // アカウント基本IDからアカウントを取得
         $with = [];
         if ($relation) {
-            $with = ['auth'];
+            $with = ['settings', 'auth', 'addresses'];
         }
         return Account::with($with)->findOrFail($req_account_id);
     }

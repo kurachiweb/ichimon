@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Casts\CastEncrypt;
 use App\Casts\CastHash;
 use App\Casts\CastHashPassword;
+use App\Models\Account\Account;
 
 /** アカウント認証情報 */
 class AccountAuth extends Authenticatable {
@@ -30,13 +31,6 @@ class AccountAuth extends Authenticatable {
     public $incrementing = false;
 
     /**
-     * プライマリキーのカラム名
-     *
-     * @var string
-     */
-    protected $primaryKey = 'id';
-
-    /**
      * プライマリキーの型
      *
      * @var bool
@@ -51,13 +45,6 @@ class AccountAuth extends Authenticatable {
     protected $guarded = [];
 
     /**
-     * 取得できない列
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [];
-
-    /**
      * 取得/更新時に型を変換する
      *
      * @var array<string, string>
@@ -66,33 +53,34 @@ class AccountAuth extends Authenticatable {
         'email' => CastEncrypt::class,
         'email_hash' => CastHash::class,
         'email_alter' => CastEncrypt::class,
+        'mobile_no' => CastEncrypt::class,
         'password' => CastHashPassword::class,
         'billing_token' => CastEncrypt::class
     ];
 
     /**
-     * DBリレーション元
+     * アカウント基本情報へのリレーション
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function account() {
-        return $this->belongsTo('App\Models\Account\Account', 'account_id', 'id');
+        return $this->belongsTo(Account::class, 'account_id', (new Account())->getKeyName());
     }
 
     /**
      * モデルのデフォルト値
      * テーブルカラム・リレーション設定と合わせる
      *
-     * @param boolean $relation - リレーション先のデータも併せて設定するか
      * @return array<string, any>
      */
-    public static function getDefault($relation = false) {
+    public static function getDefault() {
         $model = [
             'id' => '',
             'account_id' => '',
             'email' => '',
             'email_hash' => '',
             'email_alter' => null,
+            'mobile_no' => null,
             'verified_email' => 0,
             'verified_mobile_no' => 0,
             'password' => '',
