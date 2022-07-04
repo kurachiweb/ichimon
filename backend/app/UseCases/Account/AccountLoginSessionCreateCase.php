@@ -19,7 +19,7 @@ class AccountLoginSessionCreateCase {
      * @return \App\Models\Account\AccountLoginSession
      */
     public function __invoke($req_account_id, $req_token, $req_ip, $req_user_agent) {
-        $account_session = AccountLoginSession::getDefault(false);
+        $account_session = (new AccountLoginSession())->toArray();
         $account_session['id'] = Random::dbPrimaryId();
         $account_session['account_id'] = $req_account_id;
         // ログイントークンをハッシュ化し、DBに保存

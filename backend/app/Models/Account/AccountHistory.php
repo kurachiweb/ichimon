@@ -54,20 +54,17 @@ class AccountHistory extends Authenticatable {
 
     /**
      * モデルのデフォルト値
-     * テーブルカラム・リレーション設定と合わせる
+     * テーブルのカラム名・型・Not null制約に合わせる
      *
-     * @return array<string, any>
+     * @var array<string, any>
      */
-    public static function getDefault() {
-        $model = [
-            'id' => '',
-            'account_id' => '',
-            'first_name' => null,
-            'middle_name' => null,
-            'last_name' => null,
-            'sex' => 0,
-            'birthday' => null
-        ];
-        return $model;
-    }
+    protected $attributes = [
+        'id' => '',
+        'account_id' => '',
+        'first_name' => null,
+        'middle_name' => null,
+        'last_name' => null,
+        'sex' => 0,
+        'birthday' => null
+    ];
 }

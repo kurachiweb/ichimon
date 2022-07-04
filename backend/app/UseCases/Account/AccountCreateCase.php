@@ -18,8 +18,8 @@ class AccountCreateCase {
      * @return \App\Models\Account\Account
      */
     public function __invoke($req_account) {
-        $account = Account::getDefault(true);
-        $account_auth = $account['auth'];
+        $account = (new Account())->toArray();
+        $account_auth = (new AccountAuth())->toArray();
 
         $now = Carbon::now('UTC');
         $account_id = Random::dbPrimaryId();

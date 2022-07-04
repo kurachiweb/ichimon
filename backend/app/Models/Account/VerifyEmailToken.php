@@ -47,15 +47,12 @@ class VerifyEmailToken extends Model {
 
     /**
      * モデルのデフォルト値
-     * テーブルカラム・リレーション設定と合わせる
+     * テーブルのカラム名・型・Not null制約に合わせる
      *
-     * @return array<string, any>
+     * @var array<string, any>
      */
-    public static function getDefault() {
-        $model = [
-            'token' => '',
-            'account_id' => ''
-        ];
-        return $model;
-    }
+    protected $attributes = [
+        'token' => '',
+        'account_id' => ''
+    ];
 }

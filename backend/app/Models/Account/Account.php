@@ -76,23 +76,14 @@ class Account extends Authenticatable {
 
     /**
      * モデルのデフォルト値
-     * テーブルカラム・リレーション設定と合わせる
+     * テーブルのカラム名・型・Not null制約に合わせる
      *
-     * @param boolean $relation - リレーション先のデータも併せて設定するか
-     * @return array<string, any>
+     * @var array<string, any>
      */
-    public static function getDefault($relation = false) {
-        $model = [
-            'id' => '',
-            'display_id' => '',
-            'nickname' => '',
-            'registered_at' => '',
-        ];
-        if ($relation) {
-            $model['settings'] = [AccountHistory::getDefault()];
-            $model['auth'] = AccountAuth::getDefault();
-            $model['addresses'] = [AccountAddress::getDefault()];
-        }
-        return $model;
-    }
+    protected $attributes = [
+        'id' => '',
+        'display_id' => '',
+        'nickname' => '',
+        'registered_at' => ''
+    ];
 }

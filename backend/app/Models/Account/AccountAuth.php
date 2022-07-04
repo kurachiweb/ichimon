@@ -69,24 +69,21 @@ class AccountAuth extends Authenticatable {
 
     /**
      * モデルのデフォルト値
-     * テーブルカラム・リレーション設定と合わせる
+     * テーブルのカラム名・型・Not null制約に合わせる
      *
-     * @return array<string, any>
+     * @var array<string, any>
      */
-    public static function getDefault() {
-        $model = [
-            'id' => '',
-            'account_id' => '',
-            'email' => '',
-            'email_hash' => '',
-            'email_alter' => null,
-            'mobile_no' => null,
-            'verified_email' => 0,
-            'verified_mobile_no' => 0,
-            'password' => '',
-            'password_updated_at' => '',
-            'billing_token' => null
-        ];
-        return $model;
-    }
+    protected $attributes = [
+        'id' => '',
+        'account_id' => '',
+        'email' => '',
+        'email_hash' => '',
+        'email_alter' => null,
+        'mobile_no' => null,
+        'verified_email' => 0,
+        'verified_mobile_no' => 0,
+        'password' => '',
+        'password_updated_at' => '',
+        'billing_token' => null
+    ];
 }

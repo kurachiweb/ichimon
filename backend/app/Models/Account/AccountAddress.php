@@ -55,21 +55,18 @@ class AccountAddress extends Authenticatable {
 
     /**
      * モデルのデフォルト値
-     * テーブルカラム・リレーション設定と合わせる
+     * テーブルのカラム名・型・Not null制約に合わせる
      *
-     * @return array<string, any>
+     * @var array<string, any>
      */
-    public static function getDefault() {
-        $model = [
-            'id' => '',
-            'post_code' => '',
-            'country' => 0,
-            'region' => '',
-            'city' => '',
-            'area1' => '',
-            'area2' => '',
-            'use_for' => 0,
-        ];
-        return $model;
-    }
+    protected $attributes = [
+        'id' => '',
+        'post_code' => '',
+        'country' => 0,
+        'region' => '',
+        'city' => '',
+        'area1' => '',
+        'area2' => '',
+        'use_for' => 0
+    ];
 }

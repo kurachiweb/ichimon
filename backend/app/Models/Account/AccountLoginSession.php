@@ -52,18 +52,15 @@ class AccountLoginSession extends Model {
 
     /**
      * モデルのデフォルト値
-     * テーブルカラム・リレーション設定と合わせる
+     * テーブルのカラム名・型・Not null制約に合わせる
      *
-     * @return array<string, any>
+     * @var array<string, any>
      */
-    public static function getDefault() {
-        $model = [
-            'id' => '',
-            'account_id' => '',
-            'token_hash' => '',
-            'ip_address' => null,
-            'user_agent' => null,
-        ];
-        return $model;
-    }
+    protected $attributes = [
+        'id' => '',
+        'account_id' => '',
+        'token_hash' => '',
+        'ip_address' => null,
+        'user_agent' => null
+    ];
 }

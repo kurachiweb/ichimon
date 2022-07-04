@@ -18,7 +18,7 @@ class EmailTokenCreateCase {
         // トークンとなるランダム文字列
         $token = Random::generateString(63);
 
-        $verify_email_token = VerifyEmailToken::getDefault(false);
+        $verify_email_token = (new VerifyEmailToken())->toArray();
         $verify_email_token['token'] = $token;
         $verify_email_token['account_id'] = $req_account_id;
         return VerifyEmailToken::create($verify_email_token);
