@@ -16,6 +16,8 @@ class Crypto {
   public static function toEncryptString($value) {
     if (is_null($value)) {
       return null;
+    } else if ($value === '') {
+      return '';
     }
     // AES-256-CBCによる可逆暗号化
     return Crypt::encryptString($value);
@@ -30,6 +32,8 @@ class Crypto {
   public static function toDecryptString($value) {
     if (is_null($value)) {
       return null;
+    } else if ($value === '') {
+      return '';
     }
     return Crypt::decryptString($value);
   }
@@ -43,6 +47,8 @@ class Crypto {
   public static function toHashString($value) {
     if (is_null($value)) {
       return null;
+    } else if ($value === '') {
+      return '';
     }
     return hash_hmac('sha3-512', $value, config('app.key'));
   }
@@ -56,6 +62,8 @@ class Crypto {
   public static function toHashPassword($value) {
     if (is_null($value)) {
       return null;
+    } else if ($value === '') {
+      return '';
     }
     return password_hash($value, PASSWORD_ARGON2ID);
   }
