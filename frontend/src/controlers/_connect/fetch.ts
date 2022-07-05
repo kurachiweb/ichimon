@@ -79,6 +79,12 @@ export const Fetch = <Res>(
     request.credentials = 'include';
   }
 
+  // 期待するレスポンスの形式、デフォルトはテキスト形式
+  let responseType = '';
+  if (option != null && option.responseType != null) {
+    responseType = option.responseType;
+  }
+
   return new Promise((resolve, reject) => {
     fetch(url, request)
       .then(res => {
@@ -88,12 +94,6 @@ export const Fetch = <Res>(
           // ネットワーク接続のエラー時処理
           onFetchError(res);
           return;
-        }
-
-        // 期待するレスポンスの形式、デフォルトはテキスト形式
-        let responseType = '';
-        if (option != null && option.responseType != null) {
-          responseType = option.responseType;
         }
         switch (responseType) {
           case 'json':
