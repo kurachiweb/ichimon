@@ -4,6 +4,7 @@ import VueRouter, { Route, RouteConfig } from 'vue-router';
 import ViewHome from '@/views/Home.vue';
 import ViewAccountCreate from '@/views/account/Create.vue';
 import ViewAccountLogin from '@/views/account/Login.vue';
+import ViewAccountList from '@/views/account/List.vue';
 
 Vue.use(VueRouter);
 
@@ -33,6 +34,12 @@ const routes: Array<RouteConfig> = [
     name: 'AccountLogin',
     component: ViewAccountLogin,
     meta: { title: 'ログイン' }
+  },
+  {
+    path: '/account/list',
+    name: 'AccountList',
+    component: ViewAccountList,
+    meta: { title: 'アカウント一覧' }
   }
 ];
 
