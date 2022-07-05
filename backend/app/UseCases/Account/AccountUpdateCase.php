@@ -20,10 +20,7 @@ class AccountUpdateCase {
         // 更新可能なカラムの絞り込み
         $account->fill(KeysOnly::select($req_account, [
             'display_id',
-            'name',
-            'tel_no',
-            'address',
-            'address_bill'
+            'nickname'
         ]));
         // 更新を反映する
         $is_saved = $account->saveOrFail();

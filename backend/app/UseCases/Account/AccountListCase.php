@@ -17,7 +17,7 @@ class AccountListCase {
         return Account::all([
             'id',
             'display_id',
-            'name',
+            'nickname',
             'registered_at'
         ]);
     }
