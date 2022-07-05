@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { requestAccountLogin } from '@/controlers/account/account';
+import { requestLoginAccount } from '@/controlers/account/login';
 
 @Component
 export default class AccountLogin extends Vue {
@@ -29,7 +29,7 @@ export default class AccountLogin extends Vue {
   /** 送信ボタンのクリック後 */
   private onSubmitLogin() {
     // アカウントにログイン
-    requestAccountLogin(this.accountName, this.accountPassword).then(() => {
+    requestLoginAccount(this.accountName, this.accountPassword).then(() => {
       this.$router.push({ name: 'Home' });
     });
   }

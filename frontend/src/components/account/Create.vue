@@ -24,11 +24,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { DefaultAccount } from '@/models/account/account';
-import {
-  requestAccountLogin,
-  requestAccountCreate,
-  requestAccountEmailVerify
-} from '@/controlers/account/account';
+import { requestCreateAccount } from '@/controlers/account/create';
+import { requestLoginAccount } from '@/controlers/account/login';
+import { requestVerifyAccountEmail } from '@/controlers/account/verify-email';
 
 @Component
 export default class AccountCreate extends Vue {
@@ -36,20 +34,20 @@ export default class AccountCreate extends Vue {
 
   /** 送信ボタンのクリック後 */
   private onSubmitCreate() {
-    requestAccountCreate(this.account)
+    requestCreateAccount(this.account)
       .then(() => {
         if (this.account.auth == null) {
           return;
         }
         // アカウントを作成できた場合、同じ入力値で即ログインする
-        return requestAccountLogin(this.account.auth.email, this.account.auth.password);
+        return requestLoginAccount(this.account.auth.email, this.account.auth.password);
       })
       .then(loginInfo => {
         if (loginInfo?.account_id == null) {
           return;
         }
         // アカウントにログインできた場合、即メールアドレスの認証リクエストを送信
-        requestAccountEmailVerify(loginInfo.account_id);
+        requestVerifyAccountEmail(loginInfo.account_id);
         this.$router.push({ name: 'Home' });
       });
   }

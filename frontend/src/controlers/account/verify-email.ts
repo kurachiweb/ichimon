@@ -1,3 +1,5 @@
+import { FetchApiJson, Origin } from '@/controlers/_connect/fetch';
+
 /*+ リクエスト：アカウントメールアドレスの認証メール送信 */
 export interface ReqSendEmail {
   account_id?: string; // 対象のアカウントID
@@ -17,3 +19,10 @@ export interface ReqVerifyEmail {
 export interface ResVerifyEmail {
   verify?: boolean; // 認証に成功したか
 }
+
+/** アカウントのメールアドレス認証リクエストを送信 */
+export const requestVerifyAccountEmail = (accountId: string) => {
+  FetchApiJson<ReqSendEmail, ResSendEmail>(
+    Origin.backend + '/api/accounts/' + accountId + '/email/confirm'
+  );
+};
