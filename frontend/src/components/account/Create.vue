@@ -23,11 +23,12 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { Account, DefaultAccount } from '@/models/account/account';
-import { Origin, FetchApiJson } from '@/controlers/_connect/fetch';
-import { ReqGetAccount, ResGetAccount } from '@/controlers/account/account';
-import { ReqLoginAccount, ResLoginAccount } from '@/controlers/account/login';
-import { ReqSendEmail, ResSendEmail } from '@/controlers/account/verify-email';
+import { DefaultAccount } from '@/models/account/account';
+import {
+  requestAccountLogin,
+  requestAccountCreate,
+  requestAccountEmailVerify
+} from '@/controlers/account/account';
 
 @Component
 export default class AccountCreate extends Vue {
@@ -35,55 +36,22 @@ export default class AccountCreate extends Vue {
 
   /** 送信ボタンのクリック後 */
   private onSubmitCreate() {
-    this.requestAccountCreate(this.account)
-      .then((account?: Account) => {
-        if (account == undefined) {
-          return Promise.reject();
+    requestAccountCreate(this.account)
+      .then(() => {
+        if (this.account.auth == null) {
+          return;
         }
         // アカウントを作成できた場合、同じ入力値で即ログインする
-        return this.requestAccountLogin(this.account);
+        return requestAccountLogin(this.account.auth.email, this.account.auth.password);
       })
-      .then((loginInfo?: ResLoginAccount) => {
-        if (loginInfo == null || loginInfo.account_id == null) {
+      .then(loginInfo => {
+        if (loginInfo?.account_id == null) {
           return;
         }
         // アカウントにログインできた場合、即メールアドレスの認証リクエストを送信
-        this.requestAccountEmailVerify(loginInfo.account_id);
+        requestAccountEmailVerify(loginInfo.account_id);
         this.$router.push({ name: 'Home' });
       });
-  }
-
-  /** アカウント作成リクエストを送信 */
-  private requestAccountCreate(account: Account): Promise<Account | undefined> {
-    return new Promise(resolve => {
-      FetchApiJson<ReqGetAccount, ResGetAccount>(Origin.backend + '/api/accounts', {
-        account
-      }).then(res => {
-        resolve(res.data?.account);
-      });
-    });
-  }
-
-  /** アカウントのメールアドレス認証リクエストを送信 */
-  private requestAccountEmailVerify(accountId: string) {
-    FetchApiJson<ReqSendEmail, ResSendEmail>(
-      Origin.backend + '/api/accounts/' + accountId + '/email/confirm'
-    );
-  }
-
-  /** アカウントログインリクエストを送信 */
-  private requestAccountLogin(account: Account): Promise<ResLoginAccount | undefined> {
-    return new Promise(resolve => {
-      FetchApiJson<ReqLoginAccount, ResLoginAccount>(
-        Origin.backend + '/api/accounts/login',
-        {
-          name: account.auth?.email,
-          password: account.auth?.password
-        }
-      ).then(res => {
-        resolve(res.data);
-      });
-    });
   }
 }
 </script>

@@ -1,7 +1,7 @@
 /*+ リクエスト：アカウントログイン */
 export interface ReqLoginAccount {
-  name?: string; // アカウントID、またはメールアドレス
-  password?: string; // パスワード
+  name: string | null; // アカウントID、またはメールアドレス
+  password: string | null; // パスワード
 }
 
 /*+ レスポンス：アカウントログイン */

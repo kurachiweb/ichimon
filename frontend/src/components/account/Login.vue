@@ -17,8 +17,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { Origin, FetchApiJson } from '@/controlers/_connect/fetch';
-import { ReqLoginAccount, ResLoginAccount } from '@/controlers/account/login';
+import { requestAccountLogin } from '@/controlers/account/account';
 
 @Component
 export default class AccountLogin extends Vue {
@@ -29,26 +28,9 @@ export default class AccountLogin extends Vue {
 
   /** 送信ボタンのクリック後 */
   private onSubmitLogin() {
-    this.requestAccountLogin(this.accountName, this.accountPassword).then(() => {
+    // アカウントにログイン
+    requestAccountLogin(this.accountName, this.accountPassword).then(() => {
       this.$router.push({ name: 'Home' });
-    });
-  }
-
-  /** アカウントログインリクエストを送信 */
-  private requestAccountLogin(
-    name: string,
-    password: string
-  ): Promise<ResLoginAccount | undefined> {
-    return new Promise(resolve => {
-      FetchApiJson<ReqLoginAccount, ResLoginAccount>(
-        Origin.backend + '/api/accounts/login',
-        {
-          name,
-          password
-        }
-      ).then(res => {
-        resolve(res.data);
-      });
     });
   }
 }
