@@ -47,9 +47,23 @@ class Random {
    * @return string
    */
   public static function dbPrimaryId() {
-    // 僅かでも数字だけになることのないように、1文字目は0~9にしない
-    $az = "abcdefghijklmnopqrstuvwxyz";
-    $firstChar = substr($az, random_int(0, strlen($az) - 1), 1);
-    return $firstChar . self::generateString(ConstBackend::DB_TABLE_ID_LENGTH - 1);
+    // 僅かでも数字だけになることのないよう、0~9にしないための辞書
+    $az = 'abcdefghijklmnopqrstuvwxyz';
+    /** タイムスタンプ部の文字数 */
+    $timestam_part_length = 13;
+
+    // タイムスタンプ部、1ミリ秒の精度で、指定桁数になるよう0埋めする
+    $now_microtime = microtime(true);
+    $now_millsec = (int)($now_microtime * 1000);
+    $timestamp_conv = base_convert((string)$now_millsec, 10, 36);
+    $time_part = str_pad($timestamp_conv, $timestam_part_length, '0', STR_PAD_LEFT);
+
+    // 中間部、僅かでも数字だけになることのないように、a-zを保証する1文字を挟む
+    $interfix_part = substr($az, random_int(0, strlen($az) - 1), 1);
+
+    // ランダム部
+    $random_part = self::generateString(ConstBackend::DB_TABLE_ID_LENGTH  - $timestam_part_length - 1);
+
+    return $time_part . $interfix_part . $random_part;
   }
 }
