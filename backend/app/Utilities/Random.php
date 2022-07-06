@@ -32,8 +32,8 @@ class Random {
       $random_dec = random_int(0, $max);
 
       // 5文字か12文字の36進数ランダム文字列に変換
-      $random_dec_str = str_pad((string)$random_dec, $need_part_len, "0", STR_PAD_LEFT);
-      $random_str .= base_convert($random_dec_str, 10, 36);
+      $random_dec_str = base_convert((string)$random_dec, 10, 36);
+      $random_str .= str_pad($random_dec_str, $need_part_len, "0", STR_PAD_LEFT);
       $part_len = strlen($random_str);
     }
 
