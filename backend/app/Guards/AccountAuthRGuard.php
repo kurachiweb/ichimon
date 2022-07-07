@@ -10,7 +10,7 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 
 use App\Constants\ConstBackend;
-use App\Http\Requests\AccountRequest;
+use App\Http\Requests\Account\AccountRequest;
 use App\Providers\AccountProvider;
 use App\Rules\DbPrimaryStringValidation;
 use App\Utilities\BundleIdToken;

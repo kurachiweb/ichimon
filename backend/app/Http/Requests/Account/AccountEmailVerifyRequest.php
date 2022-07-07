@@ -2,15 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Account;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-use App\Rules\DbPrimaryStringValidation;
-
-class AccountRequest extends FormRequest {
+class AccountEmailVerifyRequest extends FormRequest {
     /**
      * 認可チェック。必要ならミドルウェアに任せる。
      *
@@ -21,15 +19,13 @@ class AccountRequest extends FormRequest {
     }
 
     /**
-     * アカウント基本情報の入力バリデーション
+     * アカウントメールアドレス認証トークンの入力バリデーション
      *
      * @return array<string, mixed>
      */
     public function rules() {
         return [
-            'account' => ['bail', 'required'],
-            'account.id' => [new DbPrimaryStringValidation()],
-            'account.display_id' => ['string']
+            'token' => ['required', 'string']
         ];
     }
 
@@ -44,15 +40,5 @@ class AccountRequest extends FormRequest {
     protected function failedValidation(Validator $validator) {
         $res = response()->badRequest(null, $validator->errors());
         throw new HttpResponseException($res);
-    }
-
-    /**
-     * アカウントID形式の型違いを、正しい型に変換する
-     *
-     * @param mixed $value
-     * @return string
-     */
-    public static function toAccountId($value) {
-        return (string)$value;
     }
 }

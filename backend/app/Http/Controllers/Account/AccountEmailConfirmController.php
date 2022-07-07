@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Account;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AccountRequest;
+use App\Http\Requests\Account\AccountRequest;
 use App\Services\Account\AccountEmailConfirmService;
 use App\UseCases\Account\AccountAuthGetCase;
 
