@@ -1,11 +1,6 @@
 import Vue from 'vue';
 import VueRouter, { Route, RouteConfig } from 'vue-router';
 
-import ViewHome from '@/views/Home.vue';
-import ViewAccountCreate from '@/views/account/Create.vue';
-import ViewAccountLogin from '@/views/account/Login.vue';
-import ViewAccountList from '@/views/account/List.vue';
-
 Vue.use(VueRouter);
 
 /** デフォルトのページタイトルと説明文 */
@@ -20,25 +15,28 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Home',
-    component: ViewHome,
+    component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
     meta: { title: 'ホーム' }
   },
   {
     path: '/account/create',
     name: 'AccountCreate',
-    component: ViewAccountCreate,
+    component: () =>
+      import(/* webpackChunkName: "account-create" */ '@/views/account/Create.vue'),
     meta: { title: 'アカウントを作成' }
   },
   {
     path: '/account/login',
     name: 'AccountLogin',
-    component: ViewAccountLogin,
+    component: () =>
+      import(/* webpackChunkName: "account-login" */ '@/views/account/Login.vue'),
     meta: { title: 'ログイン' }
   },
   {
     path: '/account/list',
     name: 'AccountList',
-    component: ViewAccountList,
+    component: () =>
+      import(/* webpackChunkName: "account-list" */ '@/views/account/List.vue'),
     meta: { title: 'アカウント一覧' }
   }
 ];
