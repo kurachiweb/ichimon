@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Account;
 
 use Illuminate\Http\Request;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\AccountEmailVerifyRequest;
 use App\Services\Account\AccountEmailVerifyService;
 use App\Utilities\ValidateRequest;
