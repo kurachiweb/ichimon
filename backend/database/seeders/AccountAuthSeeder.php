@@ -20,8 +20,8 @@ class AccountAuthSeeder extends Seeder {
      * @return void
      */
     public function run() {
-        $account_auth_id = 'ho10fufei1sk8008ogkkswwcosc4gkc';
-        $account_id = 'nflannyhk3k0kswo804sck04gcso4ck';
+        $account_auth_id = '00000l5b06ixcqjoko0deoh7c10bw74';
+        $account_id = '00000l59q5fckcv53bm1w0z9vda4vbd';
         $created_at = new Carbon('2022-05-31 15:04:05');
         $registered_at = new Carbon('2022-05-31 22:53:05');
         $account_email = 'kurachiweb@gmail.com';
@@ -44,8 +44,8 @@ class AccountAuthSeeder extends Seeder {
             'deleted_at' => null,
         ];
 
-        $account_auth_id = 'm6tlt547l1dbteqv71g2v45jrugg7xg';
-        $account_id = 'fqrvqr1uuxo2kzs70ff7mr6kxznzw7q';
+        $account_auth_id = '00000l5b081y9j3i33h9xhong5nawqr';
+        $account_id = '00000l5b06s9zm6oi65p5cy4lcdu1ey';
         $created_at = new Carbon('2043-07-01 03:34:10');
         $registered_at = new Carbon('2043-07-01 03:34:10');
         // ダブルクオーテーションで囲むなら、local-part全体を囲まなければならない。

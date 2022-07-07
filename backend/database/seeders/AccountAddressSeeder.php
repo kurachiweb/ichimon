@@ -20,8 +20,8 @@ class AccountAddressSeeder extends Seeder {
      * @return void
      */
     public function run() {
-        $account_address_id = 't8ogk4gkco10fscufkswwcohk80ei1s';
-        $account_id = 'nflannyhk3k0kswo804sck04gcso4ck';
+        $account_address_id = '00000l5b06s9zm6oi65p5cy4lcdu1ey';
+        $account_id = '00000l59q5fckcv53bm1w0z9vda4vbd';
         $created_at = new Carbon('2022-05-31 15:04:05');
         $registered_at = new Carbon('2022-05-31 22:53:05');
 
@@ -41,8 +41,8 @@ class AccountAddressSeeder extends Seeder {
             'deleted_at' => null,
         ];
 
-        $account_address_id = 'r7gr4z0jb6hsmhsvrd57yf8sbjtdbgc';
-        $account_id = 'fqrvqr1uuxo2kzs70ff7mr6kxznzw7q';
+        $account_address_id = '00000l5b08bhpoxz5b5zc1gvmpfs1bq';
+        $account_id = '00000l5b06s9zm6oi65p5cy4lcdu1ey';
         $created_at = new Carbon('2043-07-01 03:34:10');
         $registered_at = new Carbon('2043-07-01 03:34:10');
 

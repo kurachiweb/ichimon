@@ -18,7 +18,7 @@ class AccountSeeder extends Seeder {
      * @return void
      */
     public function run() {
-        $account_id = 'nflannyhk3k0kswo804sck04gcso4ck';
+        $account_id = '00000l59q5fckcv53bm1w0z9vda4vbd';
         $created_at = new Carbon('2022-05-31 15:04:05');
         $registered_at = new Carbon('2022-05-31 22:53:05');
 
@@ -33,7 +33,7 @@ class AccountSeeder extends Seeder {
         ];
 
         // 1アカウントで多大なバグを見つけようとする
-        $account_id = 'fqrvqr1uuxo2kzs70ff7mr6kxznzw7q';
+        $account_id = '00000l5b06s9zm6oi65p5cy4lcdu1ey';
         // 2038年問題を乗り越えられるか
         $created_at = new Carbon('2043-07-01 03:34:10');
         $registered_at = new Carbon('2043-07-01 03:34:10');

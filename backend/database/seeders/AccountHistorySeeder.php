@@ -20,8 +20,8 @@ class AccountHistorySeeder extends Seeder {
      * @return void
      */
     public function run() {
-        $account_history_id = 't4b1fx3b3fba6o33uri5abtymqk0xjo';
-        $account_id = 'nflannyhk3k0kswo804sck04gcso4ck';
+        $account_history_id = '00000l5b04ot4u8xgp1fdnhd6lzqdgp';
+        $account_id = '00000l59q5fckcv53bm1w0z9vda4vbd';
         $birthday = new Carbon('2000-10-18');
         $created_at = new Carbon('2022-05-31 15:04:05');
         $registered_at = new Carbon('2022-05-31 22:53:05');
@@ -39,8 +39,8 @@ class AccountHistorySeeder extends Seeder {
             'deleted_at' => null,
         ];
 
-        $account_history_id = 'con1z7rkv4y2o676m5949k54fmkhxsr';
-        $account_id = 'fqrvqr1uuxo2kzs70ff7mr6kxznzw7q';
+        $account_history_id = '00000l5b07nnjop6z3r2lc1j56tvz65';
+        $account_id = '00000l5b06s9zm6oi65p5cy4lcdu1ey';
         // UNIX時刻基準の1970年1月1日より前で、かつ閏日
         $birthday = new Carbon('1920-02-29');
         $created_at = new Carbon('2043-07-01 03:34:10');
