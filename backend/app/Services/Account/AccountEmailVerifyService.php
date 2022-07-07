@@ -24,7 +24,7 @@ class AccountEmailVerifyService {
         $email_token = VerifyEmailToken::findOrFail($req_token);
 
         // トークンが作られてから一定時間が経過していれば、認証エラー
-        $now = Carbon::now('UTC');
+        $now = Carbon::now(config('app.timezone'));
         $token_created = $email_token['created_at'];
         if ($token_created->diffInSeconds($now) > ConstBackend::ACCOUNT_VERIFY_EXPIRE_SECOND) {
             throw new AuthorizationException('Token expired.', HttpResponse::HTTP_UNAUTHORIZED);

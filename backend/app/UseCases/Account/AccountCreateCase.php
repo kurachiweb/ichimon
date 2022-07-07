@@ -21,7 +21,7 @@ class AccountCreateCase {
         $account = (new Account())->toArray();
         $account_auth = (new AccountAuth())->toArray();
 
-        $now = Carbon::now('UTC');
+        $now = Carbon::now(config('app.timezone'));
         $account_id = Random::dbPrimaryId();
         $account_auth_id = Random::dbPrimaryId();
 
