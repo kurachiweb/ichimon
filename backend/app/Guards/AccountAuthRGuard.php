@@ -13,6 +13,7 @@ use App\Constants\ConstBackend;
 use App\Http\Requests\Account\AccountRequest;
 use App\Providers\AccountProvider;
 use App\Rules\DbPrimaryStringValidation;
+use App\Stores\AccountStore;
 use App\Utilities\BundleIdToken;
 use App\Utilities\ValidateVariable;
 
@@ -67,8 +68,14 @@ class AccountAuthRGuard implements Guard {
       return null;
     }
 
+    $isAuthZ = $req_account_id === $cookie_account_id;
+    if ($isAuthZ) {
+      // 後続の処理で認証済みアカウント情報を利用できるように、セッションに保存
+      AccountStore::save($cookie_account_id);
+    }
+
     // リクエストURLのアカウントIDと一致していれば、認証できたと見なす
-    return $req_account_id === $cookie_account_id;
+    return $isAuthZ;
   }
 
   /**

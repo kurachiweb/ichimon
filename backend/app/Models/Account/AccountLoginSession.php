@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Casts\CastEncrypt;
+use App\Models\Account\Account;
 
 class AccountLoginSession extends Model {
     use HasFactory;
@@ -49,6 +50,15 @@ class AccountLoginSession extends Model {
         'ip_address' => CastEncrypt::class,
         'user_agent' => CastEncrypt::class
     ];
+
+    /**
+     * アカウント基本情報へのリレーション
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function account() {
+        return $this->belongsTo(Account::class, 'account_id', (new Account())->getKeyName());
+    }
 
     /**
      * モデルのデフォルト値

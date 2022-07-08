@@ -75,6 +75,7 @@ class AccountAuthZGuard implements Guard {
       return null;
     }
 
+    // トークン文字列による認可セッション特定
     $this->_account_session = $this->_provider->retrieveByToken($cookie_account_id, $cookie_account_token);
 
     return $this->_account_session;
