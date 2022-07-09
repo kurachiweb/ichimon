@@ -23,15 +23,16 @@ class AccountStore {
      * セッションにアカウント情報を保存
      *
      * @param string $account_id
+     * @return array
      */
     public static function save($account_id) {
-        // DBにアクセスしてアカウントを取得する
+        // DBにアクセスしてアカウント情報を取得する
         $accountGetCase = new AccountGetCase();
-        $account = $accountGetCase($account_id, true);
-        $accountArray = $account->toArray();
+        $account = $accountGetCase($account_id, true)->toArray();
 
         // このリクエスト限りのセッションに保存
-        Session::now('account' . $account_id, $accountArray);
-        return $accountArray;
+        Session::now('account' . $account_id, $account);
+
+        return $account;
     }
 }
