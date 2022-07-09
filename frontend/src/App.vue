@@ -10,6 +10,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Origin, FetchApiJson } from '@/controlers/_connect/fetch';
+import { requestGetMaster } from '@/controlers/master/get';
 import CommonHeader from '@/components/_organisms/Header.vue';
 import { ReqVerifyEmail, ResVerifyEmail } from '@/controlers/account/verify-email';
 
@@ -19,7 +20,10 @@ import { ReqVerifyEmail, ResVerifyEmail } from '@/controlers/account/verify-emai
   }
 })
 export default class App extends Vue {
-  mounted() {
+  created() {
+    // マスタ情報を取得
+    requestGetMaster();
+
     /** メールアドレス認証のURLから来た場合 */
     const emailVerifyToken = this.$route.query.email_token;
     if (emailVerifyToken) {
