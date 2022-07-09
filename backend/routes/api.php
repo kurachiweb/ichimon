@@ -2,10 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\AccountController;
-use App\Http\Controllers\AccountEmailConfirmController;
-use App\Http\Controllers\AccountEmailVerifyController;
-use App\Http\Controllers\AccountLoginController;
+use App\Http\Controllers\Master\MasterGetController;
+use App\Http\Controllers\Account\AccountController;
+use App\Http\Controllers\Account\AccountEmailConfirmController;
+use App\Http\Controllers\Account\AccountEmailVerifyController;
+use App\Http\Controllers\Account\AccountLoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,9 @@ use App\Http\Controllers\AccountLoginController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+// マスタ情報取得
+Route::get('/masters', MasterGetController::class);
 
 // アカウント作成
 Route::apiResource('/accounts', AccountController::class, ['only' => ['store']]);

@@ -13,6 +13,7 @@ class AccountStore {
      * セッションからアカウント情報を取得
      *
      * @param string $account_id
+     * @return array|null
      */
     public static function get($account_id) {
         // セッションに保存されたアカウント情報を取り出す
