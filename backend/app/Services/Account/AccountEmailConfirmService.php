@@ -26,8 +26,7 @@ class AccountEmailConfirmService {
         }
 
         // トークンを作成し、DBに保存する
-        $emailTokenCreateCase = new EmailTokenCreateCase();
-        $res_email_token = $emailTokenCreateCase($account_auth['account_id']);
+        $res_email_token = (new EmailTokenCreateCase())($account_auth['account_id']);
 
         // メールアドレスを送信する
         $mail_address = $account_auth['email'];
@@ -35,8 +34,7 @@ class AccountEmailConfirmService {
 
         // 認証メールの送信フラグを送信済みにする
         $account_auth['verified_email'] = ConstBackend::ACCOUNT_VERIFY_SEND;
-        $authVerifyEmailUpdateCase = new AuthVerifyEmailUpdateCase();
-        $authVerifyEmailUpdateCase($account_auth);
+        (new AuthVerifyEmailUpdateCase())($account_auth);
 
         return $account_auth;
     }

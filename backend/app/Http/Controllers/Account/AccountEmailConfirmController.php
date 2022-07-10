@@ -24,8 +24,7 @@ class AccountEmailConfirmController extends Controller {
         $req_account_id = AccountRequest::toAccountId($id);
 
         // DBにアクセスして更新対象アカウント情報を取得する
-        $accountAuthGetCase = new AccountAuthGetCase();
-        $account_auth = $accountAuthGetCase($req_account_id);
+        $account_auth = (new AccountAuthGetCase())($req_account_id);
 
         // アカウントメールアドレスの認証メールを送り、ステータスを変更する
         $account_auth = AccountEmailConfirmService::confirm($account_auth->toArray());

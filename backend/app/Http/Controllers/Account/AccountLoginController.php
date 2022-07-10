@@ -33,8 +33,7 @@ class AccountLoginController extends Controller {
         $bundled_id_token = BundleIdToken::bundle($res_account_id, $verifyied['token']);
 
         // ハッシュ化したログイントークンをDBに保存
-        $accountSessionCreateCase = new AccountLoginSessionCreateCase();
-        $accountSessionCreateCase($res_account_id, $bundled_id_token, $request->ip(), $request->userAgent());
+        (new AccountLoginSessionCreateCase())($res_account_id, $bundled_id_token, $request->ip(), $request->userAgent());
 
         // ログイン状態を保持するため、Cookieを設定
         // 有効期限は24時間・基本的にnot secure・http-only

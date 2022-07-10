@@ -25,8 +25,7 @@ class AccountLoginService {
         }
 
         // メールアドレスまたは表示用IDに一致するアカウントを取得
-        $accountAuthGetCase = new AccountLoginTargetCase();
-        $account = $accountAuthGetCase($req_name, $is_email);
+        $account = (new AccountLoginTargetCase())($req_name, $is_email);
         // アカウントが存在するか
         if (!$account) {
             throw new AuthorizationException('Not match \'account\'.', HttpResponse::HTTP_UNAUTHORIZED);

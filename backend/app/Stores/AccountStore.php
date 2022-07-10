@@ -67,8 +67,7 @@ class AccountStore {
      */
     public function saveById($account_id) {
         // DBにアクセスしてアカウント情報を取得する
-        $accountGetCase = new AccountGetCase();
-        $account = $accountGetCase($account_id, true, true)->toArray();
+        $account = (new AccountGetCase())($account_id, true, true)->toArray();
 
         // アカウント情報用キャッシュに接続し、保存する
         $this->save($account);

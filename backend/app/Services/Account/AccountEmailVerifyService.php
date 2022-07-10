@@ -32,12 +32,10 @@ class AccountEmailVerifyService {
 
         // DBにアクセスして更新対象のアカウント認証情報を取得する
         $req_account_id = $email_token['account_id'];
-        $accountAuthGetCase = new AccountAuthGetCase();
-        $account_auth = $accountAuthGetCase($req_account_id);
+        $account_auth = (new AccountAuthGetCase())($req_account_id);
 
         // メールアドレスを認証したのでステータスを変更
         $account_auth['verified_email'] = ConstBackend::ACCOUNT_VERIFY_VERIFY;
-        $authVerifyEmailUpdateCase = new AuthVerifyEmailUpdateCase();
-        $authVerifyEmailUpdateCase($account_auth->toArray());
+        (new AuthVerifyEmailUpdateCase())($account_auth->toArray());
     }
 }

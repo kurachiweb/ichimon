@@ -23,8 +23,7 @@ class AccountController extends Controller {
      */
     public function index() {
         // DBにアクセスしてアカウント一覧を取得する
-        $accountListCase = new AccountListCase();
-        $res_accounts = $accountListCase();
+        $res_accounts = (new AccountListCase())();
 
         return response()->success(['accounts' => $res_accounts]);
     }
@@ -42,8 +41,7 @@ class AccountController extends Controller {
         $req_account = $req['account'];
 
         // DBにアクセスしてアカウントを作成する
-        $accountCreateCase = new AccountCreateCase();
-        $res_account = $accountCreateCase($req_account);
+        $res_account = (new AccountCreateCase())($req_account);
 
         return response()->successCreate(['account' => $res_account]);
     }
@@ -59,8 +57,7 @@ class AccountController extends Controller {
         $req_account_id = AccountRequest::toAccountId($id);
 
         // DBにアクセスしてアカウントを取得する
-        $accountGetCase = new AccountGetCase();
-        $res_account = $accountGetCase($req_account_id, true);
+        $res_account = (new AccountGetCase())($req_account_id, true);
 
         return response()->success(['account' => $res_account]);
     }
@@ -79,8 +76,7 @@ class AccountController extends Controller {
         $req_account = $req['account'];
 
         // DBにアクセスしてアカウントを更新する
-        $accountUpdateCase = new AccountUpdateCase();
-        $accountUpdateCase($req_account);
+        (new AccountUpdateCase())($req_account);
 
         return response()->success();
     }
@@ -96,8 +92,7 @@ class AccountController extends Controller {
         $req_account_id = AccountRequest::toAccountId($id);
 
         // DBにアクセスしてアカウントを削除する
-        $accountDeleteCase = new AccountDeleteCase();
-        $accountDeleteCase($req_account_id);
+        (new AccountDeleteCase())($req_account_id);
 
         return response()->success();
     }
