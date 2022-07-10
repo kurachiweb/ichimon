@@ -40,7 +40,6 @@ class Kernel extends HttpKernel {
 
         'api' => [
             \App\Http\Middleware\EncryptCookies::class,
-            \App\Http\Middleware\StoreAccount::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,

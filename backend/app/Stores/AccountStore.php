@@ -10,40 +10,68 @@ use App\Constants\ConstBackend;
 use App\UseCases\Account\AccountGetCase;
 
 class AccountStore {
+    /** Redisインスタンス */
+    public $_redis;
+
+    /**
+     * Redisに接続
+     *
+     * @return void
+     */
+    public function __construct() {
+        $this->_redis = Redis::connection('account');
+    }
+
     /**
      * 保存領域からアカウント情報を取得
      *
      * @param string $account_id
      * @return array|null
      */
-    public static function get($account_id) {
-        $redis = Redis::connection('account');
+    public function get($account_id) {
+        $account_raw = $this->_redis->get($account_id);
+        $res_account = null;
 
-        $account = $redis->get($account_id);
-
-        // 取得データが文字でない場合は、decodeできないためそのまま返す
-        if (!is_string($account)) {
-            return $account;
+        if (is_null($account_raw)) {
+            // 対象IDのアカウント情報が無かった場合は、新たに保存する
+            $res_account = $this->saveById($account_id);
+        } else if (is_string($account_raw)) {
+            // 対象IDのアカウント情報が得られたら、デコードする
+            $res_account = json_decode($account_raw, true);
+            // 保存領域にて、該当データの有効期限を延ばす
+            $this->_redis->expire($account_id, ConstBackend::REDIS_ACCOUNT_EXPIRATION);
         }
-        return json_decode($account, true);
+
+        return $res_account;
     }
 
     /**
      * 保存領域にアカウント情報を保存
      *
+     * @param array $account
+     * @return array
+     */
+    public function save($account) {
+        // アカウント情報用キャッシュに接続し、保存する
+        // Redisには配列をそのまま入れられないため文字列化
+        $this->_redis->setEx($account['id'], ConstBackend::REDIS_ACCOUNT_EXPIRATION, json_encode($account));
+
+        return $account;
+    }
+
+    /**
+     * 保存領域にアカウント情報を保存(アカウント基本ID指定)
+     *
      * @param string $account_id
      * @return array
      */
-    public static function save($account_id) {
-        $redis = Redis::connection('account');
-
+    public function saveById($account_id) {
         // DBにアクセスしてアカウント情報を取得する
         $accountGetCase = new AccountGetCase();
-        $account = $accountGetCase($account_id, true)->toArray();
+        $account = $accountGetCase($account_id, true, true)->toArray();
 
         // アカウント情報用キャッシュに接続し、保存する
-        // Redisには配列をそのまま入れられないため文字列化
-        $redis->set($account_id, json_encode($account), 'EX', ConstBackend::REDIS_ACCOUNT_EXPIRATION);
+        $this->save($account);
 
         return $account;
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\UseCases\Account;
 
 use App\Models\Account\Account;
+use App\Stores\AccountStore;
 use App\Utilities\KeysOnly;
 
 class AccountUpdateCase {
@@ -24,6 +25,9 @@ class AccountUpdateCase {
         ]));
         // 更新を反映する
         $is_saved = $account->saveOrFail();
+
+        // Redisにも同じ内容を保存する
+        (new AccountStore())->saveById($account['id']);
 
         return $is_saved;
     }

@@ -8,6 +8,7 @@ use Carbon\Carbon;
 
 use App\Models\Account\Account;
 use App\Models\Account\AccountAuth;
+use App\Stores\AccountStore;
 use App\Utilities\Random;
 
 class AccountCreateCase {
@@ -42,6 +43,9 @@ class AccountCreateCase {
         $res_account_auth = AccountAuth::create($account_auth);
         $res_account = $res_account->toArray();
         $res_account['auth'] = $res_account_auth->toArray();
+
+        // Redisにも登録したアカウント情報を保存する
+        (new AccountStore())->save($res_account);
 
         return $res_account;
     }
