@@ -6,6 +6,7 @@ namespace App\Stores;
 
 use Illuminate\Support\Facades\Redis;
 
+use App\Constants\ConstBackend;
 use App\UseCases\Account\AccountGetCase;
 
 class AccountStore {
@@ -17,7 +18,7 @@ class AccountStore {
      */
     public static function get($account_id) {
         $redis = Redis::connection('account');
-        
+
         $account = $redis->get($account_id);
 
         // 取得データが文字でない場合は、decodeできないためそのまま返す
@@ -42,7 +43,7 @@ class AccountStore {
 
         // アカウント情報用キャッシュに接続し、保存する
         // Redisには配列をそのまま入れられないため文字列化
-        $redis->set($account_id, json_encode($account));
+        $redis->set($account_id, json_encode($account), 'EX', ConstBackend::REDIS_ACCOUNT_EXPIRATION);
 
         return $account;
     }

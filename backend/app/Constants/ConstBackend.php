@@ -10,6 +10,8 @@ namespace App\Constants;
 class ConstBackend {
   /** DBテーブル保存用ID：文字列の長さ */
   const DB_TABLE_ID_LENGTH = 31;
+  /** Redisに追加したアカウント情報の有効期限[秒] */
+  const REDIS_ACCOUNT_EXPIRATION = 600;
 
   /** アカウント認証ステータス：未認証 */
   const ACCOUNT_VERIFY_NOT = 0;
