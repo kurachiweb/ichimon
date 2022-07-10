@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-use App\Rules\DbPrimaryStringValidation;
+use App\Rules\DbPrimaryValidation;
 
 class AccountRequest extends FormRequest {
     /**
@@ -28,7 +28,7 @@ class AccountRequest extends FormRequest {
     public function rules() {
         return [
             'account' => ['bail', 'required'],
-            'account.id' => [new DbPrimaryStringValidation()],
+            'account.id' => [new DbPrimaryValidation()],
             'account.display_id' => ['string']
         ];
     }

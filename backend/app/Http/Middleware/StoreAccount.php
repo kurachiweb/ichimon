@@ -33,7 +33,7 @@ class StoreAccount {
      */
     protected function save(Request $request) {
         // Cookieの保存値からアカウント基本IDを取得
-        $cookie_id_token_stringify = $request->cookie(ConstBackend::COOKIE_NAME_LOGIN_TOKEN);
+        $cookie_id_token_stringify = $request->cookie(ConstBackend::COOKIE_ACCOUNT_LOGIN_NAME);
         $cookie_id_token = BundleIdToken::expand($cookie_id_token_stringify);
         $cookie_account_id = $cookie_id_token['id'];
 

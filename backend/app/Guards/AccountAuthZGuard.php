@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use App\Constants\ConstBackend;
 use App\Models\Account\AccountLoginSession;
 use App\Providers\AccountProvider;
-use App\Rules\DbPrimaryStringValidation;
+use App\Rules\DbPrimaryValidation;
 use App\Utilities\BundleIdToken;
 use App\Utilities\ValidateVariable;
 
@@ -60,7 +60,7 @@ class AccountAuthZGuard implements Guard {
     }
 
     // Cookieの保存値からアカウントIDとログイントークンを取得
-    $cookie_id_token_stringify = $this->_request->cookie(ConstBackend::COOKIE_NAME_LOGIN_TOKEN);
+    $cookie_id_token_stringify = $this->_request->cookie(ConstBackend::COOKIE_ACCOUNT_LOGIN_NAME);
     $cookie_id_token = BundleIdToken::expand($cookie_id_token_stringify);
     $cookie_account_id = $cookie_id_token['id'];
     $cookie_account_token = $cookie_id_token['token'];
@@ -68,7 +68,7 @@ class AccountAuthZGuard implements Guard {
     // Cookie保存値のIDがアカウント基本ID形式か判定
     // トークンが文字列か判定
     $validator = ValidateVariable::make([
-      [$cookie_account_id, 'required', new DbPrimaryStringValidation()],
+      [$cookie_account_id, 'required', new DbPrimaryValidation()],
       [$cookie_account_token, 'required', 'string']
     ]);
     if ($validator->fails()) {

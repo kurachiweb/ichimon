@@ -19,9 +19,9 @@ class ConstBackend {
   const ACCOUNT_VERIFY_SEND = 1;
   /** アカウント認証ステータス：認証済み */
   const ACCOUNT_VERIFY_VERIFY = 2;
-  /** アカウントのメールアドレス認証有効期限[秒] */
-  const ACCOUNT_VERIFY_EXPIRE_SECOND = 1800;
+  /** アカウントメールアドレスの認証有効期限[秒] */
+  const ACCOUNT_VERIFY_EXPIRATION = 1800;
 
-  /** クッキー名；ログイントークン */
-  const COOKIE_NAME_LOGIN_TOKEN = 'ichimon_alt';
+  /** アカウントログイントークンCookie名 */
+  const COOKIE_ACCOUNT_LOGIN_NAME = 'ichimon_alt';
 }

@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Rule;
 /**
  * テーブルの、主キー値用文字列として適切か
  */
-class DbPrimaryStringValidation implements Rule {
+class DbPrimaryValidation implements Rule {
     /**
      * バリデーション結果
      *

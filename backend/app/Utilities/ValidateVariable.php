@@ -19,8 +19,8 @@ class ValidateVariable {
   public static function make($inputs) {
     // 各アイテムの先頭が検証する変数、それにバリデーションルールが続く
     // $inputs = [
-    //   [$req_account_id, 'required', new DbPrimaryStringValidation()],
-    //   [$cookie_account_id, 'required', new DbPrimaryStringValidation()],
+    //   [$req_account_id, 'required', new DbPrimaryValidation()],
+    //   [$cookie_account_id, 'required', new DbPrimaryValidation()],
     // ];
     // 次のように変換される
     // $validate_target = [
@@ -28,8 +28,8 @@ class ValidateVariable {
     //   '1' => $cookie_account_id
     // ];
     // $validate_by = [
-    //   '0' => ['required', new DbPrimaryStringValidation()],
-    //   '1' => ['required', new DbPrimaryStringValidation()]
+    //   '0' => ['required', new DbPrimaryValidation()],
+    //   '1' => ['required', new DbPrimaryValidation()]
     // ];
     $validate_target = [];
     $validate_by = [];

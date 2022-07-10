@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use App\Constants\ConstBackend;
 use App\Http\Requests\Account\AccountRequest;
 use App\Providers\AccountProvider;
-use App\Rules\DbPrimaryStringValidation;
+use App\Rules\DbPrimaryValidation;
 use App\Utilities\BundleIdToken;
 use App\Utilities\ValidateVariable;
 
@@ -51,7 +51,7 @@ class AccountAuthRGuard implements Guard {
    */
   public function user() {
     // Cookieに保存されているアカウントIDを取得
-    $cookie_id_token_stringify = $this->_request->cookie(ConstBackend::COOKIE_NAME_LOGIN_TOKEN);
+    $cookie_id_token_stringify = $this->_request->cookie(ConstBackend::COOKIE_ACCOUNT_LOGIN_NAME);
     $cookie_id_token = BundleIdToken::expand($cookie_id_token_stringify);
 
     $req_account_id_raw = $this->_request->route('account');
@@ -60,8 +60,8 @@ class AccountAuthRGuard implements Guard {
 
     // リクエストパラメータ/Cookie保存値のIDがアカウント基本ID形式か判定
     $validator = ValidateVariable::make([
-      [$req_account_id, 'required', new DbPrimaryStringValidation()],
-      [$cookie_account_id, 'required', new DbPrimaryStringValidation()]
+      [$req_account_id, 'required', new DbPrimaryValidation()],
+      [$cookie_account_id, 'required', new DbPrimaryValidation()]
     ]);
     if ($validator->fails()) {
       return null;
