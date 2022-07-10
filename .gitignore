@@ -1,4 +1,7 @@
-# OS Desktop Settings.
+# OS desktop settings.
 .DS_Store
 desktop.ini
 Thumbs.db
+
+# Redis dump file.
+dump.rdb
