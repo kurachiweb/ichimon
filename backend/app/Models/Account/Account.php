@@ -43,7 +43,7 @@ class Account extends Authenticatable {
      */
     protected $guarded = [
         'auth',
-        'settings',
+        'setting',
         'addresses'
     ];
 
@@ -52,8 +52,8 @@ class Account extends Authenticatable {
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function settings() {
-        return $this->hasMany(AccountHistory::class, 'account_id', $this->primaryKey);
+    public function setting() {
+        return $this->hasOne(AccountHistory::class, 'account_id', $this->primaryKey)->latestOfMany($this->primaryKey);
     }
 
     /**
