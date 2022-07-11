@@ -114,7 +114,7 @@ export const FetchJson = <Req, Res>(
   url: string,
   data?: Req | null,
   option?: FetchOptionCustom
-): Promise<FetchCustomResponse<Res>> => {
+) => {
   if (option == null) {
     option = {};
   }
@@ -140,7 +140,7 @@ export const FetchApiJson = <Req, Res>(
   url: string,
   data?: Req | null,
   option?: FetchOptionCustom
-): Promise<FetchCustomResponse<Res>> => {
+) => {
   if (option == null) {
     option = {};
   }

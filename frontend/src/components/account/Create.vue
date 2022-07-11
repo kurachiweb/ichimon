@@ -26,7 +26,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { DefaultAccount } from '@/models/account/account';
 import { requestCreateAccount } from '@/controlers/account/create';
 import { requestLoginAccount } from '@/controlers/account/login';
-import { requestVerifyAccountEmail } from '@/controlers/account/verify-email';
+import { requestAccountEmailConfirm } from '@/controlers/account/verify-email';
 
 @Component
 export default class AccountCreate extends Vue {
@@ -47,7 +47,7 @@ export default class AccountCreate extends Vue {
           return;
         }
         // アカウントにログインできた場合、即メールアドレスの認証リクエストを送信
-        requestVerifyAccountEmail(loginInfo.account_id);
+        requestAccountEmailConfirm(loginInfo.account_id);
         this.$router.push({ name: 'Home' });
       });
   }
