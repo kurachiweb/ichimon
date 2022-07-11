@@ -7,7 +7,7 @@ export interface ResListAccount {
 }
 
 /** マスタ情報取得リクエストを送信 */
-export const requestGetMaster = (): Promise<ResListAccount | undefined> => {
+export const requestGetMaster = (): Promise<ResListAccount | null> => {
   return new Promise(resolve => {
     FetchApiJson<null, ResListAccount>(Origin.backend + '/api/masters', null, {
       method: 'GET'

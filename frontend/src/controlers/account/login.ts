@@ -8,14 +8,14 @@ export interface ReqLoginAccount {
 
 /*+ レスポンス：アカウントログイン */
 export interface ResLoginAccount {
-  account_id?: string; // ログインしたアカウントID
+  account_id: string; // ログインしたアカウントID
 }
 
 /** アカウントのログインリクエストを送信 */
 export const requestLoginAccount = (
   name: string | null,
   password: string | null
-): Promise<ResLoginAccount | undefined> => {
+): Promise<ResLoginAccount | null> => {
   return new Promise(resolve => {
     FetchApiJson<ReqLoginAccount, ResLoginAccount>(
       Origin.backend + '/api/accounts/login',

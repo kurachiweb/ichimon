@@ -13,7 +13,7 @@ export interface FetchOptionCustom {
 /** サーバーからの想定レスポンス */
 export interface FetchCustomResponse<Res> {
   message: string;
-  data?: Res;
+  data: Res | null;
 }
 
 /** ネットワーク接続のエラー時処理 */

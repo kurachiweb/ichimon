@@ -27,11 +27,11 @@ export default class ViewAccountLogin extends Vue {
   /** 送信ボタンのクリック後 */
   private listingAccounts() {
     // アカウントの一覧を取得
-    requestListingAccount().then((accounts?: Account[]) => {
-      if (accounts == null) {
+    requestListingAccount().then(res => {
+      if (res == null) {
         return;
       }
-      this.accounts = accounts;
+      this.accounts = res.accounts;
     });
   }
 }

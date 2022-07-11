@@ -9,20 +9,20 @@ export interface ReqListAccount {
 
 /*+ レスポンス：アカウント一覧取得 */
 export interface ResListAccount {
-  accounts?: Account[];
+  accounts: Account[];
 }
 
 /** アカウントの一覧取得リクエストを送信 */
 export const requestListingAccount = (
   searchCond?: ReqListAccount
-): Promise<Account[] | undefined> => {
+): Promise<ResListAccount | null> => {
   return new Promise(resolve => {
     FetchApiJson<ReqListAccount, ResListAccount>(
       Origin.backend + '/api/accounts',
       searchCond,
       { method: 'GET' }
     ).then(res => {
-      resolve(res.data?.accounts);
+      resolve(res.data);
     });
   });
 };
