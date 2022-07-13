@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
 use App\Utilities\Crypto;
+use App\Utilities\Hash;
 
 class AccountAuthSeeder extends Seeder {
     use WithoutModelEvents;
@@ -31,12 +32,12 @@ class AccountAuthSeeder extends Seeder {
             'id' => $account_auth_id,
             'account_id' => $account_id,
             'email' => Crypto::toEncryptString($account_email),
-            'email_hash' => Crypto::toHashString($account_email),
+            'email_hash' => Hash::toHashString($account_email),
             'email_alter' => Crypto::toEncryptString(null),
             'mobile_no' => Crypto::toEncryptString('+81-9012345678'),
             'verified_email' => 0,
             'verified_mobile_no' => 0,
-            'password' => Crypto::toHashPassword($account_password),
+            'password' => Hash::toHashPassword($account_password),
             'password_updated_at' => $created_at,
             'billing_token' => null,
             'created_at' => $created_at,
@@ -60,13 +61,13 @@ class AccountAuthSeeder extends Seeder {
             'id' => $account_auth_id,
             'account_id' => $account_id,
             'email' => Crypto::toEncryptString($account_email),
-            'email_hash' => Crypto::toHashString($account_email),
+            'email_hash' => Hash::toHashString($account_email),
             'email_alter' =>  Crypto::toEncryptString($account_email_alter),
             // +1 アメリカ合衆国
             'mobile_no' => Crypto::toEncryptString('+1-90123452678'),
             'verified_email' => 0,
             'verified_mobile_no' => 0,
-            'password' => Crypto::toHashPassword($account_password),
+            'password' => Hash::toHashPassword($account_password),
             'password_updated_at' => $created_at,
             'billing_token' => null,
             'created_at' => $created_at,

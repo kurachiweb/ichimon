@@ -6,7 +6,7 @@ namespace App\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
-use App\Utilities\Crypto;
+use App\Utilities\Hash;
 
 class CastHash implements CastsAttributes {
     /**
@@ -32,6 +32,6 @@ class CastHash implements CastsAttributes {
      * @return string|null
      */
     public function set($model, $key, $value, $attributes) {
-        return Crypto::toHashString($value);
+        return Hash::toHashString($value);
     }
 }

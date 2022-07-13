@@ -6,7 +6,7 @@ namespace App\UseCases\Account;
 
 use App\Models\Account\Account;
 use App\Models\Account\AccountAuth;
-use App\Utilities\Crypto;
+use App\Utilities\Hash;
 
 class AccountLoginTargetCase {
     /**
@@ -21,7 +21,7 @@ class AccountLoginTargetCase {
         $account = null;
         $account_auth = null;
         if ($is_email) {
-            $account_auth = AccountAuth::where('email_hash', Crypto::toHashString($req_name))
+            $account_auth = AccountAuth::where('email_hash', Hash::toHashString($req_name))
                 ->first();
         } else {
             $account = Account::with(['auth'])

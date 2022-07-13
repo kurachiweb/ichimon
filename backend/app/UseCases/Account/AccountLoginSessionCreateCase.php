@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\UseCases\Account;
 
 use App\Models\Account\AccountLoginSession;
-use App\Utilities\Crypto;
+use App\Utilities\Hash;
 use App\Utilities\Random;
 
 class AccountLoginSessionCreateCase {
@@ -23,7 +23,7 @@ class AccountLoginSessionCreateCase {
         $account_session['id'] = Random::dbPrimaryId();
         $account_session['account_id'] = $req_account_id;
         // ログイントークンをハッシュ化し、DBに保存
-        $account_session['token_hash'] = Crypto::toHashPassword($req_token);
+        $account_session['token_hash'] = Hash::toHashPassword($req_token);
         $account_session['ip_address'] = $req_ip;
         $account_session['user_agent'] = $req_user_agent;
 
