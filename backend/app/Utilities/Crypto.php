@@ -9,19 +9,21 @@ use Illuminate\Contracts\Encryption\EncryptException;
 
 class Crypto {
   /**
-   * 暗号化方式
-   *
-   * @var string
-   */
-  private static $cipher = 'aes-256-gcm';
-
-  /**
    * 暗号キー
    *
    * @return string
    */
   private static function getKey() {
-    return (string)config('app.key');
+    return (string)config('app.save_key');
+  }
+
+  /**
+   * 暗号化方式
+   *
+   * @var string
+   */
+  private static function getCipher() {
+    return strtolower(config('app.cipher'));
   }
 
   /**
@@ -46,10 +48,11 @@ class Crypto {
    * @return string
    */
   private static function encryptString($value) {
+    // 暗号化方式
+    $cipher = self::getCipher();
     // 初期化ベクトル
     // AES-256-GCMの場合、長さ32のランダムバイト
-    $iv = random_bytes(openssl_cipher_iv_length(self::$cipher));
-
+    $iv = random_bytes(openssl_cipher_iv_length($cipher));
     // 認証タグ
     // GCMモードのような認証付き暗号(AEAD)で使う
     $tag = null;
@@ -60,7 +63,7 @@ class Crypto {
     // 文字列を暗号化
     $encrypted = openssl_encrypt(
       $value,
-      self::$cipher,
+      $cipher,
       self::getKey(),
       0,
       $iv,
@@ -109,6 +112,9 @@ class Crypto {
    * @return string
    */
   private static function decryptString($value) {
+    // 暗号化方式
+    $cipher = self::getCipher();
+
     // 暗号化したデータのデコード
     $payload = json_decode(base64_decode($value), true);
     if (!is_array($payload) || !isset($payload['iv'], $payload['value'], $payload['mac'], $payload['tag'])) {
@@ -118,7 +124,7 @@ class Crypto {
 
     // 初期化ベクトルのデコード、失敗した場合はfalse
     $iv = base64_decode($payload['iv'], true);
-    if ($iv === false || strlen($iv) !== openssl_cipher_iv_length(self::$cipher)) {
+    if ($iv === false || strlen($iv) !== openssl_cipher_iv_length($cipher)) {
       // 初期化ベクトルの値が不正であるか、または長さ検証を通らなかった
       throw new DecryptException('Could not decrypt the data.');
     }
@@ -132,7 +138,7 @@ class Crypto {
     // 復号して元の文字列を取得
     $decrypted = \openssl_decrypt(
       $payload['value'],
-      self::$cipher,
+      $cipher,
       self::getKey(),
       0,
       $iv,
