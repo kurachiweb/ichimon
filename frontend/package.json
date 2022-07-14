@@ -6,7 +6,16 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview"
   },
+  "dependencies": {
+    "@mdi/font": "5.9.55",
+    "roboto-fontface": "*",
+    "sass": "^1.53.0",
+    "vuetify": "npm:@vuetify/nightly@next",
+    "webfontloader": "^1.0.0"
+  },
   "devDependencies": {
-    "nuxt": "3.0.0-rc.5"
+    "nuxt": "3.0.0-rc.5",
+    "vue-cli-plugin-vuetify": "~2.5.1",
+    "webpack-plugin-vuetify": "^2.0.0-alpha.0"
   }
 }
