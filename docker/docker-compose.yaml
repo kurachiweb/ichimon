@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  frontend:
+    ports:
+      - "55001:80"
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ichimon-frontend:/usr/src/app
+volumes:
+  ichimon-frontend:

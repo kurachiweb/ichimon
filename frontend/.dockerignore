@@ -1,0 +1,3 @@
+# Dockerイメージでの管理対象外リスト
+node_modules
+npm-debug.log
