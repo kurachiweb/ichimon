@@ -10,8 +10,7 @@
     "@mdi/font": "5.9.55",
     "roboto-fontface": "*",
     "sass": "^1.53.0",
-    "vuetify": "npm:@vuetify/nightly@next",
-    "webfontloader": "^1.0.0"
+    "vuetify": "npm:@vuetify/nightly@next"
   },
   "devDependencies": {
     "nuxt": "3.0.0-rc.5",
