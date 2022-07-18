@@ -1,12 +1,10 @@
 <template>
-  <v-row no-gutters justify="center">
-    <v-card class="pa-4" width="400px">
-      <v-card-title>アカウントを作成</v-card-title>
-      <v-card-text>
-        アカウントを持っていますか？
-        <NuxtLink :to="{ name: 'account-login' }">ログイン画面へ</NuxtLink>
-      </v-card-text>
+  <PCard>
+    <template #title>アカウントを作成</template>
+    <template #content>
+      アカウントを持っていますか？
+      <NuxtLink :to="{ name: 'account-login' }">ログイン画面へ</NuxtLink>
       <AccountCreate />
-    </v-card>
-  </v-row>
+    </template>
+  </PCard>
 </template>

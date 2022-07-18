@@ -1,5 +1,5 @@
 <template>
-  <v-form @submit.prevent="onSubmitCreate()">
+  <form @submit.prevent="onSubmitCreate()">
     <CommonTextField
       v-model="account.display_id"
       label="アカウントID"
@@ -18,7 +18,7 @@
       autocomplete="new-password"
     />
     <CommonButton type="submit">この内容で登録する</CommonButton>
-  </v-form>
+  </form>
 </template>
 
 <script lang="ts" setup>

@@ -1,8 +1,18 @@
 <template>
-  <v-app>
-    <BaseHeader />
-    <v-main>
-      <slot />
-    </v-main>
-  </v-app>
+  <BaseHeader />
+  <main class="base_main">
+    <slot />
+  </main>
 </template>
+
+<style lang="scss" scoped>
+.base_main {
+  padding: 12px;
+}
+</style>
+
+<style lang="scss">
+body {
+  margin: 0;
+}
+</style>
