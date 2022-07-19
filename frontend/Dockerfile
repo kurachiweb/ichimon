@@ -1,4 +1,4 @@
-FROM node:18.5.0-alpine3.15
+FROM node:18.6-alpine3.16
 
 # 作業ディレクトリを作成する
 WORKDIR /usr/src/app
