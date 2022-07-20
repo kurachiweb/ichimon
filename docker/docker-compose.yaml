@@ -8,5 +8,14 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ichimon-frontend:/usr/src/app
+  backend:
+    ports:
+      - "55002:8000"
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    volumes:
+      - ichimon-backend:/usr/src/app
 volumes:
   ichimon-frontend:
+  ichimon-backend:
