@@ -1,6 +1,6 @@
 <template>
   <div>
-    <i class="pi pi-check"></i>
+    <v-icon large color="orange darken-2">mdi-arrow-up-bold-box-outline</v-icon>
     <p>{{ hoge }}</p>
     <p>tophunter</p>
   </div>

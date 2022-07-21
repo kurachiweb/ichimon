@@ -1,9 +1,9 @@
 <template>
-  <header class="base_header">
+  <v-app-bar app color="primary">
     <NuxtLink :to="{ name: 'index' }">
       <CommonIcon name="logo" height="32" fill="white" />
     </NuxtLink>
-  </header>
+  </v-app-bar>
 </template>
 
 <script lang="ts">
@@ -11,10 +11,3 @@ export default defineNuxtComponent({
   name: 'BaseHeader'
 });
 </script>
-
-<style lang="scss" scoped>
-.base_header {
-  background-color: var(--purple-600);
-  padding: 12px;
-}
-</style>

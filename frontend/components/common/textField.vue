@@ -1,5 +1,7 @@
 <template>
-  <PInputText v-bind="$attrs" v-model="Value" type="text" />
+  <v-text-field v-bind="$attrs" v-model="Value" variant="outlined">
+    <slot />
+  </v-text-field>
 </template>
 
 <script lang="ts" setup>
