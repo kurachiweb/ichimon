@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app color="primary">
+  <v-app-bar app color="primary" class="w-100">
     <NuxtLink :to="{ name: 'index' }">
       <CommonIcon name="logo" height="32" fill="white" />
     </NuxtLink>
