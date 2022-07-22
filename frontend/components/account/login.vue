@@ -18,12 +18,12 @@
 <script lang="ts" setup>
 import { requestLoginAccount } from '@/controlers/account/login';
 
-const accountName = '';
-const accountPassword = '';
+const accountName = ref('');
+const accountPassword = ref('');
 
 const onSubmitLogin = () => {
   // アカウントにログイン
-  requestLoginAccount(accountName, accountPassword).then(() => {
+  requestLoginAccount(accountName.value, accountPassword.value).then(() => {
     navigateTo({ name: 'Home' });
   });
 };

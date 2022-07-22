@@ -1,5 +1,5 @@
 <template>
-  <v-text-field v-bind="$attrs" v-model="Value" variant="outlined">
+  <v-text-field v-bind="$attrs" v-model="fieldValue" variant="outlined">
     <slot />
   </v-text-field>
 </template>
@@ -18,17 +18,16 @@ interface Emits {
 }
 const emit = defineEmits<Emits>();
 
+/** 入力値の保持 */
+const fieldValue = ref(modelValue.value);
+
+/** 入力値の変更を反映 */
 const handleInput = (value: string) => {
   emit('update:modelValue', value);
 };
 
-const Value = computed({
-  get(): string {
-    return modelValue.value;
-  },
-  set(value: string) {
-    handleInput(value);
-  }
+watch(fieldValue, () => {
+  handleInput(fieldValue.value);
 });
 </script>
 
