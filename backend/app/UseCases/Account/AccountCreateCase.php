@@ -28,15 +28,16 @@ class AccountCreateCase {
 
         // アカウント基本情報をリクエスト内容で上書き
         $account['id'] = $account_id;
-        $account['display_id'] = $req_account['display_id'];
+        $account['display_id'] = Random::generateString(16);
+        $account['nickname'] = $req_account['nickname'];
         $account['registered_at'] = $now;
 
         // アカウント認証情報をリクエスト内容で上書き
         $account_auth['id'] = $account_auth_id;
         $account_auth['account_id'] = $account_id;
-        $account_auth['email'] = $req_account['auth']['email'];
-        $account_auth['email_hash'] = $req_account['auth']['email'];
-        $account_auth['password'] = $req_account['auth']['password'];
+        $account_auth['email'] = $req_account['email'];
+        $account_auth['email_hash'] = $req_account['email'];
+        $account_auth['password'] = $req_account['password'];
         $account_auth['password_updated_at'] = $now;
 
         $res_account = Account::create($account);

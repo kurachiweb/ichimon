@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Account;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Account\AccountCreateRequest;
 use App\Http\Requests\Account\AccountRequest;
 use App\UseCases\Account\AccountCreateCase;
 use App\UseCases\Account\AccountDeleteCase;
@@ -36,9 +37,10 @@ class AccountController extends Controller {
      */
     public function store(Request $request) {
         // リクエスト中のアカウント基本情報を入力チェック
-        $req = ValidateRequest::json($request, new AccountRequest());
+        $req = ValidateRequest::json($request, new AccountCreateRequest());
 
-        $req_account = $req['account'];
+        // リクエストボディのアカウント作成情報
+        $req_account = $req;
 
         // DBにアクセスしてアカウントを作成する
         $res_account = (new AccountCreateCase())($req_account);

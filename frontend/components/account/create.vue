@@ -1,18 +1,18 @@
 <template>
   <v-form @submit.prevent="onSubmitCreate()">
     <CommonTextField
-      v-model="account.display_id"
-      label="アカウントID"
+      v-model="account.nickname"
+      label="ニックネーム"
       autocomplete="username"
     />
     <CommonTextField
-      v-model="account.auth.email"
+      v-model="account.email"
       label="メールアドレス"
       type="email"
       autocomplete="email"
     />
     <CommonTextField
-      v-model="account.auth.password"
+      v-model="account.password"
       label="パスワード"
       type="password"
       autocomplete="new-password"
@@ -22,21 +22,20 @@
 </template>
 
 <script lang="ts" setup>
-import { DefaultAccount } from '@/models/account/account';
-import { requestCreateAccount } from '@/controlers/account/create';
+import {
+  DefaultReqCreateAccount,
+  requestCreateAccount
+} from '@/controlers/account/create';
 import { requestLoginAccount } from '@/controlers/account/login';
 import { requestAccountEmailConfirm } from '@/controlers/account/verify-email';
 
-const account = DefaultAccount(true);
+const account = DefaultReqCreateAccount();
 
 const onSubmitCreate = () => {
   requestCreateAccount(account)
     .then(() => {
-      if (account.auth == null) {
-        return;
-      }
       // アカウントを作成できた場合、同じ入力値で即ログインする
-      return requestLoginAccount(account.auth.email, account.auth.password);
+      return requestLoginAccount(account.email, account.password);
     })
     .then(loginInfo => {
       if (loginInfo?.account_id == null) {
