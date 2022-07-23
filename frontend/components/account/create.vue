@@ -43,7 +43,7 @@ const onSubmitCreate = () => {
       }
       // アカウントにログインできた場合、即メールアドレスの認証リクエストを送信
       requestAccountEmailConfirm(loginInfo.account_id);
-      navigateTo({ name: 'Home' });
+      navigateTo({ name: 'index' });
     });
 };
 </script>

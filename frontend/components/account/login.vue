@@ -24,7 +24,7 @@ const accountPassword = ref('');
 const onSubmitLogin = () => {
   // アカウントにログイン
   requestLoginAccount(accountName.value, accountPassword.value).then(() => {
-    navigateTo({ name: 'Home' });
+    navigateTo({ name: 'index' });
   });
 };
 </script>
