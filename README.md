@@ -3,6 +3,16 @@
 One question survey.
 1問だけのアンケートです。
 
+## 開発で使うコマンド
+
+`npm run dev`
+
+`php artisan config:clear && php artisan cache:clear && php artisan route:clear && php artisan view:clear`
+
+`php artisan db:seed`
+
+`php artisan serve --port=55002`
+
 ## サービス利用者が設定できる文字数
 
 人の目で見る文字数で測る？
