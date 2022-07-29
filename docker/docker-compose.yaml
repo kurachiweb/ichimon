@@ -2,10 +2,12 @@ version: "3.8"
 services:
   frontend:
     ports:
-      - "55001:80"
+      - "55001:3000"
+      - "24678:24678" # Viteの無限リロード対策
     build:
       context: ../frontend
       dockerfile: Dockerfile
+    tty: true
     volumes:
       - ichimon-frontend:/usr/src/app
   backend:
