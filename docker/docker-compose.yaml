@@ -18,6 +18,24 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ichimon-backend:/usr/src/app
+  database:
+    ports:
+      - "3306:3306"
+    build:
+      context: ../database
+      dockerfile: Dockerfile
+    volumes:
+      - ichimon-database:/var/lib/mysql
+  redis:
+    ports:
+      - "6379:6379"
+    build:
+      context: ../redis
+      dockerfile: Dockerfile
+    volumes:
+      - ichimon-redis:/usr/local/etc/redis
 volumes:
   ichimon-frontend:
   ichimon-backend:
+  ichimon-database:
+  ichimon-redis:
