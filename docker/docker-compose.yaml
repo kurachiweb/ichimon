@@ -1,41 +1,73 @@
 version: "3.8"
 services:
   frontend:
-    ports:
-      - "55001:3000"
-      - "24678:24678" # Viteの無限リロード対策
     build:
       context: ../frontend
       dockerfile: Dockerfile
     tty: true
-    volumes:
-      - ichimon-frontend:/usr/src/app
-  backend:
     ports:
-      - "55002:8000"
+      - "55001:55001"
+      - "24678:24678" # Viteの無限リロード対策
+    volumes:
+      - type: volume
+        source: ichimon-frontend
+        target: /usr/src/app
+        volume:
+          nocopy: true
+      - type: bind
+        source: ../frontend
+        target: /usr/src/app
+  backend:
     build:
       context: ../backend
       dockerfile: Dockerfile
-    volumes:
-      - ichimon-backend:/usr/src/app
-  database:
     ports:
-      - "3306:3306"
+      - "55002:8000"
+    volumes:
+      - type: volume
+        source: ichimon-backend
+        target: /usr/src/app
+        volume:
+          nocopy: true
+      - type: bind
+        source: ../backend
+        target: /usr/src/app
+  database:
     build:
       context: ../database
       dockerfile: Dockerfile
-    volumes:
-      - ichimon-database:/var/lib/mysql
-  redis:
     ports:
-      - "6379:6379"
+      - "3306:3306"
+    volumes:
+      - type: volume
+        source: ichimon-database
+        target: /var/lib/mysql
+        volume:
+          nocopy: true
+      - type: bind
+        source: ../database
+        target: /usr/src/db
+  redis:
     build:
       context: ../redis
       dockerfile: Dockerfile
+    ports:
+      - "6379:6379"
     volumes:
-      - ichimon-redis:/usr/local/etc/redis
+      - type: volume
+        source: ichimon-redis
+        target: /usr/local/etc/redis
+        volume:
+          nocopy: true
+      - type: bind
+        source: ../redis
+        target: /usr/src/db
 volumes:
   ichimon-frontend:
+    name: ichimon-frontend
   ichimon-backend:
+    name: ichimon-backend
   ichimon-database:
+    name: ichimon-database
   ichimon-redis:
+    name: ichimon-redis
