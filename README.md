@@ -5,13 +5,13 @@ One question survey.
 
 ## 開発で使うコマンド
 
-`npm run dev`
-
 `php artisan config:clear && php artisan cache:clear && php artisan route:clear && php artisan view:clear`
 
 `php artisan db:seed`
 
-`php artisan serve --port=55002`
+`docker compose -f docker-compose.yaml -f docker-compose.m1-mac.yaml up -d --build`
+
+`docker system prune --volumes`
 
 ## サービス利用者が設定できる文字数
 
