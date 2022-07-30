@@ -1,5 +1,4 @@
-version: '3.8'
-# M1 Mac用のdocker-composeファイル、docker-compose.yamlに依存する
+# M1 Mac用のcomposeファイル、compose.yamlに依存する
 services:
   frontend:
     platform: linux/arm64/v8

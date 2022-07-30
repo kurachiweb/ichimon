@@ -9,7 +9,7 @@ One question survey.
 
 `php artisan db:seed`
 
-`docker compose -f docker-compose.yaml -f docker-compose.m1-mac.yaml up -d --build`
+`docker compose -f compose.yaml -f compose.m1-mac.yaml up -d --build`
 
 `docker system prune --volumes`
 
