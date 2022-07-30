@@ -1,4 +1,1 @@
 FROM mariadb:10.5
-
-ENV MARIADB_DATABASE kurachiweb_ichimondev
-ENV MARIADB_ROOT_PASSWORD end78byJMWd-2e

@@ -18,6 +18,7 @@ services:
         source: ../frontend
         target: /usr/src/app
   backend:
+    env_file: ../backend/.env
     build:
       context: ../backend
       dockerfile: Dockerfile
@@ -33,6 +34,7 @@ services:
         source: ../backend
         target: /usr/src/app
   database:
+    env_file: ../database/.env
     build:
       context: ../database
       dockerfile: Dockerfile
