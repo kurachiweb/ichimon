@@ -7,6 +7,7 @@ namespace App\Stores;
 use Illuminate\Support\Facades\Redis;
 
 use App\Constants\ConstBackend;
+use App\Constants\Db\Account\DbTableAccount;
 use App\UseCases\Account\AccountGetCase;
 
 class AccountStore {
@@ -54,7 +55,7 @@ class AccountStore {
     public function save($account) {
         // アカウント情報用キャッシュに接続し、保存する
         // Redisには配列をそのまま入れられないため文字列化
-        $this->_redis->setEx($account['id'], ConstBackend::REDIS_ACCOUNT_EXPIRATION, json_encode($account));
+        $this->_redis->setEx($account[DbTableAccount::ID], ConstBackend::REDIS_ACCOUNT_EXPIRATION, json_encode($account));
 
         return $account;
     }

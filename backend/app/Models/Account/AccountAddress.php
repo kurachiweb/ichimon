@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use App\Casts\CastEncrypt;
+use App\Constants\Db\Account\DbTableAccountAddress;
 
 /** アカウント住所情報 */
 class AccountAddress extends Authenticatable {
@@ -18,7 +19,7 @@ class AccountAddress extends Authenticatable {
      *
      * @var string
      */
-    protected $table = 'account_address';
+    protected $table = DbTableAccountAddress::TABLE_NAME;
 
     /**
      * IDはオートインクリメントか
@@ -47,10 +48,10 @@ class AccountAddress extends Authenticatable {
      * @var array<string, string>
      */
     protected $casts = [
-        'post_code' => CastEncrypt::class,
-        'city' => CastEncrypt::class,
-        'area1' => CastEncrypt::class,
-        'area2' => CastEncrypt::class
+        DbTableAccountAddress::POST_CODE => CastEncrypt::class,
+        DbTableAccountAddress::CITY => CastEncrypt::class,
+        DbTableAccountAddress::AREA1 => CastEncrypt::class,
+        DbTableAccountAddress::AREA2 => CastEncrypt::class
     ];
 
     /**
@@ -60,13 +61,13 @@ class AccountAddress extends Authenticatable {
      * @var array<string, any>
      */
     protected $attributes = [
-        'id' => '',
-        'post_code' => '',
-        'country' => 0,
-        'region' => '',
-        'city' => '',
-        'area1' => '',
-        'area2' => '',
-        'use_for' => 0
+        DbTableAccountAddress::ID => '',
+        DbTableAccountAddress::POST_CODE => '',
+        DbTableAccountAddress::COUNTRY => 0,
+        DbTableAccountAddress::REGION => '',
+        DbTableAccountAddress::CITY => '',
+        DbTableAccountAddress::AREA1 => '',
+        DbTableAccountAddress::AREA2 => '',
+        DbTableAccountAddress::USE_FOR => 0
     ];
 }

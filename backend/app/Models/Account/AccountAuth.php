@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Casts\CastEncrypt;
 use App\Casts\CastHash;
 use App\Casts\CastHashPassword;
+use App\Constants\Db\Account\DbTableAccountAuth;
 use App\Models\Account\Account;
 
 /** アカウント認証情報 */
@@ -21,7 +22,7 @@ class AccountAuth extends Authenticatable {
      *
      * @var string
      */
-    protected $table = 'account_auth';
+    protected $table = DbTableAccountAuth::TABLE_NAME;
 
     /**
      * IDはオートインクリメントか
@@ -50,12 +51,12 @@ class AccountAuth extends Authenticatable {
      * @var array<string, string>
      */
     protected $casts = [
-        'email' => CastEncrypt::class,
-        'email_hash' => CastHash::class,
-        'email_alter' => CastEncrypt::class,
-        'mobile_no' => CastEncrypt::class,
-        'password' => CastHashPassword::class,
-        'billing_token' => CastEncrypt::class
+        DbTableAccountAuth::EMAIL => CastEncrypt::class,
+        DbTableAccountAuth::EMAIL_HASH => CastHash::class,
+        DbTableAccountAuth::EMAIL_ALTER => CastEncrypt::class,
+        DbTableAccountAuth::MOBILE_NO => CastEncrypt::class,
+        DbTableAccountAuth::PASSWORD => CastHashPassword::class,
+        DbTableAccountAuth::BILLING_TOKEN => CastEncrypt::class
     ];
 
     /**
@@ -64,7 +65,7 @@ class AccountAuth extends Authenticatable {
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function account() {
-        return $this->belongsTo(Account::class, 'account_id', (new Account())->getKeyName());
+        return $this->belongsTo(Account::class, DbTableAccountAuth::ACCOUNT_ID, (new Account())->getKeyName());
     }
 
     /**
@@ -74,16 +75,16 @@ class AccountAuth extends Authenticatable {
      * @var array<string, any>
      */
     protected $attributes = [
-        'id' => '',
-        'account_id' => '',
-        'email' => '',
-        'email_hash' => '',
-        'email_alter' => null,
-        'mobile_no' => null,
-        'verified_email' => 0,
-        'verified_mobile_no' => 0,
-        'password' => '',
-        'password_updated_at' => '',
-        'billing_token' => null
+        DbTableAccountAuth::ID => '',
+        DbTableAccountAuth::ACCOUNT_ID => '',
+        DbTableAccountAuth::EMAIL => '',
+        DbTableAccountAuth::EMAIL_HASH => '',
+        DbTableAccountAuth::EMAIL_ALTER => null,
+        DbTableAccountAuth::MOBILE_NO => null,
+        DbTableAccountAuth::VERIFIED_EMAIL => 0,
+        DbTableAccountAuth::VERIFIED_MOBILE_NO => 0,
+        DbTableAccountAuth::PASSWORD => '',
+        DbTableAccountAuth::PASSWORD_UPDATED_AT => '',
+        DbTableAccountAuth::BILLING_TOKEN => null
     ];
 }

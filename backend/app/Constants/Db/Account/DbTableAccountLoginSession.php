@@ -18,7 +18,7 @@ class DbTableAccountLoginSession extends DbTableCommon {
   /** アカウントログイン保持情報：トークンのハッシュ文字列 */
   const TOKEN_HASH = 'token_hash';
   /** アカウントログイン保持情報：発信元IPアドレス */
-  const IPアドレス = 'ip_address';
+  const IP_ADDRESS = 'ip_address';
   /** アカウントログイン保持情報：ユーザーエージェントの暗号化文字列 */
   const USER_AGENT = 'user_agent';
 }

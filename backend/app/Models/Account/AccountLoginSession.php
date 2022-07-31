@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Casts\CastEncrypt;
+use App\Constants\Db\Account\DbTableAccountLoginSession;
 use App\Models\Account\Account;
 
 class AccountLoginSession extends Model {
@@ -18,7 +19,7 @@ class AccountLoginSession extends Model {
      *
      * @var string
      */
-    protected $table = 'account_login_session';
+    protected $table = DbTableAccountLoginSession::TABLE_NAME;
 
     /**
      * IDはオートインクリメントか
@@ -47,8 +48,8 @@ class AccountLoginSession extends Model {
      * @var array<string, string>
      */
     protected $casts = [
-        'ip_address' => CastEncrypt::class,
-        'user_agent' => CastEncrypt::class
+        DbTableAccountLoginSession::IP_ADDRESS => CastEncrypt::class,
+        DbTableAccountLoginSession::USER_AGENT => CastEncrypt::class
     ];
 
     /**
@@ -57,7 +58,7 @@ class AccountLoginSession extends Model {
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function account() {
-        return $this->belongsTo(Account::class, 'account_id', (new Account())->getKeyName());
+        return $this->belongsTo(Account::class, DbTableAccountLoginSession::ACCOUNT_ID, (new Account())->getKeyName());
     }
 
     /**
@@ -67,10 +68,10 @@ class AccountLoginSession extends Model {
      * @var array<string, any>
      */
     protected $attributes = [
-        'id' => '',
-        'account_id' => '',
-        'token_hash' => '',
-        'ip_address' => null,
-        'user_agent' => null
+        DbTableAccountLoginSession::ID => '',
+        DbTableAccountLoginSession::ACCOUNT_ID => '',
+        DbTableAccountLoginSession::TOKEN_HASH => '',
+        DbTableAccountLoginSession::IP_ADDRESS => null,
+        DbTableAccountLoginSession::USER_AGENT => null
     ];
 }

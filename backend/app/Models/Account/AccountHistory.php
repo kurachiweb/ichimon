@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use App\Casts\CastEncrypt;
+use App\Constants\Db\Account\DbTableAccountHistory;
 
 /** アカウント履歴情報 */
 class AccountHistory extends Authenticatable {
@@ -18,7 +19,7 @@ class AccountHistory extends Authenticatable {
      *
      * @var string
      */
-    protected $table = 'account_history';
+    protected $table = DbTableAccountHistory::TABLE_NAME;
 
     /**
      * IDはオートインクリメントか
@@ -47,9 +48,9 @@ class AccountHistory extends Authenticatable {
      * @var array<string, string>
      */
     protected $casts = [
-        'first_name' => CastEncrypt::class,
-        'middle_name' => CastEncrypt::class,
-        'last_name' => CastEncrypt::class,
+        DbTableAccountHistory::FIRST_NAME => CastEncrypt::class,
+        DbTableAccountHistory::MIDDLE_NAME => CastEncrypt::class,
+        DbTableAccountHistory::LAST_NAME => CastEncrypt::class,
     ];
 
     /**
@@ -59,12 +60,12 @@ class AccountHistory extends Authenticatable {
      * @var array<string, any>
      */
     protected $attributes = [
-        'id' => '',
-        'account_id' => '',
-        'first_name' => null,
-        'middle_name' => null,
-        'last_name' => null,
-        'sex' => 0,
-        'birthday' => null
+        DbTableAccountHistory::ID => '',
+        DbTableAccountHistory::ACCOUNT_ID => '',
+        DbTableAccountHistory::FIRST_NAME => null,
+        DbTableAccountHistory::MIDDLE_NAME => null,
+        DbTableAccountHistory::LAST_NAME => null,
+        DbTableAccountHistory::SEX => 0,
+        DbTableAccountHistory::BIRTHDAY => null
     ];
 }

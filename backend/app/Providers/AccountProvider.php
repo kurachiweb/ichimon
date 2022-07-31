@@ -7,6 +7,7 @@ namespace App\Providers;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 
+use App\Constants\Db\Account\DbTableAccountLoginSession;
 use App\Models\Account\AccountLoginSession;
 use App\Utilities\BundleIdToken;
 
@@ -32,7 +33,9 @@ class AccountProvider implements UserProvider {
    */
   public function retrieveByToken($identifier, $token) {
     // 指定アカウントIDでのセッション履歴を全て取得
-    $account_sessions = AccountLoginSession::where('account_id', $identifier)->orderBy('created_at', 'desc')->get();
+    $account_sessions = AccountLoginSession::where(DbTableAccountLoginSession::ACCOUNT_ID, $identifier)
+      ->orderBy(DbTableAccountLoginSession::CREATED_AT, 'desc')
+      ->get();
     // そのアカウントIDでのセッション履歴が存在しなければ空
     if (!$account_sessions) {
       return null;
@@ -45,7 +48,7 @@ class AccountProvider implements UserProvider {
 
     foreach ($account_sessions as $account_session) {
       // 比較先のセッションID
-      $saved_token_hash = $account_session['token_hash'];
+      $saved_token_hash = $account_session[DbTableAccountLoginSession::TOKEN_HASH];
       // トークンが一致すれば、そのセッションを返す
       if (password_verify($bundled_id_token, $saved_token_hash)) {
         $match_session = $account_session;

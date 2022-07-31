@@ -7,6 +7,8 @@ namespace App\Models\Account;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Constants\Db\Account\DbTableAccountVerifyEmail;
+
 class VerifyEmailToken extends Model {
     use HasFactory;
 
@@ -15,7 +17,7 @@ class VerifyEmailToken extends Model {
      *
      * @var string
      */
-    protected $table = 'verify_email_token';
+    protected $table = DbTableAccountVerifyEmail::TABLE_NAME;
 
     /**
      * IDはオートインクリメントか
@@ -29,7 +31,7 @@ class VerifyEmailToken extends Model {
      *
      * @var string
      */
-    protected $primaryKey = 'token';
+    protected $primaryKey = DbTableAccountVerifyEmail::TOKEN;
 
     /**
      * プライマリキーの型
@@ -52,7 +54,7 @@ class VerifyEmailToken extends Model {
      * @var array<string, any>
      */
     protected $attributes = [
-        'token' => '',
-        'account_id' => ''
+        DbTableAccountVerifyEmail::TOKEN => '',
+        DbTableAccountVerifyEmail::ACCOUNT_ID => ''
     ];
 }
