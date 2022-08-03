@@ -9,9 +9,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Account\AccountCreateRequest;
 use App\Http\Requests\Account\AccountRequest;
+use App\Services\Account\AccountGetService;
 use App\UseCases\Account\AccountCreateCase;
 use App\UseCases\Account\AccountDeleteCase;
-use App\UseCases\Account\AccountGetCase;
 use App\UseCases\Account\AccountListCase;
 use App\UseCases\Account\AccountUpdateCase;
 use App\Utilities\ValidateRequest;
@@ -58,8 +58,7 @@ class AccountController extends Controller {
         // リクエストパラメータのアカウント基本IDを入力チェック(Guard側で確認済み)
         $req_account_id = AccountRequest::toAccountId($id);
 
-        // DBにアクセスしてアカウントを取得する
-        $res_account = (new AccountGetCase())($req_account_id, true);
+        $res_account = AccountGetService::get($req_account_id, true);
 
         return response()->success(['account' => $res_account]);
     }
