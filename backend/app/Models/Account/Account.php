@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Models\Account;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-
 use App\Constants\Db\Account\DbTableAccount;
 use App\Constants\Db\Account\DbTableAccountAddress;
 use App\Constants\Db\Account\DbTableAccountAuth;
@@ -14,31 +11,16 @@ use App\Constants\Db\Account\DbTableAccountHistory;
 use App\Models\Account\AccountAddress;
 use App\Models\Account\AccountAuth;
 use App\Models\Account\AccountHistory;
+use App\Models\ModelCommon;
 
 /** アカウント基本情報 */
-class Account extends Authenticatable {
-    use HasFactory;
-
+class Account extends ModelCommon {
     /**
      * テーブル名
      *
      * @var string
      */
     protected $table = DbTableAccount::TABLE_NAME;
-
-    /**
-     * IDはオートインクリメントか
-     *
-     * @var bool
-     */
-    public $incrementing = false;
-
-    /**
-     * プライマリキーの型
-     *
-     * @var string
-     */
-    protected $keyType = 'string';
 
     /**
      * 追加できない列

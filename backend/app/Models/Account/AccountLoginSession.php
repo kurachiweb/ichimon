@@ -4,43 +4,18 @@ declare(strict_types=1);
 
 namespace App\Models\Account;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
 use App\Casts\CastEncrypt;
 use App\Constants\Db\Account\DbTableAccountLoginSession;
 use App\Models\Account\Account;
+use App\Models\ModelCommon;
 
-class AccountLoginSession extends Model {
-    use HasFactory;
-
+class AccountLoginSession extends ModelCommon {
     /**
      * テーブル名
      *
      * @var string
      */
     protected $table = DbTableAccountLoginSession::TABLE_NAME;
-
-    /**
-     * IDはオートインクリメントか
-     *
-     * @var bool
-     */
-    public $incrementing = false;
-
-    /**
-     * プライマリキーの型
-     *
-     * @var bool
-     */
-    protected $keyType = 'string';
-
-    /**
-     * 追加できない列
-     *
-     * @var array<int, string>
-     */
-    protected $guarded = [];
 
     /**
      * 取得/更新時に型を変換する

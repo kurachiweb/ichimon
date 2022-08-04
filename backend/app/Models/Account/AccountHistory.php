@@ -4,43 +4,18 @@ declare(strict_types=1);
 
 namespace App\Models\Account;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-
 use App\Casts\CastEncrypt;
 use App\Constants\Db\Account\DbTableAccountHistory;
+use App\Models\ModelCommon;
 
 /** アカウント履歴情報 */
-class AccountHistory extends Authenticatable {
-    use HasFactory;
-
+class AccountHistory extends ModelCommon {
     /**
      * テーブル名
      *
      * @var string
      */
     protected $table = DbTableAccountHistory::TABLE_NAME;
-
-    /**
-     * IDはオートインクリメントか
-     *
-     * @var bool
-     */
-    public $incrementing = false;
-
-    /**
-     * プライマリキーの型
-     *
-     * @var bool
-     */
-    protected $keyType = 'string';
-
-    /**
-     * 追加できない列
-     *
-     * @var array<int, string>
-     */
-    protected $guarded = [];
 
     /**
      * 取得/更新時に型を変換する
