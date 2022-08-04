@@ -64,6 +64,6 @@ class AccountAddressSeeder extends Seeder {
             DbTableAccountAddress::DELETED_AT => null,
         ];
 
-        DB::table('account_address')->insert([$account_address1, $account_address2]);
+        DB::table(DbTableAccountAddress::TABLE_NAME)->insert([$account_address1, $account_address2]);
     }
 }

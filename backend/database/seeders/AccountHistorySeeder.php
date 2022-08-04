@@ -60,6 +60,6 @@ class AccountHistorySeeder extends Seeder {
             DbTableAccountHistory::DELETED_AT => null,
         ];
 
-        DB::table('account_history')->insert([$account_history1, $account_history2]);
+        DB::table(DbTableAccountHistory::TABLE_NAME)->insert([$account_history1, $account_history2]);
     }
 }

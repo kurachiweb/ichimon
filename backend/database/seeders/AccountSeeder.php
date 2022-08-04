@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Constants\Db\Account\DbTableAccount;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
+
+use App\Constants\Db\Account\DbTableAccount;
 
 class AccountSeeder extends Seeder {
     use WithoutModelEvents;
@@ -52,6 +53,6 @@ class AccountSeeder extends Seeder {
             DbTableAccount::DELETED_AT => null,
         ];
 
-        DB::table('account')->insert([$account1, $account2]);
+        DB::table(DbTableAccount::TABLE_NAME)->insert([$account1, $account2]);
     }
 }

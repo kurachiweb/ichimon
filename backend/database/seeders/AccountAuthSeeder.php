@@ -76,6 +76,6 @@ class AccountAuthSeeder extends Seeder {
             DbTableAccountAuth::DELETED_AT => null,
         ];
 
-        DB::table('account_auth')->insert([$account_auth1, $account_auth2]);
+        DB::table(DbTableAccountAuth::TABLE_NAME)->insert([$account_auth1, $account_auth2]);
     }
 }

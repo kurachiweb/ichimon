@@ -7,6 +7,13 @@ namespace Database\Seeders;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
+use App\Constants\Db\Account\DbTableAccount;
+use App\Constants\Db\Account\DbTableAccountAddress;
+use App\Constants\Db\Account\DbTableAccountAuth;
+use App\Constants\Db\Account\DbTableAccountHistory;
+use App\Constants\Db\Account\DbTableAccountLoginSession;
+use App\Constants\Db\Account\DbTableAccountVerifyEmail;
+
 class DatabaseSeeder extends Seeder {
     /**
      * Seed the application's database.
@@ -17,12 +24,12 @@ class DatabaseSeeder extends Seeder {
         // truncate時、外部キー制約の検証を無効にする
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        DB::table('account')->truncate();
-        DB::table('account_history')->truncate();
-        DB::table('account_auth')->truncate();
-        DB::table('account_address')->truncate();
-        DB::table('account_login_session')->truncate();
-        DB::table('verify_email_token')->truncate();
+        DB::table(DbTableAccount::TABLE_NAME)->truncate();
+        DB::table(DbTableAccountHistory::TABLE_NAME)->truncate();
+        DB::table(DbTableAccountAuth::TABLE_NAME)->truncate();
+        DB::table(DbTableAccountAddress::TABLE_NAME)->truncate();
+        DB::table(DbTableAccountLoginSession::TABLE_NAME)->truncate();
+        DB::table(DbTableAccountVerifyEmail::TABLE_NAME)->truncate();
 
         $this->call([
             AccountSeeder::class,
