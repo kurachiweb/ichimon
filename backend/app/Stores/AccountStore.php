@@ -63,18 +63,13 @@ class AccountStore {
     }
 
     /**
-     * 保存領域にアカウント情報を保存(アカウント基本ID指定)
+     * 保存領域のアカウント情報を削除(アカウント基本ID指定)
      *
      * @param string $account_id
-     * @return array|null
+     * @return int
      */
-    public function saveById($account_id) {
-        // DBにアクセスしてアカウント情報を取得する
-        $account = (new AccountGetCase())($account_id, true)->toArray();
-
-        // アカウント情報用キャッシュに接続し、保存する
-        $this->save($account);
-
-        return $account;
+    public function delete($account_id) {
+        // 指定基本IDのアカウント情報を削除する
+        return $this->_redis->delete($account_id);
     }
 }
