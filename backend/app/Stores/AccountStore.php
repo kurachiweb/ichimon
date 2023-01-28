@@ -7,6 +7,7 @@ namespace App\Stores;
 use Illuminate\Support\Facades\Redis;
 
 use App\Constants\ConstBackend;
+use App\Constants\Db\Account\DbTableAccount;
 use App\UseCases\Account\AccountGetCase;
 
 class AccountStore {
@@ -30,17 +31,19 @@ class AccountStore {
      */
     public function get($account_id) {
         $account_raw = $this->_redis->get($account_id);
-        $res_account = null;
-
-        if (is_null($account_raw)) {
-            // 対象IDのアカウント情報が無かった場合は、新たに保存する
-            $res_account = $this->saveById($account_id);
-        } else if (is_string($account_raw)) {
-            // 対象IDのアカウント情報が得られたら、デコードする
-            $res_account = json_decode($account_raw, true);
-            // 保存領域にて、該当データの有効期限を延ばす
-            $this->_redis->expire($account_id, ConstBackend::REDIS_ACCOUNT_EXPIRATION);
+        if (!is_string($account_raw)) {
+            // 対象IDのアカウント情報が得られなかった場合は空
+            return null;
         }
+
+        $res_account = json_decode($account_raw, true);
+        if (!is_array($res_account)) {
+            // 不正形式に起因してデコード結果が配列にならなかった場合は空
+            return null;
+        }
+
+        // 該当データの保存期限を延ばす
+        $this->_redis->expire($account_id, ConstBackend::REDIS_ACCOUNT_EXPIRATION);
 
         return $res_account;
     }
@@ -54,24 +57,19 @@ class AccountStore {
     public function save($account) {
         // アカウント情報用キャッシュに接続し、保存する
         // Redisには配列をそのまま入れられないため文字列化
-        $this->_redis->setEx($account['id'], ConstBackend::REDIS_ACCOUNT_EXPIRATION, json_encode($account));
+        $this->_redis->setEx($account[DbTableAccount::ID], ConstBackend::REDIS_ACCOUNT_EXPIRATION, json_encode($account));
 
         return $account;
     }
 
     /**
-     * 保存領域にアカウント情報を保存(アカウント基本ID指定)
+     * 保存領域のアカウント情報を削除(アカウント基本ID指定)
      *
      * @param string $account_id
-     * @return array
+     * @return int
      */
-    public function saveById($account_id) {
-        // DBにアクセスしてアカウント情報を取得する
-        $account = (new AccountGetCase())($account_id, true, true)->toArray();
-
-        // アカウント情報用キャッシュに接続し、保存する
-        $this->save($account);
-
-        return $account;
+    public function delete($account_id) {
+        // 指定基本IDのアカウント情報を削除する
+        return $this->_redis->delete($account_id);
     }
 }

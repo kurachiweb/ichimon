@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\UseCases\Account;
 
+use App\Constants\Db\Account\DbTableAccount;
 use App\Models\Account\Account;
 use App\Stores\AccountStore;
 use App\Utilities\KeysOnly;
@@ -17,17 +18,18 @@ class AccountUpdateCase {
      */
     public function __invoke($req_account) {
         // 更新対象のアカウント
-        $account = Account::findOrFail($req_account['id']);
+        $account = Account::findOrFail($req_account[DbTableAccount::ID]);
+
+        // 高速保存領域に収めたデータがDBの保存データと一致しなくなるのを避けるため、削除
+        (new AccountStore())->delete($account[DbTableAccount::ID]);
+
         // 更新可能なカラムの絞り込み
         $account->fill(KeysOnly::select($req_account, [
-            'display_id',
-            'nickname'
+            DbTableAccount::DISPLAY_ID,
+            DbTableAccount::NICKNAME
         ]));
         // 更新を反映する
         $is_saved = $account->saveOrFail();
-
-        // Redisにも同じ内容を保存する
-        (new AccountStore())->saveById($account['id']);
 
         return $is_saved;
     }

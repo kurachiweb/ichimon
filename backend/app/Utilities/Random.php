@@ -50,7 +50,7 @@ class Random {
     // 僅かでも数字だけになることのないよう、0~9にしないための辞書
     $az = 'abcdefghijklmnopqrstuvwxyz';
     /** タイムスタンプ部の文字数 */
-    $timestam_part_length = 13;
+    $timestam_part_length = 9;
 
     // タイムスタンプ部、1ミリ秒の精度で、指定桁数になるよう0埋めする
     $now_microtime = microtime(true);

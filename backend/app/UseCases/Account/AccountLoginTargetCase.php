@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\UseCases\Account;
 
+use App\Constants\Db\Account\DbTableAccount;
+use App\Constants\Db\Account\DbTableAccountAuth;
 use App\Models\Account\Account;
 use App\Models\Account\AccountAuth;
 use App\Utilities\Hash;
@@ -21,11 +23,11 @@ class AccountLoginTargetCase {
         $account = null;
         $account_auth = null;
         if ($is_email) {
-            $account_auth = AccountAuth::where('email_hash', Hash::toHashString($req_name))
+            $account_auth = AccountAuth::where(DbTableAccountAuth::EMAIL_HASH, Hash::toHashString($req_name))
                 ->first();
         } else {
             $account = Account::with(['auth'])
-                ->where('display_id', $req_name)
+                ->where(DbTableAccount::DISPLAY_ID, $req_name)
                 ->first();
         }
         if ($account_auth) {

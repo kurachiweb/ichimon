@@ -4,37 +4,23 @@ declare(strict_types=1);
 
 namespace App\Models\Account;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use App\Constants\Db\Account\DbTableAccount;
+use App\Constants\Db\Account\DbTableAccountAddress;
+use App\Constants\Db\Account\DbTableAccountAuth;
+use App\Constants\Db\Account\DbTableAccountHistory;
 use App\Models\Account\AccountAddress;
 use App\Models\Account\AccountAuth;
 use App\Models\Account\AccountHistory;
+use App\Models\ModelCommon;
 
 /** アカウント基本情報 */
-class Account extends Authenticatable {
-    use HasFactory;
-
+class Account extends ModelCommon {
     /**
      * テーブル名
      *
      * @var string
      */
-    protected $table = 'account';
-
-    /**
-     * IDはオートインクリメントか
-     *
-     * @var bool
-     */
-    public $incrementing = false;
-
-    /**
-     * プライマリキーの型
-     *
-     * @var string
-     */
-    protected $keyType = 'string';
+    protected $table = DbTableAccount::TABLE_NAME;
 
     /**
      * 追加できない列
@@ -53,7 +39,7 @@ class Account extends Authenticatable {
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function setting() {
-        return $this->hasOne(AccountHistory::class, 'account_id', $this->primaryKey)->latestOfMany($this->primaryKey);
+        return $this->hasOne(AccountHistory::class, DbTableAccountHistory::ACCOUNT_ID, $this->primaryKey)->latestOfMany($this->primaryKey);
     }
 
     /**
@@ -62,7 +48,7 @@ class Account extends Authenticatable {
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function auth() {
-        return $this->hasOne(AccountAuth::class, 'account_id', $this->primaryKey);
+        return $this->hasOne(AccountAuth::class, DbTableAccountAuth::ACCOUNT_ID, $this->primaryKey);
     }
 
     /**
@@ -71,7 +57,7 @@ class Account extends Authenticatable {
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function addresses() {
-        return $this->hasMany(AccountAddress::class, 'account_id', $this->primaryKey);
+        return $this->hasMany(AccountAddress::class, DbTableAccountAddress::ACCOUNT_ID, $this->primaryKey);
     }
 
     /**
@@ -81,9 +67,9 @@ class Account extends Authenticatable {
      * @var array<string, any>
      */
     protected $attributes = [
-        'id' => '',
-        'display_id' => '',
-        'nickname' => '',
-        'registered_at' => ''
+        DbTableAccount::ID => '',
+        DbTableAccount::DISPLAY_ID => '',
+        DbTableAccount::NICKNAME => '',
+        DbTableAccount::REGISTERED_AT => ''
     ];
 }

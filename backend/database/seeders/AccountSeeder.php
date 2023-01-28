@@ -9,6 +9,8 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
+use App\Constants\Db\Account\DbTableAccount;
+
 class AccountSeeder extends Seeder {
     use WithoutModelEvents;
 
@@ -23,13 +25,13 @@ class AccountSeeder extends Seeder {
         $registered_at = new Carbon('2022-05-31 22:53:05');
 
         $account1 = [
-            'id' => $account_id,
-            'display_id' => 'kurachi',
-            'nickname' => '倉地 俊輔',
-            'registered_at' => $registered_at,
-            'created_at' => $created_at,
-            'updated_at' => $registered_at,
-            'deleted_at' => null,
+            DbTableAccount::ID => $account_id,
+            DbTableAccount::DISPLAY_ID => 'kurachi',
+            DbTableAccount::NICKNAME => '倉地 俊輔',
+            DbTableAccount::REGISTERED_AT => $registered_at,
+            DbTableAccount::CREATED_AT => $created_at,
+            DbTableAccount::UPDATED_AT => $registered_at,
+            DbTableAccount::DELETED_AT => null,
         ];
 
         // 1アカウントで多大なバグを見つけようとする
@@ -42,15 +44,15 @@ class AccountSeeder extends Seeder {
         $account_nickname = '🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿🏴󠁧󠁢󠁥󠁮󠁧󠁿';
 
         $account2 = [
-            'id' => $account_id,
-            'display_id' => 'test_super-longtest_super-long',
-            'nickname' => $account_nickname,
-            'registered_at' => $registered_at,
-            'created_at' => $created_at,
-            'updated_at' => $registered_at,
-            'deleted_at' => null,
+            DbTableAccount::ID => $account_id,
+            DbTableAccount::DISPLAY_ID => 'test_super-longtest_super-long',
+            DbTableAccount::NICKNAME => $account_nickname,
+            DbTableAccount::REGISTERED_AT => $registered_at,
+            DbTableAccount::CREATED_AT => $created_at,
+            DbTableAccount::UPDATED_AT => $registered_at,
+            DbTableAccount::DELETED_AT => null,
         ];
 
-        DB::table('account')->insert([$account1, $account2]);
+        DB::table(DbTableAccount::TABLE_NAME)->insert([$account1, $account2]);
     }
 }

@@ -4,46 +4,23 @@ declare(strict_types=1);
 
 namespace App\Models\Account;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Constants\Db\Account\DbTableAccountVerifyEmail;
+use App\Models\ModelCommon;
 
-class VerifyEmailToken extends Model {
-    use HasFactory;
-
+class VerifyEmailToken extends ModelCommon {
     /**
      * テーブル名
      *
      * @var string
      */
-    protected $table = 'verify_email_token';
-
-    /**
-     * IDはオートインクリメントか
-     *
-     * @var bool
-     */
-    public $incrementing = false;
+    protected $table = DbTableAccountVerifyEmail::TABLE_NAME;
 
     /**
      * プライマリキーのカラム名
      *
      * @var string
      */
-    protected $primaryKey = 'token';
-
-    /**
-     * プライマリキーの型
-     *
-     * @var bool
-     */
-    protected $keyType = 'string';
-
-    /**
-     * 追加できない列
-     *
-     * @var array<int, string>
-     */
-    protected $guarded = [];
+    protected $primaryKey = DbTableAccountVerifyEmail::TOKEN;
 
     /**
      * モデルのデフォルト値
@@ -52,7 +29,7 @@ class VerifyEmailToken extends Model {
      * @var array<string, any>
      */
     protected $attributes = [
-        'token' => '',
-        'account_id' => ''
+        DbTableAccountVerifyEmail::TOKEN => '',
+        DbTableAccountVerifyEmail::ACCOUNT_ID => ''
     ];
 }

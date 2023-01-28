@@ -4,42 +4,18 @@ declare(strict_types=1);
 
 namespace App\Models\Account;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-
 use App\Casts\CastEncrypt;
+use App\Constants\Db\Account\DbTableAccountAddress;
+use App\Models\ModelCommon;
 
 /** アカウント住所情報 */
-class AccountAddress extends Authenticatable {
-    use HasFactory;
-
+class AccountAddress extends ModelCommon {
     /**
      * テーブル名
      *
      * @var string
      */
-    protected $table = 'account_address';
-
-    /**
-     * IDはオートインクリメントか
-     *
-     * @var bool
-     */
-    public $incrementing = false;
-
-    /**
-     * プライマリキーの型
-     *
-     * @var bool
-     */
-    protected $keyType = 'string';
-
-    /**
-     * 追加できない列
-     *
-     * @var array<int, string>
-     */
-    protected $guarded = [];
+    protected $table = DbTableAccountAddress::TABLE_NAME;
 
     /**
      * 取得/更新時に型を変換する
@@ -47,10 +23,10 @@ class AccountAddress extends Authenticatable {
      * @var array<string, string>
      */
     protected $casts = [
-        'post_code' => CastEncrypt::class,
-        'city' => CastEncrypt::class,
-        'area1' => CastEncrypt::class,
-        'area2' => CastEncrypt::class
+        DbTableAccountAddress::POST_CODE => CastEncrypt::class,
+        DbTableAccountAddress::CITY => CastEncrypt::class,
+        DbTableAccountAddress::AREA1 => CastEncrypt::class,
+        DbTableAccountAddress::AREA2 => CastEncrypt::class
     ];
 
     /**
@@ -60,13 +36,13 @@ class AccountAddress extends Authenticatable {
      * @var array<string, any>
      */
     protected $attributes = [
-        'id' => '',
-        'post_code' => '',
-        'country' => 0,
-        'region' => '',
-        'city' => '',
-        'area1' => '',
-        'area2' => '',
-        'use_for' => 0
+        DbTableAccountAddress::ID => '',
+        DbTableAccountAddress::POST_CODE => '',
+        DbTableAccountAddress::COUNTRY => 0,
+        DbTableAccountAddress::REGION => '',
+        DbTableAccountAddress::CITY => '',
+        DbTableAccountAddress::AREA1 => '',
+        DbTableAccountAddress::AREA2 => '',
+        DbTableAccountAddress::USE_FOR => 0
     ];
 }

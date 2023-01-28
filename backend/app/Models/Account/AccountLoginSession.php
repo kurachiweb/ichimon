@@ -4,42 +4,18 @@ declare(strict_types=1);
 
 namespace App\Models\Account;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
 use App\Casts\CastEncrypt;
+use App\Constants\Db\Account\DbTableAccountLoginSession;
 use App\Models\Account\Account;
+use App\Models\ModelCommon;
 
-class AccountLoginSession extends Model {
-    use HasFactory;
-
+class AccountLoginSession extends ModelCommon {
     /**
      * テーブル名
      *
      * @var string
      */
-    protected $table = 'account_login_session';
-
-    /**
-     * IDはオートインクリメントか
-     *
-     * @var bool
-     */
-    public $incrementing = false;
-
-    /**
-     * プライマリキーの型
-     *
-     * @var bool
-     */
-    protected $keyType = 'string';
-
-    /**
-     * 追加できない列
-     *
-     * @var array<int, string>
-     */
-    protected $guarded = [];
+    protected $table = DbTableAccountLoginSession::TABLE_NAME;
 
     /**
      * 取得/更新時に型を変換する
@@ -47,8 +23,8 @@ class AccountLoginSession extends Model {
      * @var array<string, string>
      */
     protected $casts = [
-        'ip_address' => CastEncrypt::class,
-        'user_agent' => CastEncrypt::class
+        DbTableAccountLoginSession::IP_ADDRESS => CastEncrypt::class,
+        DbTableAccountLoginSession::USER_AGENT => CastEncrypt::class
     ];
 
     /**
@@ -57,7 +33,7 @@ class AccountLoginSession extends Model {
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function account() {
-        return $this->belongsTo(Account::class, 'account_id', (new Account())->getKeyName());
+        return $this->belongsTo(Account::class, DbTableAccountLoginSession::ACCOUNT_ID, (new Account())->getKeyName());
     }
 
     /**
@@ -67,10 +43,10 @@ class AccountLoginSession extends Model {
      * @var array<string, any>
      */
     protected $attributes = [
-        'id' => '',
-        'account_id' => '',
-        'token_hash' => '',
-        'ip_address' => null,
-        'user_agent' => null
+        DbTableAccountLoginSession::ID => '',
+        DbTableAccountLoginSession::ACCOUNT_ID => '',
+        DbTableAccountLoginSession::TOKEN_HASH => '',
+        DbTableAccountLoginSession::IP_ADDRESS => null,
+        DbTableAccountLoginSession::USER_AGENT => null
     ];
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Account;
 
+use App\Constants\Db\Account\DbTableAccount;
+use App\Constants\Db\Account\DbTableAccountAuth;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Response as HttpResponse;
 
@@ -33,14 +35,14 @@ class AccountLoginService {
         $account_auth = $account['auth'];
 
         // そのアカウントのパスワードと入力値が一致するか
-        $match_password = password_verify($req_password, $account_auth['password']);
+        $match_password = password_verify($req_password, $account_auth[DbTableAccountAuth::PASSWORD]);
         if (!$match_password) {
             throw new AuthorizationException('Not match \'account\'.', HttpResponse::HTTP_UNAUTHORIZED);
         }
 
         // ログイントークンを生成
         $token = bin2hex(random_bytes(48));
-        $id_token = ['id' => $account['id'], 'token' => $token];
+        $id_token = ['id' => $account[DbTableAccount::ID], 'token' => $token];
 
         return $id_token;
     }

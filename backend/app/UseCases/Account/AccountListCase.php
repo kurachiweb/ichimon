@@ -6,6 +6,8 @@ namespace App\UseCases\Account;
 
 use App\Models\Account\Account;
 
+use App\Constants\Db\Account\DbTableAccount;
+
 class AccountListCase {
     /**
      * アカウント一覧取得
@@ -15,10 +17,10 @@ class AccountListCase {
      */
     public function __invoke() {
         return Account::all([
-            'id',
-            'display_id',
-            'nickname',
-            'registered_at'
+            DbTableAccount::ID,
+            DbTableAccount::DISPLAY_ID,
+            DbTableAccount::NICKNAME,
+            DbTableAccount::REGISTERED_AT
         ]);
     }
 }

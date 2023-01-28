@@ -6,6 +6,8 @@ namespace App\UseCases\Account;
 
 use Carbon\Carbon;
 
+use App\Constants\Db\Account\DbTableAccount;
+use App\Constants\Db\Account\DbTableAccountAuth;
 use App\Models\Account\Account;
 use App\Models\Account\AccountAuth;
 use App\Stores\AccountStore;
@@ -27,18 +29,18 @@ class AccountCreateCase {
         $account_auth_id = Random::dbPrimaryId();
 
         // アカウント基本情報をリクエスト内容で上書き
-        $account['id'] = $account_id;
-        $account['display_id'] = Random::generateString(16);
-        $account['nickname'] = $req_account['nickname'];
-        $account['registered_at'] = $now;
+        $account[DbTableAccount::ID] = $account_id;
+        $account[DbTableAccount::DISPLAY_ID] = Random::generateString(16);
+        $account[DbTableAccount::NICKNAME] = $req_account['nickname'];
+        $account[DbTableAccount::REGISTERED_AT] = $now;
 
         // アカウント認証情報をリクエスト内容で上書き
-        $account_auth['id'] = $account_auth_id;
-        $account_auth['account_id'] = $account_id;
-        $account_auth['email'] = $req_account['email'];
-        $account_auth['email_hash'] = $req_account['email'];
-        $account_auth['password'] = $req_account['password'];
-        $account_auth['password_updated_at'] = $now;
+        $account_auth[DbTableAccountAuth::ID] = $account_auth_id;
+        $account_auth[DbTableAccountAuth::ACCOUNT_ID] = $account_id;
+        $account_auth[DbTableAccountAuth::EMAIL] = $req_account['email'];
+        $account_auth[DbTableAccountAuth::EMAIL_HASH] = $req_account['email'];
+        $account_auth[DbTableAccountAuth::PASSWORD] = $req_account['password'];
+        $account_auth[DbTableAccountAuth::PASSWORD_UPDATED_AT] = $now;
 
         $res_account = Account::create($account);
         $res_account_auth = AccountAuth::create($account_auth);
