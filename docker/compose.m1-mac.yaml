@@ -5,8 +5,6 @@ services:
   backend:
     platform: linux/arm64/v8
   database:
-    build:
-      dockerfile: Dockerfile-m1-mac
+    platform: linux/arm64/v8
   redis:
-    build:
-      dockerfile: Dockerfile-m1-mac
+    platform: linux/arm64/v8
