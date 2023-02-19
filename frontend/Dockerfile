@@ -1,20 +1,34 @@
-FROM node:18.6-alpine3.16
+# Debian 11(bullseye)であり、使用頻度が低いライブラリを含まない軽量版
+FROM node:18.14-bullseye-slim as base
 
 # 作業ディレクトリを作成する
 WORKDIR /usr/src/app
 
-# アプリケーションの依存関係をインストールする
-# ワイルドカードを使い、package.jsonとpackage-lock.jsonの両方をコピー
-# 作業ディレクトリ丸ごとコピーでは、ソースコードを少し変更しただけでもnpm installが実行されてしまうため
-COPY package*.json ./
+# 開発環境
+FROM base as dev-builder
+ENV NODE_ENV=development
 
-# イメージ作成時に、依存モジュールをインストール
-# 本番環境なら npm install --only=production
+# アプリケーションの依存モジュールをインストール
+COPY package*.json ./
 RUN npm install
+
+FROM dev-builder as dev
 
 # インストール後は、ソース全体を利用可能にする
 COPY . .
 
-# コンテナ起動時に実行するコマンド
-# 使用イメージのデフォルトCMD設定を上書きする
-CMD ["npm", "run", "dev"]
+# 本番環境
+FROM base as prod-builder
+ENV NODE_ENV=production
+
+COPY package-lock.json ./
+RUN npm ci --only=production
+
+FROM prod-builder as prod
+
+# インストール後は、ソース全体を非root権限で利用可能にする
+USER node
+COPY --chown=node:node . .
+
+# .nuxtディレクトリに出力し、SSRの用意を整える
+CMD ["npm", "run", "build"]

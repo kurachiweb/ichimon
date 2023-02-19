@@ -3,17 +3,19 @@ services:
     build:
       context: ../frontend
       dockerfile: Dockerfile
-    tty: true
+      target: dev # Dockerfileの"FROM ** as dev"部分を利用
+    tty: true # コンテナを立ち上げたら起動させ続ける
     ports:
       - "55001:55001"
       - "24678:24678" # Viteの無限リロード対策
     volumes:
-      - type: volume
+      - type: volume # コンテナ内の"/usr/src/app"をichimon-frontendボリュームで管理
         source: ichimon-frontend
         target: /usr/src/app
-        volume:
-          nocopy: true
-      - type: bind
+      - type: volume # コンテナ内のnode_modulesを保持し、npm installを効率化
+        source: ichimon-frontend-module
+        target: /usr/src/app/node_modules
+      - type: bind # コンテナ内の"/usr/src/app"とローカルの"../frontend"を同期
         source: ../frontend
         target: /usr/src/app
   backend:
@@ -21,14 +23,13 @@ services:
     build:
       context: ../backend
       dockerfile: Dockerfile
+      target: dev
     ports:
       - "55002:8000"
     volumes:
       - type: volume
         source: ichimon-backend
         target: /usr/src/app
-        volume:
-          nocopy: true
       - type: bind
         source: ../backend
         target: /usr/src/app
@@ -38,16 +39,17 @@ services:
       context: ../database
       dockerfile: Dockerfile
     ports:
-      - "3306:3306"
+      - "3314:3306"
     volumes:
-      - type: volume
+      - type: volume # ボリュームを作ることで、他コンテナとのデータ受け渡しができる
         source: ichimon-database
         target: /var/lib/mysql
-        volume:
-          nocopy: true
-      - type: bind
-        source: ../database
-        target: /usr/src/db
+      - type: bind # DBデータを永続化する
+        source: ../database/data
+        target: /var/lib/mysql
+      - type: bind # ボリューム作成時にDBの初期処理をする
+        source: ../database/initialize
+        target: /docker-entrypoint-initdb.d
   redis:
     build:
       context: ../redis
@@ -55,20 +57,15 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - type: volume
+      - type: volume # ボリュームを作ることで、他コンテナとのデータ受け渡しができる
         source: ichimon-redis
-        target: /usr/local/etc/redis
-        volume:
-          nocopy: true
-      - type: bind
-        source: ../redis
-        target: /usr/src/db
+        target: /data
+      - type: bind # DBデータを永続化する
+        source: ../redis/data
+        target: /data
 volumes:
   ichimon-frontend:
-    name: ichimon-frontend
+  ichimon-frontend-module:
   ichimon-backend:
-    name: ichimon-backend
   ichimon-database:
-    name: ichimon-database
   ichimon-redis:
-    name: ichimon-redis
