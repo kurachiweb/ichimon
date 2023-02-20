@@ -8,12 +8,15 @@ services:
     ports:
       - "55001:55001"
       - "24678:24678" # Viteの無限リロード対策
+    networks:
+      - external
+      - internal
     volumes:
       - type: volume # コンテナ内の"/usr/src/app"をichimon-frontendボリュームで管理
-        source: ichimon-frontend
+        source: frontend
         target: /usr/src/app
       - type: volume # コンテナ内のnode_modulesを保持し、npm installを効率化
-        source: ichimon-frontend-module
+        source: frontend-module
         target: /usr/src/app/node_modules
       - type: bind # コンテナ内の"/usr/src/app"とローカルの"../frontend"を同期
         source: ../frontend
@@ -26,9 +29,11 @@ services:
       target: dev
     ports:
       - "55002:8000"
+    networks:
+      - internal
     volumes:
       - type: volume
-        source: ichimon-backend
+        source: backend
         target: /usr/src/app
       - type: bind
         source: ../backend
@@ -40,9 +45,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3314:3306"
+    networks:
+      - internal
     volumes:
       - type: volume # ボリュームを作ることで、他コンテナとのデータ受け渡しができる
-        source: ichimon-database
+        source: database
         target: /var/lib/mysql
       - type: bind # DBデータを永続化する
         source: ../database/data
@@ -56,16 +63,25 @@ services:
       dockerfile: Dockerfile
     ports:
       - "6379:6379"
+    networks:
+      - internal
     volumes:
       - type: volume # ボリュームを作ることで、他コンテナとのデータ受け渡しができる
-        source: ichimon-redis
+        source: redis
         target: /data
       - type: bind # DBデータを永続化する
         source: ../redis/data
         target: /data
+networks:
+  external: # 外部と通信できるネットワーク
+    driver: bridge
+    internal: false
+  internal: # コンテナ間通信に使い、外部には公開しないネットワーク
+    driver: bridge
+    internal: true
 volumes:
-  ichimon-frontend:
-  ichimon-frontend-module:
-  ichimon-backend:
-  ichimon-database:
-  ichimon-redis:
+  frontend:
+  frontend-module:
+  backend:
+  database:
+  redis:
