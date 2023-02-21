@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Redis;
 
 use App\Constants\ConstBackend;
 use App\Constants\Db\Account\DbTableAccount;
-use App\UseCases\Account\AccountGetCase;
 
 class AccountStore {
     /** Redisインスタンス */
@@ -24,7 +23,7 @@ class AccountStore {
     }
 
     /**
-     * 保存領域からアカウント情報を取得
+     * キャッシュからアカウント情報を取得
      *
      * @param string $account_id
      * @return array|null
@@ -43,13 +42,13 @@ class AccountStore {
         }
 
         // 該当データの保存期限を延ばす
-        $this->_redis->expire($account_id, ConstBackend::REDIS_ACCOUNT_EXPIRATION);
+        $this->_redis->expire($account_id, ConstBackend::CACHE_ACCOUNT_EXPIRATION);
 
         return $res_account;
     }
 
     /**
-     * 保存領域にアカウント情報を保存
+     * キャッシュにアカウント情報を保存
      *
      * @param array $account
      * @return array
@@ -57,19 +56,18 @@ class AccountStore {
     public function save($account) {
         // アカウント情報用キャッシュに接続し、保存する
         // Redisには配列をそのまま入れられないため文字列化
-        $this->_redis->setEx($account[DbTableAccount::ID], ConstBackend::REDIS_ACCOUNT_EXPIRATION, json_encode($account));
+        $this->_redis->setEx($account[DbTableAccount::ID], ConstBackend::CACHE_ACCOUNT_EXPIRATION, json_encode($account));
 
         return $account;
     }
 
     /**
-     * 保存領域のアカウント情報を削除(アカウント基本ID指定)
+     * キャッシュのアカウント情報を削除(アカウント基本ID指定)
      *
      * @param string $account_id
      * @return int
      */
     public function delete($account_id) {
-        // 指定基本IDのアカウント情報を削除する
         return $this->_redis->delete($account_id);
     }
 }

@@ -57,9 +57,9 @@ services:
       - type: bind # ボリューム作成時にDBの初期処理をする
         source: ../database/initialize
         target: /docker-entrypoint-initdb.d
-  redis:
+  cache:
     build:
-      context: ../redis
+      context: ../cache
       dockerfile: Dockerfile
     ports:
       - "6379:6379"
@@ -67,10 +67,10 @@ services:
       - internal
     volumes:
       - type: volume # ボリュームを作ることで、他コンテナとのデータ受け渡しができる
-        source: redis
+        source: cache
         target: /data
       - type: bind # DBデータを永続化する
-        source: ../redis/data
+        source: ../cache/data
         target: /data
 networks:
   external: # 外部と通信できるネットワーク
@@ -84,4 +84,4 @@ volumes:
   frontend-module:
   backend:
   database:
-  redis:
+  cache:

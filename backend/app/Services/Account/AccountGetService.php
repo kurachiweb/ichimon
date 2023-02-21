@@ -15,18 +15,17 @@ class AccountGetService {
      * @return array
      */
     public static function get($req_account_id) {
-        // まずは高速保存領域を見る
+        // まずはキャッシュを見る
         $store = new AccountStore();
         $account_stored = $store->get($req_account_id);
         if (is_array($account_stored)) {
-            // 保存領域にアカウント情報があればそれを返す
             return $account_stored;
         }
 
         // 無ければDBから取得する
         $account_saved = (new AccountGetCase())($req_account_id, true)->toArray();
 
-        // DBから得たアカウント情報を、高速保存領域に保存
+        // DBから得たアカウント情報を、キャッシュに保存
         $store->save($account_saved);
 
         return $account_saved;

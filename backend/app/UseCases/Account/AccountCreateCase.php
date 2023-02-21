@@ -47,7 +47,7 @@ class AccountCreateCase {
         $res_account = $res_account->toArray();
         $res_account['auth'] = $res_account_auth->toArray();
 
-        // Redisにも登録したアカウント情報を保存する
+        // キャッシュにも登録したアカウント情報を保存する
         (new AccountStore())->save($res_account);
 
         return $res_account;

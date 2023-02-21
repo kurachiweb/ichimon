@@ -20,7 +20,7 @@ class AccountUpdateCase {
         // 更新対象のアカウント
         $account = Account::findOrFail($req_account[DbTableAccount::ID]);
 
-        // 高速保存領域に収めたデータがDBの保存データと一致しなくなるのを避けるため、削除
+        // キャッシュに収めたデータがDBの保存データと一致しなくなるのを避けるため、削除
         (new AccountStore())->delete($account[DbTableAccount::ID]);
 
         // 更新可能なカラムの絞り込み
