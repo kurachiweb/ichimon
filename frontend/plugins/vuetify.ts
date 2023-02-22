@@ -1,4 +1,4 @@
-import { Vuetify } from 'nuxt/dist/app/compat/capi';
+import { Vuetify } from '@vue/runtime-core';
 import { createVuetify, ThemeDefinition } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
@@ -29,6 +29,7 @@ export const vCurrentTheme = (instance: Vuetify, colorKey: string) => {
 
 export default defineNuxtPlugin(nuxtApp => {
   const vuetify = createVuetify({
+    ssr: true,
     components,
     directives,
     theme: {
