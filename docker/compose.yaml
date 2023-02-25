@@ -46,6 +46,7 @@ services:
     ports:
       - "3314:3306"
     networks:
+      - external
       - internal
     volumes:
       - type: volume # ボリュームを作ることで、他コンテナとのデータ受け渡しができる
