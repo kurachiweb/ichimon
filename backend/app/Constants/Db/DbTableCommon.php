@@ -22,9 +22,9 @@ class DbTableName {
   const ACCOUNT = 'account';
   const ACCOUNT_AUTH = 'account_auth';
   const ACCOUNT_LOGIN_SESSION = 'account_login_session';
+  const ACCOUNT_MANAGE_SITE = 'account_manage_site';
   const ACCOUNT_NOTIFICATION = 'account_notification';
   const ACCOUNT_PROFILE_IMAGE = 'account_profile_image';
-  const ACCOUNT_PUBLISH_URL = 'account_manage_site';
   const ACCOUNT_STYLING = 'account_styling';
 
   const SURVEY = 'survey';
