@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Utilities;
 
-use App\Constants\ConstBackend;
+use App\Constants\Db\DbTableCommon;
 
 class Random {
     /**
@@ -62,7 +62,7 @@ class Random {
         $interfix_part = substr($az, random_int(0, strlen($az) - 1), 1);
 
         // ランダム部
-        $random_part = self::generateString(ConstBackend::DB_TABLE_ID_LENGTH  - $timestam_part_length - 1);
+        $random_part = self::generateString(DbTableCommon::KEY_LENGTH  - $timestam_part_length - 1);
 
         return $time_part . $interfix_part . $random_part;
     }

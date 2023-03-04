@@ -47,6 +47,9 @@ class DbTableName {
  * 定数: 共通カラム名
  */
 class DbTableCommon {
+    /** ID文字列の長さ */
+    const KEY_LENGTH = 31;
+
     const ID = 'id';
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
@@ -57,6 +60,9 @@ class DbTableCommon {
  * 定数: トークン情報保存テーブルの共通カラム名
  */
 class DbTableTokenCommon {
+    /** ID文字列の長さ */
+    const KEY_LENGTH = 63;
+
     const TOKEN = 'token';
     const CREATED_AT = 'created_at';
 }
@@ -65,6 +71,9 @@ class DbTableTokenCommon {
  * 定数: セッション情報保存テーブルの共通カラム名
  */
 class DbTableSessionCommon {
+    /** ID文字列の長さ */
+    const KEY_LENGTH = DbTableCommon::KEY_LENGTH;
+
     const ID = 'id';
     const CREATED_AT = 'created_at';
     const DELETED_AT = 'deleted_at';
@@ -74,6 +83,9 @@ class DbTableSessionCommon {
  * 定数: ログ情報保存テーブルの共通カラム名
  */
 class DbTableLogCommon {
+    /** ID文字列の長さ */
+    const KEY_LENGTH = DbTableCommon::KEY_LENGTH;
+
     const ID = 'id';
     const CREATED_AT = 'created_at';
 }

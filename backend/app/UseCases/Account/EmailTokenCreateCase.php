@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\UseCases\Account;
 
 use App\Constants\Db\Account\DbTableAccountVerifyEmail;
+use App\Constants\Db\DbTableTokenCommon;
 use App\Models\Account\VerifyEmailToken;
 use App\Utilities\Random;
 
@@ -17,7 +18,7 @@ class EmailTokenCreateCase {
      */
     public function __invoke($req_account_id) {
         // トークンとなるランダム文字列
-        $token = Random::generateString(63);
+        $token = Random::generateString(DbTableTokenCommon::KEY_LENGTH);
 
         $verify_email_token = (new VerifyEmailToken())->toArray();
         $verify_email_token[DbTableAccountVerifyEmail::TOKEN] = $token;
