@@ -12,10 +12,8 @@ use Illuminate\Contracts\Validation\Rule;
 class DbPrimaryValidation implements Rule {
     /**
      * バリデーション結果
-     *
-     * @var true|string
      */
-    private $_result = true;
+    private true|string $_result = true;
 
     /**
      * バリデーション

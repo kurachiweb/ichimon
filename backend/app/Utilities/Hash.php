@@ -7,11 +7,8 @@ namespace App\Utilities;
 class Hash {
     /**
      * 任意文字列をハッシュ化
-     *
-     * @param string|null $value
-     * @return string|null
      */
-    public static function toHashString($value) {
+    public static function toHashString(?string $value): ?string {
         if (is_null($value)) {
             return null;
         } else if ($value === '') {
@@ -22,11 +19,8 @@ class Hash {
 
     /**
      * パスワード文字列をハッシュ化
-     *
-     * @param string|null $value
-     * @return string|null
      */
-    public static function toHashPassword($value) {
+    public static function toHashPassword(?string $value): ?string {
         if (is_null($value)) {
             return null;
         } else if ($value === '') {

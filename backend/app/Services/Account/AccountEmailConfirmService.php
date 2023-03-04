@@ -16,11 +16,8 @@ use App\UseCases\Account\EmailTokenCreateCase;
 class AccountEmailConfirmService {
     /**
      * アカウントメールアドレスの認証メールを送り、ステータスを変更する
-     *
-     * @param array $account_auth
-     * @return array
      */
-    public static function confirm($account_auth) {
+    public static function confirm(array $account_auth): array {
         // メールアドレスの検証対象か
         if ($account_auth[DbTableAccountAuth::VERIFIED_EMAIL] === ConstBackend::ACCOUNT_VERIFY_VERIFY) {
             // 認証済みなら何もしない

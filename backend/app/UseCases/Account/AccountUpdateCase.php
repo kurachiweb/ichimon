@@ -12,11 +12,8 @@ use App\Utilities\KeysOnly;
 class AccountUpdateCase {
     /**
      * アカウント基本情報更新
-     *
-     * @param array $req_account
-     * @return bool
      */
-    public function __invoke($req_account) {
+    public function __invoke(array $req_account): bool {
         // 更新対象のアカウント
         $account = Account::findOrFail($req_account[DbTableAccount::ID]);
 

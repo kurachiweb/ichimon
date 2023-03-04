@@ -51,7 +51,6 @@ class AccountController extends Controller {
     /**
      * 1人取得
      *
-     * @param mixed $id
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
@@ -66,7 +65,6 @@ class AccountController extends Controller {
     /**
      * 1人更新
      *
-     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request) {
@@ -85,7 +83,6 @@ class AccountController extends Controller {
     /**
      * 1人削除
      *
-     * @param mixed $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {

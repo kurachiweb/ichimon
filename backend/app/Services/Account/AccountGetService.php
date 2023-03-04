@@ -10,11 +10,8 @@ use App\UseCases\Account\AccountGetCase;
 class AccountGetService {
     /**
      * アカウント情報を取得する
-     *
-     * @param string $req_account_id
-     * @return array
      */
-    public static function get($req_account_id) {
+    public static function get(string $req_account_id): array {
         // まずはキャッシュを見る
         $store = new AccountStore();
         $account_stored = $store->get($req_account_id);

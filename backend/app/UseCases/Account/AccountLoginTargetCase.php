@@ -14,11 +14,9 @@ class AccountLoginTargetCase {
     /**
      * ログイン対象アカウント取得
      *
-     * @param string $req_name
-     * @param boolean $is_email
-     * @return \App\Models\Account\Account
+     * @return \App\Models\Account\Account|null
      */
-    public function __invoke($req_name, $is_email) {
+    public function __invoke(string $req_name, bool $is_email) {
         // メールアドレスまたは表示用IDに一致するアカウントを取得
         $account = null;
         $account_auth = null;

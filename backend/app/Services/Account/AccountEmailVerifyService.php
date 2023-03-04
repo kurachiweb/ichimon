@@ -18,10 +18,8 @@ use App\UseCases\Account\AuthVerifyEmailUpdateCase;
 class AccountEmailVerifyService {
     /**
      * アカウントメールアドレスの認証を完了する
-     *
-     * @param string $req_token
      */
-    public static function verify($req_token) {
+    public static function verify(string $req_token) {
         // 主キーとなっているトークンで検索する
         $email_token = VerifyEmailToken::findOrFail($req_token);
 

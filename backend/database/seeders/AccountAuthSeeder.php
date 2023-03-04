@@ -18,8 +18,6 @@ class AccountAuthSeeder extends Seeder {
 
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run() {
         $account_auth_id = '00000l5b06ixcqjoko0deoh7c10bw74';

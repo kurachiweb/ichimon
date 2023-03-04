@@ -16,9 +16,7 @@ use App\Constants\Db\Account\DbTableAccountVerifyEmail;
 
 class DatabaseSeeder extends Seeder {
     /**
-     * Seed the application's database.
-     *
-     * @return void
+     * 全てのDBを対象に、初期データを生成する
      */
     public function run() {
         // truncate時、外部キー制約の検証を無効にする

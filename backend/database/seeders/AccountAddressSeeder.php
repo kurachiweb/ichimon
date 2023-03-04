@@ -17,8 +17,6 @@ class AccountAddressSeeder extends Seeder {
 
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run() {
         $account_address_id = '00000l5b06s9zm6oi65p5cy4lcdu1ey';

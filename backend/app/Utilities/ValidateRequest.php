@@ -17,12 +17,9 @@ class ValidateRequest {
     /**
      * JSON形式リクエストのバリデーション
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Illuminate\Http\Request $form_request
-     * @return array
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
-    public static function json(Request $request, FormRequest $form_request) {
+    public static function json(Request $request, FormRequest $form_request): array {
         $body = $request->getContent();
         if (!is_string($body)) {
             // リクエストボディが文字列型以外では、json_decodeできない

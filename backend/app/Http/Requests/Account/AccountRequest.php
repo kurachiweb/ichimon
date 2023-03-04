@@ -23,9 +23,6 @@ class AccountRequest extends RequestCommon {
 
     /**
      * アカウントID形式の型違いを、正しい型に変換する
-     *
-     * @param mixed $value
-     * @return string
      */
     public static function toAccountId($value) {
         return (string)$value;

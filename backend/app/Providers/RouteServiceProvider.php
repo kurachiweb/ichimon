@@ -22,8 +22,6 @@ class RouteServiceProvider extends ServiceProvider {
 
     /**
      * Define your route model bindings, pattern filters, etc.
-     *
-     * @return void
      */
     public function boot() {
         $this->configureRateLimiting();
@@ -40,8 +38,6 @@ class RouteServiceProvider extends ServiceProvider {
 
     /**
      * Configure the rate limiters for the application.
-     *
-     * @return void
      */
     protected function configureRateLimiting() {
         RateLimiter::for('api', function (Request $request) {

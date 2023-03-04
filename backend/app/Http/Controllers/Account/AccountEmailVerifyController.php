@@ -15,7 +15,6 @@ class AccountEmailVerifyController extends Controller {
     /**
      * メール認証トークンを照合できれば、アカウントのメール認証ステータスを更新
      *
-     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function __invoke(Request $request) {

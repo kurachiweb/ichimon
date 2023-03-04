@@ -15,8 +15,6 @@ class AccountEmailConfirmController extends Controller {
     /**
      * 指定IDのアカウントがメールアドレス未認証なら、認証メールを送る
      *
-     * @param \Illuminate\Http\Request $request
-     * @param mixed $id
      * @return \Illuminate\Http\Response
      */
     public function __invoke(Request $request, $id) {

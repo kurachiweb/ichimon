@@ -11,10 +11,8 @@ use App\Models\Account\Account;
 class AccountDeleteCase {
     /**
      * アカウント削除
-     *
-     * @param string $req_account_id
      */
-    public function __invoke($req_account_id) {
+    public function __invoke(string $req_account_id) {
         // 削除対象のアカウント
         $account = Account::findOrFail($req_account_id);
         $account_auth = $account->auth;

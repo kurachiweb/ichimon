@@ -13,10 +13,9 @@ class ValidateVariable {
     /**
      * 複数の変数をオブジェクトで包み、バリデーターを生成する
      *
-     * @param array<int, array> $inputs
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    public static function make($inputs) {
+    public static function make(array $inputs) {
         // 各アイテムの先頭が検証する変数、それにバリデーションルールが続く
         // $inputs = [
         //   [$req_account_id, 'required', new DbPrimaryValidation()],

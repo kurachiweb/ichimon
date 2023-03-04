@@ -13,13 +13,9 @@ class AccountLoginSessionCreateCase {
     /**
      * アカウントログインセッション作成
      *
-     * @param string $req_account_id
-     * @param string $req_token
-     * @param string|null $req_ip
-     * @param string|null $req_user_agent
      * @return \App\Models\Account\AccountLoginSession
      */
-    public function __invoke($req_account_id, $req_token, $req_ip, $req_user_agent) {
+    public function __invoke(string $req_account_id, string $req_token, ?string $req_ip, ?string $req_user_agent) {
         $account_session = (new AccountLoginSession())->toArray();
         $account_session[DbTableAccountLoginSession::ID] = Random::dbPrimaryId();
         $account_session[DbTableAccountLoginSession::ACCOUNT_ID] = $req_account_id;

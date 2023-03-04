@@ -9,11 +9,8 @@ use App\Constants\Db\DbTableCommon;
 class Random {
     /**
      * ランダム文字列生成
-     *
-     * @param int $length
-     * @return string
      */
-    public static function generateString(int $length) {
+    public static function generateString(int $length): string {
         // 返すランダム文字列、処理の過程で連結していく
         $random_str = '';
         // 連結したランダム文字列の文字数、指定文字数以上まで増える
@@ -43,10 +40,8 @@ class Random {
 
     /**
      * 乱数生成、DBテーブル主キー用
-     *
-     * @return string
      */
-    public static function dbPrimaryId() {
+    public static function dbPrimaryId(int $length = DbTableCommon::KEY_LENGTH): string {
         // 僅かでも数字だけになることのないよう、0~9にしないための辞書
         $az = 'abcdefghijklmnopqrstuvwxyz';
         /** タイムスタンプ部の文字数 */
@@ -62,7 +57,7 @@ class Random {
         $interfix_part = substr($az, random_int(0, strlen($az) - 1), 1);
 
         // ランダム部
-        $random_part = self::generateString(DbTableCommon::KEY_LENGTH  - $timestam_part_length - 1);
+        $random_part = self::generateString($length - $timestam_part_length - 1);
 
         return $time_part . $interfix_part . $random_part;
     }

@@ -26,10 +26,6 @@ class AccountAuthRGuard implements Guard {
 
     /**
      * Create a new authentication guard.
-     *
-     * @param string $name
-     * @param AccountProvider $provider
-     * @param Request $request
      */
     public function __construct(string $name, AccountProvider $provider, Request $request = null) {
         $this->_request = $request;
@@ -74,7 +70,6 @@ class AccountAuthRGuard implements Guard {
     /**
      * Validate a account's credentials.
      *
-     * @param array $credentials
      * @return bool
      */
     public function validate(array $credentials = []) {

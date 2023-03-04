@@ -11,18 +11,13 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 class RequestCommon extends FormRequest {
     /**
      * 認可チェックはミドルウェアに任せる。
-     *
-     * @return bool
      */
-    public function authorize() {
+    public function authorize(): bool {
         return true;
     }
 
     /**
      * バリデーションエラー時
-     *
-     * @param \Illuminate\Contracts\Validation\Validator $validator
-     * @return void
      *
      * @throws \Illuminate\Http\Exceptions\HttpResponseException
      */

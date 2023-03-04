@@ -13,10 +13,9 @@ class EmailTokenCreateCase {
     /**
      * アカウントメールアドレス認証トークン作成
      *
-     * @param string $req_account_id
      * @return \App\Models\Account\VerifyEmailToken
      */
-    public function __invoke($req_account_id) {
+    public function __invoke(string $req_account_id) {
         // トークンとなるランダム文字列
         $token = Random::generateString(DbTableTokenCommon::KEY_LENGTH);
 

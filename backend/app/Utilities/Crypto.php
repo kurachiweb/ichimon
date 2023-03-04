@@ -10,29 +10,22 @@ use Illuminate\Contracts\Encryption\EncryptException;
 class Crypto {
     /**
      * 暗号キー
-     *
-     * @return string
      */
-    private static function getKey() {
+    private static function getKey(): string {
         return (string)config('app.save_key');
     }
 
     /**
      * 暗号化方式
-     *
-     * @var string
      */
-    private static function getCipher() {
+    private static function getCipher(): string {
         return strtolower(config('app.cipher'));
     }
 
     /**
      * 任意文字列を暗号化
-     *
-     * @param string|null $value
-     * @return string|null
      */
-    public static function toEncryptString($value) {
+    public static function toEncryptString(?string $value): ?string {
         if (is_null($value)) {
             return null;
         } else if ($value === '') {
@@ -44,10 +37,9 @@ class Crypto {
     /**
      * 文字列の暗号化
      *
-     * @param string $value
-     * @return string
+     * @throws EncryptException
      */
-    private static function encryptString($value) {
+    private static function encryptString(string $value): string {
         // 暗号化方式
         $cipher = self::getCipher();
         // 初期化ベクトル
@@ -92,11 +84,8 @@ class Crypto {
 
     /**
      * 任意文字列を復号
-     *
-     * @param string|null $value
-     * @return string|null
      */
-    public static function toDecryptString($value) {
+    public static function toDecryptString(?string $value): ?string {
         if (is_null($value)) {
             return null;
         } else if ($value === '') {
@@ -108,10 +97,9 @@ class Crypto {
     /**
      * 文字列の復号
      *
-     * @param string $value
-     * @return string
+     * @throws DecryptException
      */
-    private static function decryptString($value) {
+    private static function decryptString(string $value): string {
         // 暗号化方式
         $cipher = self::getCipher();
 
@@ -136,7 +124,7 @@ class Crypto {
         }
 
         // 復号して元の文字列を取得
-        $decrypted = \openssl_decrypt(
+        $decrypted = openssl_decrypt(
             $payload['value'],
             $cipher,
             self::getKey(),

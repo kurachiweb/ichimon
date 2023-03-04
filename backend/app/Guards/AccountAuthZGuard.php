@@ -28,13 +28,8 @@ class AccountAuthZGuard implements Guard {
 
     /**
      * Create a new authentication guard.
-     *
-     * @param string $name
-     * @param AccountProvider $provider
-     * @param Request $request
      */
     public function __construct(string $name, AccountProvider $provider, Request $request = null) {
-        $this->_name = $name;
         $this->_request = $request;
         $this->_provider = $provider;
         $this->_account_session = null;
@@ -84,7 +79,6 @@ class AccountAuthZGuard implements Guard {
     /**
      * Validate a account's credentials.
      *
-     * @param array $credentials
      * @return bool
      */
     public function validate(array $credentials = []) {

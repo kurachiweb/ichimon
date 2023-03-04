@@ -10,13 +10,11 @@ class AccountGetCase {
     /**
      * アカウント取得
      *
-     * @param string $req_account_id
-     * @param boolean $relation 関連テーブルからも一度に取得すか
      * @return \App\Models\Account\Account
      */
-    public function __invoke($req_account_id, $relation = false) {
+    public function __invoke(string $req_account_id, bool $also_relation = false) {
         $with = [];
-        if ($relation) {
+        if ($also_relation) {
             $with = ['setting', 'auth', 'addresses'];
         }
 

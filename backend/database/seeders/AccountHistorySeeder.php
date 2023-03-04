@@ -17,8 +17,6 @@ class AccountHistorySeeder extends Seeder {
 
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
     public function run() {
         $account_history_id = '00000l5b04ot4u8xgp1fdnhd6lzqdgp';

@@ -17,10 +17,9 @@ class AccountCreateCase {
     /**
      * アカウント作成
      *
-     * @param array $req_account
      * @return \App\Models\Account\Account
      */
-    public function __invoke($req_account) {
+    public function __invoke(array $req_account) {
         $account = (new Account())->toArray();
         $account_auth = (new AccountAuth())->toArray();
 

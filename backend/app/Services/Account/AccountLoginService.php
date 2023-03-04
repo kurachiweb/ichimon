@@ -14,11 +14,8 @@ use App\UseCases\Account\AccountLoginTargetCase;
 class AccountLoginService {
     /**
      * アカウントにログインする
-     *
-     * @param string $req_name
-     * @param string $req_password
      */
-    public static function verify($req_name, $req_password) {
+    public static function verify(string $req_name, string $req_password) {
         // @が2文字目以降にあればメールアドレス扱い
         $is_email = true;
         if (strpos($req_name, '@', 1) === false) {

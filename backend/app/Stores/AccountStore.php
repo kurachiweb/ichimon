@@ -10,13 +10,15 @@ use App\Constants\ConstBackend;
 use App\Constants\Db\Account\DbTableAccount;
 
 class AccountStore {
-    /** Redisインスタンス */
+    /**
+     * 接続中のRedisインスタンス
+     *
+     * @var \Illuminate\Redis\Connections\Connection
+     */
     public $_redis;
 
     /**
      * Redisに接続
-     *
-     * @return void
      */
     public function __construct() {
         $this->_redis = Redis::connection('account');
@@ -24,11 +26,8 @@ class AccountStore {
 
     /**
      * キャッシュからアカウント情報を取得
-     *
-     * @param string $account_id
-     * @return array|null
      */
-    public function get($account_id) {
+    public function get(string $account_id): ?array {
         $account_raw = $this->_redis->get($account_id);
         if (!is_string($account_raw)) {
             // 対象IDのアカウント情報が得られなかった場合は空
@@ -49,11 +48,8 @@ class AccountStore {
 
     /**
      * キャッシュにアカウント情報を保存
-     *
-     * @param array $account
-     * @return array
      */
-    public function save($account) {
+    public function save(array $account): array {
         // アカウント情報用キャッシュに接続し、保存する
         // Redisには配列をそのまま入れられないため文字列化
         $this->_redis->setEx($account[DbTableAccount::ID], ConstBackend::CACHE_ACCOUNT_EXPIRATION, json_encode($account));
@@ -63,11 +59,8 @@ class AccountStore {
 
     /**
      * キャッシュのアカウント情報を削除(アカウント基本ID指定)
-     *
-     * @param string $account_id
-     * @return int
      */
-    public function delete($account_id) {
+    public function delete(string $account_id) {
         return $this->_redis->delete($account_id);
     }
 }

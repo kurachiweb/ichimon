@@ -16,13 +16,9 @@ class ApiResponseServiceProvider extends ServiceProvider {
         /**
          * レスポンス規格統一
          *
-         * @param array|null $data
-         * @param int $status_code
-         * @param array $headers
-         * @param string $message
          * @return \Illuminate\Http\Response
          */
-        function unifiedResponse($data, $status_code, $headers, $message) {
+        function unifiedResponse(?array $data, int $status_code, array $headers, string $message) {
             return response()->json([
                 'message' => $message,
                 'data' => $data
