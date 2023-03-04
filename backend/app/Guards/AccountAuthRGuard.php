@@ -20,64 +20,64 @@ use App\Utilities\ValidateVariable;
  * ログインアカウントを認証できるか
  */
 class AccountAuthRGuard implements Guard {
-  use GuardHelpers;
+    use GuardHelpers;
 
-  protected ?Request $_request;
+    protected ?Request $_request;
 
-  /**
-   * Create a new authentication guard.
-   *
-   * @param string $name
-   * @param AccountProvider $provider
-   * @param Request $request
-   */
-  public function __construct(string $name, AccountProvider $provider, Request $request = null) {
-    $this->_request = $request;
-  }
-
-  /**
-   * Determine if the current account is authenticated.
-   *
-   * @return bool
-   */
-  public function check() {
-    return $this->user();
-  }
-
-  /**
-   * Get the currently authenticated account.
-   *
-   * @return Authenticatable|null
-   */
-  public function user() {
-    // Cookieに保存されているアカウントIDを取得
-    $cookie_id_token_stringify = $this->_request->cookie(ConstBackend::COOKIE_ACCOUNT_LOGIN_NAME);
-    $cookie_id_token = BundleIdToken::expand($cookie_id_token_stringify);
-
-    $req_account_id_raw = $this->_request->route('account');
-    $cookie_account_id = $cookie_id_token['id'];
-    $req_account_id = AccountRequest::toAccountId($req_account_id_raw);
-
-    // リクエストパラメータ/Cookie保存値のIDがアカウント基本ID形式か判定
-    $validator = ValidateVariable::make([
-      [$req_account_id, 'required', new DbPrimaryValidation()],
-      [$cookie_account_id, 'required', new DbPrimaryValidation()]
-    ]);
-    if ($validator->fails()) {
-      return null;
+    /**
+     * Create a new authentication guard.
+     *
+     * @param string $name
+     * @param AccountProvider $provider
+     * @param Request $request
+     */
+    public function __construct(string $name, AccountProvider $provider, Request $request = null) {
+        $this->_request = $request;
     }
 
-    // リクエストURLのアカウントIDと一致していれば、認証できたと見なす
-    return $req_account_id === $cookie_account_id;
-  }
+    /**
+     * Determine if the current account is authenticated.
+     *
+     * @return bool
+     */
+    public function check() {
+        return $this->user();
+    }
 
-  /**
-   * Validate a account's credentials.
-   *
-   * @param array $credentials
-   * @return bool
-   */
-  public function validate(array $credentials = []) {
-    return false;
-  }
+    /**
+     * Get the currently authenticated account.
+     *
+     * @return Authenticatable|null
+     */
+    public function user() {
+        // Cookieに保存されているアカウントIDを取得
+        $cookie_id_token_stringify = $this->_request->cookie(ConstBackend::COOKIE_ACCOUNT_LOGIN_NAME);
+        $cookie_id_token = BundleIdToken::expand($cookie_id_token_stringify);
+
+        $req_account_id_raw = $this->_request->route('account');
+        $cookie_account_id = $cookie_id_token['id'];
+        $req_account_id = AccountRequest::toAccountId($req_account_id_raw);
+
+        // リクエストパラメータ/Cookie保存値のIDがアカウント基本ID形式か判定
+        $validator = ValidateVariable::make([
+            [$req_account_id, 'required', new DbPrimaryValidation()],
+            [$cookie_account_id, 'required', new DbPrimaryValidation()]
+        ]);
+        if ($validator->fails()) {
+            return null;
+        }
+
+        // リクエストURLのアカウントIDと一致していれば、認証できたと見なす
+        return $req_account_id === $cookie_account_id;
+    }
+
+    /**
+     * Validate a account's credentials.
+     *
+     * @param array $credentials
+     * @return bool
+     */
+    public function validate(array $credentials = []) {
+        return false;
+    }
 }

@@ -14,29 +14,29 @@ use Illuminate\Validation\ValidationException;
  * リクエストの汎用バリデーション
  */
 class ValidateRequest {
-  /**
-   * JSON形式リクエストのバリデーション
-   *
-   * @param \Illuminate\Http\Request $request
-   * @param \Illuminate\Http\Request $form_request
-   * @return array
-   * @throws \Illuminate\Validation\ValidationException
-   */
-  public static function json(Request $request, FormRequest $form_request) {
-    $body = $request->getContent();
-    if (!is_string($body)) {
-      // リクエストボディが文字列型以外では、json_decodeできない
-      throw new ValidationException('Request not JSON.', Response::HTTP_BAD_REQUEST);
-    }
+    /**
+     * JSON形式リクエストのバリデーション
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $form_request
+     * @return array
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public static function json(Request $request, FormRequest $form_request) {
+        $body = $request->getContent();
+        if (!is_string($body)) {
+            // リクエストボディが文字列型以外では、json_decodeできない
+            throw new ValidationException('Request not JSON.', Response::HTTP_BAD_REQUEST);
+        }
 
-    $req = json_decode($body, true);
-    if (!is_array($req)) {
-      // リクエスト内容が[]や{}でなければ、総じてバリデーションエラー
-      throw new ValidationException('Request not JSON.', Response::HTTP_BAD_REQUEST);
-    }
+        $req = json_decode($body, true);
+        if (!is_array($req)) {
+            // リクエスト内容が[]や{}でなければ、総じてバリデーションエラー
+            throw new ValidationException('Request not JSON.', Response::HTTP_BAD_REQUEST);
+        }
 
-    // リクエストを入力チェック
-    $validator = Validator::make($req, $form_request->rules());
-    return $validator->validated();
-  }
+        // リクエストを入力チェック
+        $validator = Validator::make($req, $form_request->rules());
+        return $validator->validated();
+    }
 }

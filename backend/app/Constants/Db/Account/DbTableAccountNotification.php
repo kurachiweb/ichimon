@@ -12,15 +12,17 @@ use App\Constants\Db\DbTableName;
  * 定数: アカウントの通知設定
  */
 class DbTableAccountNotification extends DbTableCommon {
-  /** アカウントの通知設定: テーブル名 */
-  const TABLE_NAME = 'account_notification';
+    /** アカウントの通知設定: DB名 */
+    const DB_NAME = DbName::ACCOUNT;
+    /** アカウントの通知設定: テーブル名 */
+    const TABLE_NAME = DbTableName::ACCOUNT_NOTIFICATION;
 
-  /** アカウントの通知設定: 対象のアカウント基本ID */
-  const ACCOUNT_ID = 'account_id';
-  /** アカウントの通知設定: 通知手段 */
-  const WAY = 'way';
-  /** アカウントの通知設定: 通知トリガーの発生タイミング */
-  const TRIGGER = 'trigger';
-  /** アカウントの通知設定: その通知トリガーは有効か */
-  const ENABLED = 'enabled';
+    /** アカウントの通知設定: 対象のアカウント基本ID */
+    const ACCOUNT_ID = 'account_id';
+    /** アカウントの通知設定: 通知手段 */
+    const WAY = 'way';
+    /** アカウントの通知設定: 通知トリガーの発生タイミング */
+    const TRIGGER = 'trigger';
+    /** アカウントの通知設定: その通知トリガーは有効か */
+    const ENABLED = 'enabled';
 }

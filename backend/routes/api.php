@@ -29,18 +29,18 @@ Route::post('/accounts/login', AccountLoginController::class);
 
 // ログイン状態なら
 Route::group(['middleware' => ['account.auth:authz']], function () {
-  // アカウント基礎情報・認証情報のRUD
-  Route::apiResource('/accounts', AccountController::class, ['only' => ['index']]);
-
-  // ログインユーザーを認証できれば
-  Route::group(['middleware' => ['account.auth:authr']], function () {
     // アカウント基礎情報・認証情報のRUD
-    Route::apiResource('/accounts', AccountController::class, ['except' => ['index', 'store']]);
+    Route::apiResource('/accounts', AccountController::class, ['only' => ['index']]);
 
-    // アカウントメールアドレスの認証メール送信
-    Route::post('/accounts/{account}/email/confirm', AccountEmailConfirmController::class);
+    // ログインユーザーを認証できれば
+    Route::group(['middleware' => ['account.auth:authr']], function () {
+        // アカウント基礎情報・認証情報のRUD
+        Route::apiResource('/accounts', AccountController::class, ['except' => ['index', 'store']]);
 
-    // アカウントメールアドレスの認証トークン検証
-    Route::post('/accounts/{account}/email/verify', AccountEmailVerifyController::class);
-  });
+        // アカウントメールアドレスの認証メール送信
+        Route::post('/accounts/{account}/email/confirm', AccountEmailConfirmController::class);
+
+        // アカウントメールアドレスの認証トークン検証
+        Route::post('/accounts/{account}/email/verify', AccountEmailVerifyController::class);
+    });
 });
