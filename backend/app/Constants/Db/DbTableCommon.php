@@ -28,10 +28,10 @@ class DbTableName {
     const ACCOUNT_STYLING = 'account_styling';
 
     const SURVEY = 'survey';
-    const SURVEY_ANSWER = 'survey_answer';
     const SURVEY_PUBLISH = 'survey_publish';
     const SURVEY_QUESTION = 'survey_question';
-    const QUESTION_CHOICE = 'question_choice';
+    const SURVEY_QUESTION_ANSWER = 'question_answer';
+    const SURVEY_QUESTION_CHOICE = 'question_choice';
 
     const TOKEN_CHANGE_EMAIL = 'token_change_email';
     const TOKEN_CHANGE_PASSWORD = 'token_change_password';
