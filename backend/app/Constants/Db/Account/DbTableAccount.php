@@ -20,7 +20,7 @@ class DbTableAccount extends DbTableCommon {
     /** アカウント基本情報: 表示用ニックネーム */
     const NICKNAME = 'nickname';
     /** アカウント基本情報: 自己紹介 */
-    const self_intro = 'self_intro';
+    const SELF_INTRO = 'self_intro';
     /** アカウント基本情報: アカウント登録完了日時 */
     const REGISTERED_AT = 'registered_at';
 }

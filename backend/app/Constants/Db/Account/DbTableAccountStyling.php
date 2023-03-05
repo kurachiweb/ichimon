@@ -24,7 +24,7 @@ class DbTableAccountStyling extends DbTableCommon {
     /** アカウント別の表示設定: ヘッダーの大きさ */
     const HEADER_SIZE = 'header_size';
     /** アカウント別の表示設定: 表示言語 */
-    const LANGUAGE = 'language';
+    const LANGUAGE_ID = 'language_id';
     /** アカウント別の表示設定: 時刻表示におけるタイムゾーン */
-    const TIMEZONE = 'timezone';
+    const TIMEZONE_ID = 'timezone_id';
 }
