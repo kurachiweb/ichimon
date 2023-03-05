@@ -12,15 +12,13 @@ class AccountEmailVerify extends Mailable {
     use Queueable, SerializesModels;
 
     /** メール認証トークン */
-    public $token;
+    public string $verify_token;
 
     /**
      * メール送信初期化
-     *
-     * @return void
      */
-    public function __construct(string $token) {
-        $this->token = $token;
+    public function __construct(string $verify_token) {
+        $this->verify_token = $verify_token;
     }
 
     /**
@@ -30,7 +28,7 @@ class AccountEmailVerify extends Mailable {
      */
     public function build() {
         $origin = config('app.origin_front');
-        $url = "$origin/?email_token=$this->token";
+        $url = "$origin/?email_token=$this->verify_token";
 
         return $this->from('kurachiweb@gmail.com') // 送信元
             ->subject('アカウントのメールアドレスを認証する') // 件名
