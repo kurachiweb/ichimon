@@ -248,9 +248,9 @@ DROP TABLE IF EXISTS `ichimon_survey`.`survey` ;
 CREATE TABLE IF NOT EXISTS `ichimon_survey`.`survey` (
   `id` VARCHAR(31) NOT NULL COMMENT 'アンケートID',
   `account_id` VARCHAR(31) NOT NULL COMMENT '対象のアカウント基本ID',
-  `greeting` VARCHAR(2046) NULL DEFAULT NULL COMMENT 'アンケートの回答者に表示される、「ご協力ください」といった短文',
-  `title` VARCHAR(255) NULL DEFAULT NULL COMMENT 'タイトル、一覧表示で目立つ表示となる',
-  `description` VARCHAR(2046) NULL DEFAULT NULL COMMENT '説明',
+  `title` VARCHAR(255) NOT NULL COMMENT '作成者向けのタイトル',
+  `greeting` VARCHAR(255) NOT NULL COMMENT '回答者向けのつかみメッセージ',
+  `description` VARCHAR(2046) NOT NULL COMMENT '回答者向けの説明',
   `publish_start_at` DATETIME NOT NULL COMMENT 'アンケート公開開始日時',
   `publish_end_at` DATETIME NOT NULL COMMENT 'アンケート公開終了日時',
   `created_at` DATETIME NOT NULL COMMENT 'データ作成日時',
@@ -299,8 +299,7 @@ DROP TABLE IF EXISTS `ichimon_survey`.`question_choice` ;
 CREATE TABLE IF NOT EXISTS `ichimon_survey`.`question_choice` (
   `id` VARCHAR(31) NOT NULL COMMENT '回答選択肢ID\\n1以上のランダム値\\n不変',
   `question_id` VARCHAR(31) NOT NULL COMMENT '対象の質問ID',
-  `label` VARCHAR(255) NOT NULL COMMENT 'フロント用選択肢ラベル',
-  `value` INT UNSIGNED NOT NULL COMMENT 'フロント用選択肢ID',
+  `name` VARCHAR(255) NOT NULL COMMENT '選択肢名',
   `created_at` DATETIME NOT NULL COMMENT 'データ作成日時',
   `updated_at` DATETIME NOT NULL COMMENT 'データ更新日時',
   `deleted_at` DATETIME NULL DEFAULT NULL COMMENT 'データ削除日時',
@@ -312,18 +311,18 @@ CREATE TABLE IF NOT EXISTS `ichimon_survey`.`question_choice` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-COMMENT = '質問に対する回答項目';
+COMMENT = '回答選択肢';
 
 
 -- -----------------------------------------------------
--- Table `ichimon_survey`.`survey_answer`
+-- Table `ichimon_survey`.`question_answer`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `ichimon_survey`.`survey_answer` ;
+DROP TABLE IF EXISTS `ichimon_survey`.`question_answer` ;
 
-CREATE TABLE IF NOT EXISTS `ichimon_survey`.`survey_answer` (
+CREATE TABLE IF NOT EXISTS `ichimon_survey`.`question_answer` (
   `id` VARCHAR(31) NOT NULL COMMENT 'アンケートへの回答ID',
   `question_id` VARCHAR(31) NOT NULL COMMENT '対象の質問ID',
-  `choice_value` INT UNSIGNED NULL DEFAULT NULL COMMENT '選んだ選択肢\\n自由入力型ではNULL',
+  `question_choice_id` VARCHAR(31) NULL DEFAULT NULL COMMENT '選んだ選択肢\\n自由入力型ではNULL',
   `text` TEXT NULL DEFAULT NULL COMMENT '回答における記述内容\\n選択式ではNULL',
   `created_at` DATETIME NOT NULL COMMENT 'データ作成日時',
   `updated_at` DATETIME NOT NULL COMMENT 'データ更新日時',
