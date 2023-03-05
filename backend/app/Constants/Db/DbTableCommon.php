@@ -100,3 +100,10 @@ class DbTableLogCommon {
     const ID = 'id';
     const CREATED_AT = 'created_at';
 }
+
+/**
+ * 定数: 参照情報保存テーブルの共通カラム名
+ */
+class DbTableReferenceCommon {
+    const ID = 'id';
+}
