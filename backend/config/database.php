@@ -83,6 +83,10 @@ return [
                     ...$db_connect_default,
                     'database' => env('DB_CONNECTION_LOG', 'log'),
                 ],
+                'db_reference' => [
+                    ...$db_connect_default,
+                    'database' => env('DB_CONNECTION_REFERENCE', 'reference'),
+                ],
             ];
         })(),
 

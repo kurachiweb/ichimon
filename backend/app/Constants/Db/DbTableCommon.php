@@ -10,9 +10,20 @@ namespace App\Constants\Db;
 class DbName {
     const ACCOUNT = 'ichimon_account';
     const SURVEY = 'ichimon_survey';
-    const TOKEN = 'ichimon_reference';
-    const REFERENCE = 'ichimon_token';
+    const TOKEN = 'ichimon_token';
     const LOG = 'ichimon_log';
+    const REFERENCE = 'ichimon_reference';
+}
+
+/**
+ * 定数: DB接続名
+ */
+class DbConnectionName {
+    const ACCOUNT = 'db_account';
+    const SURVEY = 'db_survey';
+    const TOKEN = 'db_token';
+    const LOG = 'db_log';
+    const REFERENCE = 'db_reference';
 }
 
 /**
