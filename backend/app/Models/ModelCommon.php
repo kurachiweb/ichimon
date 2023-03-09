@@ -21,7 +21,7 @@ class ModelCommon extends Authenticatable {
     /**
      * プライマリキーの型
      *
-     * @var bool
+     * @var string
      */
     protected $keyType = 'string';
 

@@ -19,4 +19,6 @@ class DbTableLogAccountSecurity extends DbTableLogCommon {
 
     /** アカウントのセキュリティログ: 対象のアカウント基本ID */
     const ACCOUNT_ID = 'account_id';
+    /** アカウントのセキュリティログ: ログの種類 */
+    const TYPE = 'type';
 }
