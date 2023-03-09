@@ -11,6 +11,7 @@ use App\Constants\Db\Account\DbTableAccountManageSite;
 use App\Constants\Db\Account\DbTableAccountNotification;
 use App\Constants\Db\Account\DbTableAccountProfileImage;
 use App\Constants\Db\Account\DbTableAccountStyling;
+use App\Constants\Db\Log\DbTableLogAccountSecurity;
 use App\Constants\Db\DbConnectionName;
 use App\Models\Account\AccountAuth;
 use App\Models\Account\AccountLoginSession;
@@ -18,6 +19,7 @@ use App\Models\Account\AccountManageSite;
 use App\Models\Account\AccountNotification;
 use App\Models\Account\AccountProfileImage;
 use App\Models\Account\AccountStyling;
+use App\Models\Log\LogAccountSecurity;
 use App\Models\ModelCommon;
 
 /** モデル: アカウント基本情報 */
@@ -115,6 +117,19 @@ class Account extends ModelCommon {
         return $this->hasOne(
             AccountStyling::class,
             DbTableAccountStyling::ACCOUNT_ID,
+            $this->primaryKey
+        );
+    }
+
+    /**
+     * アカウントセキュリティログへのリレーション
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function securityLogs() {
+        return $this->hasMany(
+            LogAccountSecurity::class,
+            DbTableLogAccountSecurity::ACCOUNT_ID,
             $this->primaryKey
         );
     }
