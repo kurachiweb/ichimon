@@ -174,7 +174,7 @@ COMMENT = 'アカウントのプロフィール画像設定';
 DROP TABLE IF EXISTS `ichimon_account`.`account_login_session` ;
 
 CREATE TABLE IF NOT EXISTS `ichimon_account`.`account_login_session` (
-  `id` VARCHAR(31) NOT NULL COMMENT 'アカウント通知設定ID',
+  `id` VARCHAR(31) NOT NULL COMMENT 'アカウントログイン保持情報ID',
   `account_id` VARCHAR(31) NOT NULL COMMENT '対象のアカウント基本ID',
   `token_hash` VARCHAR(510) NOT NULL COMMENT 'トークンのハッシュ文字列',
   `ip_address` VARCHAR(255) NULL DEFAULT NULL COMMENT 'IPアドレスの暗号化文字列',
@@ -190,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `ichimon_account`.`account_login_session` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-COMMENT = 'アカウントの通知設定';
+COMMENT = 'アカウントログイン保持情報';
 
 
 -- -----------------------------------------------------

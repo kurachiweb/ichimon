@@ -11,7 +11,7 @@ use App\Constants\Db\DbTableName;
 /**
  * 定数: アカウントのプロフィール画像設定
  */
-class DbTableAccountNotification extends DbTableCommon {
+class DbTableAccountProfileImage extends DbTableCommon {
     /** アカウントのプロフィール画像設定: DB名 */
     const DB_NAME = DbName::ACCOUNT;
     /** アカウントのプロフィール画像設定: テーブル名 */

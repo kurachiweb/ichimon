@@ -5,60 +5,28 @@ declare(strict_types=1);
 namespace App\Models\Account;
 
 use App\Constants\Db\Account\DbTableAccount;
-use App\Constants\Db\Account\DbTableAccountAddress;
 use App\Constants\Db\Account\DbTableAccountAuth;
-use App\Constants\Db\Account\DbTableAccountHistory;
-use App\Models\Account\AccountAddress;
+use App\Constants\Db\Account\DbTableAccountLoginSession;
+use App\Constants\Db\Account\DbTableAccountManageSite;
+use App\Constants\Db\Account\DbTableAccountNotification;
+use App\Constants\Db\Account\DbTableAccountProfileImage;
+use App\Constants\Db\Account\DbTableAccountStyling;
+use App\Constants\Db\DbConnectionName;
 use App\Models\Account\AccountAuth;
-use App\Models\Account\AccountHistory;
+use App\Models\Account\AccountLoginSession;
+use App\Models\Account\AccountManageSite;
+use App\Models\Account\AccountNotification;
+use App\Models\Account\AccountProfileImage;
+use App\Models\Account\AccountStyling;
 use App\Models\ModelCommon;
 
-/** アカウント基本情報 */
+/** モデル: アカウント基本情報 */
 class Account extends ModelCommon {
-    /**
-     * テーブル名
-     *
-     * @var string
-     */
+    /** DB接続名 */
+    protected $connection = DbConnectionName::ACCOUNT;
+
+    /** テーブル名 */
     protected $table = DbTableAccount::TABLE_NAME;
-
-    /**
-     * 追加できない列
-     *
-     * @var array<int, string>
-     */
-    protected $guarded = [
-        'auth',
-        'setting',
-        'addresses'
-    ];
-
-    /**
-     * アカウント履歴情報へのリレーション
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function setting() {
-        return $this->hasOne(AccountHistory::class, DbTableAccountHistory::ACCOUNT_ID, $this->primaryKey)->latestOfMany($this->primaryKey);
-    }
-
-    /**
-     * アカウント認証情報へのリレーション
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function auth() {
-        return $this->hasOne(AccountAuth::class, DbTableAccountAuth::ACCOUNT_ID, $this->primaryKey);
-    }
-
-    /**
-     * アカウント住所情報へのリレーション
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function addresses() {
-        return $this->hasMany(AccountAddress::class, DbTableAccountAddress::ACCOUNT_ID, $this->primaryKey);
-    }
 
     /**
      * モデルのデフォルト値
@@ -68,8 +36,86 @@ class Account extends ModelCommon {
      */
     protected $attributes = [
         DbTableAccount::ID => '',
-        DbTableAccount::DISPLAY_ID => '',
         DbTableAccount::NICKNAME => '',
-        DbTableAccount::REGISTERED_AT => ''
+        DbTableAccount::SELF_INTRO => '',
+        DbTableAccount::REGISTERED_AT => '',
     ];
+
+    /**
+     * アカウント認証情報へのリレーション
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function auth() {
+        return $this->hasOne(
+            AccountAuth::class,
+            DbTableAccountAuth::ACCOUNT_ID,
+            $this->primaryKey
+        );
+    }
+
+    /**
+     * アカウントログイン保持情報へのリレーション
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function loginSessions() {
+        return $this->hasMany(
+            AccountLoginSession::class,
+            DbTableAccountLoginSession::ACCOUNT_ID,
+            $this->primaryKey
+        );
+    }
+
+    /**
+     * アンケート公開先サイト情報へのリレーション
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function manageSites() {
+        return $this->hasMany(
+            AccountManageSite::class,
+            DbTableAccountManageSite::ACCOUNT_ID,
+            $this->primaryKey
+        );
+    }
+
+    /**
+     * アカウントの通知設定へのリレーション
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function notifications() {
+        return $this->hasMany(
+            AccountNotification::class,
+            DbTableAccountNotification::ACCOUNT_ID,
+            $this->primaryKey
+        );
+    }
+
+    /**
+     * アカウントのプロフィール画像設定へのリレーション
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function profileImages() {
+        return $this->hasMany(
+            AccountProfileImage::class,
+            DbTableAccountProfileImage::ACCOUNT_ID,
+            $this->primaryKey
+        );
+    }
+
+    /**
+     * アカウント表示設定へのリレーション
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function styling() {
+        return $this->hasOne(
+            AccountStyling::class,
+            DbTableAccountStyling::ACCOUNT_ID,
+            $this->primaryKey
+        );
+    }
 }

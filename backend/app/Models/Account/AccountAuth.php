@@ -7,41 +7,19 @@ namespace App\Models\Account;
 use App\Casts\CastEncrypt;
 use App\Casts\CastHash;
 use App\Casts\CastHashPassword;
+use App\Constants\Db\Account\DbTableAccount;
 use App\Constants\Db\Account\DbTableAccountAuth;
+use App\Constants\Db\DbConnectionName;
 use App\Models\Account\Account;
 use App\Models\ModelCommon;
 
-/** アカウント認証情報 */
+/** モデル: アカウント認証情報 */
 class AccountAuth extends ModelCommon {
-    /**
-     * テーブル名
-     *
-     * @var string
-     */
+    /** DB接続名 */
+    protected $connection = DbConnectionName::ACCOUNT;
+
+    /** テーブル名 */
     protected $table = DbTableAccountAuth::TABLE_NAME;
-
-    /**
-     * 取得/更新時に型を変換する
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        DbTableAccountAuth::EMAIL => CastEncrypt::class,
-        DbTableAccountAuth::EMAIL_HASH => CastHash::class,
-        DbTableAccountAuth::EMAIL_ALTER => CastEncrypt::class,
-        DbTableAccountAuth::MOBILE_NO => CastEncrypt::class,
-        DbTableAccountAuth::PASSWORD => CastHashPassword::class,
-        DbTableAccountAuth::BILLING_TOKEN => CastEncrypt::class
-    ];
-
-    /**
-     * アカウント基本情報へのリレーション
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function account() {
-        return $this->belongsTo(Account::class, DbTableAccountAuth::ACCOUNT_ID, (new Account())->getKeyName());
-    }
 
     /**
      * モデルのデフォルト値
@@ -54,12 +32,32 @@ class AccountAuth extends ModelCommon {
         DbTableAccountAuth::ACCOUNT_ID => '',
         DbTableAccountAuth::EMAIL => '',
         DbTableAccountAuth::EMAIL_HASH => '',
-        DbTableAccountAuth::EMAIL_ALTER => null,
-        DbTableAccountAuth::MOBILE_NO => null,
         DbTableAccountAuth::VERIFIED_EMAIL => 0,
-        DbTableAccountAuth::VERIFIED_MOBILE_NO => 0,
         DbTableAccountAuth::PASSWORD => '',
         DbTableAccountAuth::PASSWORD_UPDATED_AT => '',
-        DbTableAccountAuth::BILLING_TOKEN => null
     ];
+
+    /**
+     * 取得/保存時に型を変換する
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        DbTableAccountAuth::EMAIL => CastEncrypt::class,
+        DbTableAccountAuth::EMAIL_HASH => CastHash::class,
+        DbTableAccountAuth::PASSWORD => CastHashPassword::class,
+    ];
+
+    /**
+     * アカウント基本情報へのリレーション
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function account() {
+        return $this->belongsTo(
+            Account::class,
+            DbTableAccountAuth::ACCOUNT_ID,
+            DbTableAccount::ID
+        );
+    }
 }
