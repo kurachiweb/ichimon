@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Constants\Db\Account;
+namespace App\Constants\Db\Token;
 
 use App\Constants\Db\DbName;
 use App\Constants\Db\DbTableTokenCommon;
