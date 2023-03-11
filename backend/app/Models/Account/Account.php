@@ -12,6 +12,7 @@ use App\Constants\Db\Account\DbTableAccountNotification;
 use App\Constants\Db\Account\DbTableAccountProfileImage;
 use App\Constants\Db\Account\DbTableAccountStyling;
 use App\Constants\Db\Log\DbTableLogAccountSecurity;
+use App\Constants\Db\Survey\DBTableSurvey;
 use App\Constants\Db\DbConnectionName;
 use App\Models\Account\AccountAuth;
 use App\Models\Account\AccountLoginSession;
@@ -20,6 +21,7 @@ use App\Models\Account\AccountNotification;
 use App\Models\Account\AccountProfileImage;
 use App\Models\Account\AccountStyling;
 use App\Models\Log\LogAccountSecurity;
+use App\Models\Survey\Survey;
 use App\Models\ModelCommon;
 
 /** モデル: アカウント基本情報 */
@@ -130,6 +132,19 @@ class Account extends ModelCommon {
         return $this->hasMany(
             LogAccountSecurity::class,
             DbTableLogAccountSecurity::ACCOUNT_ID,
+            $this->primaryKey
+        );
+    }
+
+    /**
+     * アンケート情報へのリレーション
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function surveys() {
+        return $this->hasMany(
+            Survey::class,
+            DBTableSurvey::ACCOUNT_ID,
             $this->primaryKey
         );
     }
