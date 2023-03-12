@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Survey;
 
+use App\Casts\CastDbPrimaryId;
 use App\Constants\Db\Survey\DBTableSurveyQuestion;
 use App\Constants\Db\Survey\DBTableQuestionChoice;
 use App\Constants\Db\DbConnectionName;
@@ -27,6 +28,15 @@ class QuestionChoice extends ModelCommon {
         DBTableQuestionChoice::ID => '',
         DBTableQuestionChoice::QUESTION_ID => '',
         DBTableQuestionChoice::NAME => '',
+    ];
+
+    /**
+     * 取得/保存時に型を変換する
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        DBTableQuestionChoice::ID => CastDbPrimaryId::class,
     ];
 
     /**

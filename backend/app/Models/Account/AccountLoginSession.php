@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Account;
 
+use App\Casts\CastDbPrimaryId;
 use App\Casts\CastEncrypt;
 use App\Constants\Db\Account\DbTableAccount;
 use App\Constants\Db\Account\DbTableAccountLoginSession;
@@ -40,6 +41,7 @@ class AccountLoginSession extends ModelCommon {
      * @var array<string, string>
      */
     protected $casts = [
+        DbTableAccountLoginSession::ID => CastDbPrimaryId::class,
         DbTableAccountLoginSession::IP_ADDRESS => CastEncrypt::class,
         DbTableAccountLoginSession::USER_AGENT => CastEncrypt::class,
     ];

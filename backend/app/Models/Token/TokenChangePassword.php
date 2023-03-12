@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Token;
 
+use App\Casts\CastDbPrimaryId;
+use App\Casts\CastEncrypt;
 use App\Constants\Db\Account\DbTableAccount;
 use App\Constants\Db\Token\DbTableTokenChangePassword;
 use App\Constants\Db\DbConnectionName;
@@ -25,8 +27,19 @@ class TokenChangePassword extends ModelCommon {
      * @var array<string, any>
      */
     protected $attributes = [
+        DbTableTokenChangePassword::ID => '',
         DbTableTokenChangePassword::TOKEN => '',
         DbTableTokenChangePassword::ACCOUNT_ID => '',
+    ];
+
+    /**
+     * 取得/保存時に型を変換する
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        DbTableTokenChangePassword::ID => CastDbPrimaryId::class,
+        DbTableTokenChangePassword::TOKEN => CastEncrypt::class,
     ];
 
     /**

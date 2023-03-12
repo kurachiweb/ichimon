@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models\Token;
 
+use App\Casts\CastDbPrimaryId;
+use App\Casts\CastEncrypt;
 use App\Constants\Db\Account\DbTableAccount;
 use App\Constants\Db\Token\DbTableTokenDeleteAccount;
 use App\Constants\Db\DbConnectionName;
@@ -25,8 +27,19 @@ class TokenDeleteAccount extends ModelCommon {
      * @var array<string, any>
      */
     protected $attributes = [
+        DbTableTokenDeleteAccount::ID => '',
         DbTableTokenDeleteAccount::TOKEN => '',
         DbTableTokenDeleteAccount::ACCOUNT_ID => '',
+    ];
+
+    /**
+     * 取得/保存時に型を変換する
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        DbTableTokenDeleteAccount::ID => CastDbPrimaryId::class,
+        DbTableTokenDeleteAccount::TOKEN => CastEncrypt::class,
     ];
 
     /**

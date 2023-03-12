@@ -25,7 +25,6 @@ class AccountCreateCase {
 
         $now = Carbon::now(config('app.timezone'));
         $account_id = Random::dbPrimaryId();
-        $account_auth_id = Random::dbPrimaryId();
 
         // アカウント基本情報をリクエスト内容で上書き
         $account[DbTableAccount::ID] = $account_id;
@@ -34,7 +33,6 @@ class AccountCreateCase {
         $account[DbTableAccount::REGISTERED_AT] = $now;
 
         // アカウント認証情報をリクエスト内容で上書き
-        $account_auth[DbTableAccountAuth::ID] = $account_auth_id;
         $account_auth[DbTableAccountAuth::ACCOUNT_ID] = $account_id;
         $account_auth[DbTableAccountAuth::EMAIL] = $req_account['email'];
         $account_auth[DbTableAccountAuth::EMAIL_HASH] = $req_account['email'];

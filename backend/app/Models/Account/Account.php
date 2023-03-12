@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Account;
 
+use App\Casts\CastDbPrimaryId;
 use App\Constants\Db\Account\DbTableAccount;
 use App\Constants\Db\Account\DbTableAccountAuth;
 use App\Constants\Db\Account\DbTableAccountLoginSession;
@@ -43,6 +44,15 @@ class Account extends ModelCommon {
         DbTableAccount::NICKNAME => '',
         DbTableAccount::SELF_INTRO => '',
         DbTableAccount::REGISTERED_AT => '',
+    ];
+
+    /**
+     * 取得/保存時に型を変換する
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        DbTableAccount::ID => CastDbPrimaryId::class,
     ];
 
     /**

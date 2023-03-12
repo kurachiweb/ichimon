@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Account;
 
+use App\Casts\CastDbPrimaryId;
 use App\Constants\Db\Account\DbTableAccount;
 use App\Constants\Db\Account\DbTableAccountStyling;
 use App\Constants\Db\DbConnectionName;
@@ -31,6 +32,15 @@ class AccountStyling extends ModelCommon {
         DbTableAccountStyling::HEADER_SIZE => 0,
         DbTableAccountStyling::LANGUAGE_ID => 0,
         DbTableAccountStyling::TIMEZONE_ID => 0,
+    ];
+
+    /**
+     * 取得/保存時に型を変換する
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        DbTableAccountStyling::ID => CastDbPrimaryId::class,
     ];
 
     /**

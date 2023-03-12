@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Survey;
 
+use App\Casts\CastDbPrimaryId;
 use App\Constants\Db\Survey\DBTableSurvey;
 use App\Constants\Db\Survey\DBTableSurveyPublish;
 use App\Constants\Db\DbConnectionName;
@@ -27,6 +28,15 @@ class SurveyPublish extends ModelCommon {
         DBTableSurveyPublish::ID => '',
         DBTableSurveyPublish::SURVEY_ID => '',
         DBTableSurveyPublish::ACCOUNT_URL_ID => '',
+    ];
+
+    /**
+     * 取得/保存時に型を変換する
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        DBTableSurveyPublish::ID => CastDbPrimaryId::class,
     ];
 
     /**

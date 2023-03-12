@@ -17,7 +17,6 @@ class AccountLoginSessionCreateCase {
      */
     public function __invoke(string $req_account_id, string $req_token, ?string $req_ip, ?string $req_user_agent) {
         $account_session = (new AccountLoginSession())->toArray();
-        $account_session[DbTableAccountLoginSession::ID] = Random::dbPrimaryId();
         $account_session[DbTableAccountLoginSession::ACCOUNT_ID] = $req_account_id;
         // ログイントークンをハッシュ化し、DBに保存
         $account_session[DbTableAccountLoginSession::TOKEN_HASH] = Hash::toHashPassword($req_token);

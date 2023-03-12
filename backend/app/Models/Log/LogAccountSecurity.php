@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Log;
 
+use App\Casts\CastDbPrimaryId;
 use App\Constants\Db\Account\DbTableAccount;
 use App\Constants\Db\DbConnectionName;
 use App\Constants\Db\Log\DbTableLogAccountSecurity;
@@ -28,6 +29,15 @@ class LogAccountSecurity extends ModelCommon {
         DbTableLogAccountSecurity::ID => '',
         DbTableLogAccountSecurity::ACCOUNT_ID => '',
         DbTableLogAccountSecurity::TYPE => 0,
+    ];
+
+    /**
+     * 取得/保存時に型を変換する
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        DbTableLogAccountSecurity::ID => CastDbPrimaryId::class,
     ];
 
     /**

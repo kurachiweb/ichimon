@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Account;
 
+use App\Casts\CastDbPrimaryId;
 use App\Casts\CastEncrypt;
 use App\Casts\CastHash;
 use App\Casts\CastHashPassword;
@@ -43,6 +44,7 @@ class AccountAuth extends ModelCommon {
      * @var array<string, string>
      */
     protected $casts = [
+        DbTableAccountAuth::ID => CastDbPrimaryId::class,
         DbTableAccountAuth::EMAIL => CastEncrypt::class,
         DbTableAccountAuth::EMAIL_HASH => CastHash::class,
         DbTableAccountAuth::PASSWORD => CastHashPassword::class,

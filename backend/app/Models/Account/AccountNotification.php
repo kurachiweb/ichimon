@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models\Account;
 
+use App\Casts\CastDbPrimaryId;
 use App\Constants\Db\Account\DbTableAccount;
 use App\Constants\Db\Account\DbTableAccountNotification;
 use App\Constants\Db\DbConnectionName;
@@ -30,6 +31,15 @@ class AccountNotification extends ModelCommon {
         DbTableAccountNotification::WAY => 0,
         DbTableAccountNotification::TRIGGER => 0,
         DbTableAccountNotification::ENABLED => 0,
+    ];
+
+    /**
+     * 取得/保存時に型を変換する
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        DbTableAccountNotification::ID => CastDbPrimaryId::class,
     ];
 
     /**
