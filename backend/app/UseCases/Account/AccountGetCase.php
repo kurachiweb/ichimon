@@ -15,7 +15,15 @@ class AccountGetCase {
     public function __invoke(string $req_account_id, bool $also_relation = false) {
         $with = [];
         if ($also_relation) {
-            $with = ['setting', 'auth', 'addresses'];
+            $with = [
+                'auth',
+                'loginSessions',
+                'manageSites',
+                'notifications',
+                'profileImages',
+                'styling',
+                'securityLogs',
+            ];
         }
 
         // DBにアクセスし、IDからアカウント情報を取得
