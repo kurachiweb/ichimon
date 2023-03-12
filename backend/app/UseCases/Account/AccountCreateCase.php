@@ -29,8 +29,8 @@ class AccountCreateCase {
 
         // アカウント基本情報をリクエスト内容で上書き
         $account[DbTableAccount::ID] = $account_id;
-        $account[DbTableAccount::DISPLAY_ID] = Random::generateString(16);
         $account[DbTableAccount::NICKNAME] = $req_account['nickname'];
+        $account[DbTableAccount::SELF_INTRO] = $req_account['self_intro'];
         $account[DbTableAccount::REGISTERED_AT] = $now;
 
         // アカウント認証情報をリクエスト内容で上書き
