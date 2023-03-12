@@ -72,8 +72,11 @@ class DbTableCommon {
  */
 class DbTableTokenCommon {
     /** ID文字列の長さ */
-    const KEY_LENGTH = 63;
+    const KEY_LENGTH = 31;
+    /** トークン文字列の長さ */
+    const TOKEN_LENGTH = 63;
 
+    const ID = 'id';
     const TOKEN = 'token';
     const CREATED_AT = 'created_at';
 }

@@ -17,7 +17,7 @@ class EmailTokenCreateCase {
      */
     public function __invoke(string $req_account_id) {
         // トークンとなるランダム文字列
-        $token = Random::generateString(DbTableTokenCommon::KEY_LENGTH);
+        $token = Random::generateString(DbTableTokenCommon::TOKEN_LENGTH);
 
         $verify_email_token = (new VerifyEmailToken())->toArray();
         $verify_email_token[DbTableAccountVerifyEmail::TOKEN] = $token;
