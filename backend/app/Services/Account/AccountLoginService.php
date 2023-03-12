@@ -16,15 +16,8 @@ class AccountLoginService {
      * アカウントにログインする
      */
     public static function verify(string $req_name, string $req_password) {
-        // @が2文字目以降にあればメールアドレス扱い
-        $is_email = true;
-        if (strpos($req_name, '@', 1) === false) {
-            // @が無いか1文字目なら表示用ID扱い
-            $is_email = false;
-        }
-
         // メールアドレスまたは表示用IDに一致するアカウントを取得
-        $account = (new AccountLoginTargetCase())($req_name, $is_email);
+        $account = (new AccountLoginTargetCase())($req_name);
         // アカウントが存在するか
         if (!$account) {
             throw new AuthorizationException('Not match \'account\'.', HttpResponse::HTTP_UNAUTHORIZED);
