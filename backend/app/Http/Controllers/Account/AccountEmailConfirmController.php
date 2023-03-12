@@ -25,7 +25,7 @@ class AccountEmailConfirmController extends Controller {
         $account_auth = (new AccountAuthGetCase())($req_account_id);
 
         // アカウントメールアドレスの認証メールを送り、ステータスを変更する
-        $account_auth = AccountEmailConfirmService::confirm($account_auth->toArray());
+        AccountEmailConfirmService::confirm($account_auth->toArray());
 
         return response()->success(['send' => true]);
     }

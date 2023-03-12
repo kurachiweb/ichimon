@@ -22,8 +22,8 @@ class AccountUpdateCase {
 
         // 更新可能なカラムの絞り込み
         $account->fill(KeysOnly::select($req_account, [
-            DbTableAccount::DISPLAY_ID,
-            DbTableAccount::NICKNAME
+            DbTableAccount::NICKNAME,
+            DbTableAccount::SELF_INTRO,
         ]));
         // 更新を反映する
         $is_saved = $account->saveOrFail();

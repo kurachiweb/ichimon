@@ -14,13 +14,13 @@ class AuthVerifyEmailUpdateCase {
      */
     public function __invoke(array $req_account_auth): bool {
         // 更新対象のアカウント認証情報
-        $account = AccountAuth::findOrFail($req_account_auth[DbTableAccountAuth::ID]);
+        $account_auth = AccountAuth::findOrFail($req_account_auth[DbTableAccountAuth::ID]);
         // 更新可能なカラムの絞り込み
-        $account->fill(KeysOnly::select($req_account_auth, [
+        $account_auth->fill(KeysOnly::select($req_account_auth, [
             DbTableAccountAuth::VERIFIED_EMAIL,
         ]));
         // 更新を反映する
-        $is_saved = $account->saveOrFail();
+        $is_saved = $account_auth->saveOrFail();
 
         return $is_saved;
     }

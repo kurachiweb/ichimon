@@ -16,8 +16,8 @@ class AccountListCase {
     public function __invoke() {
         return Account::all([
             DbTableAccount::ID,
-            DbTableAccount::DISPLAY_ID,
             DbTableAccount::NICKNAME,
+            DbTableAccount::SELF_INTRO,
             DbTableAccount::REGISTERED_AT
         ]);
     }

@@ -10,8 +10,8 @@ use Illuminate\Http\Response as HttpResponse;
 
 use App\Constants\ConstBackend;
 use App\Constants\Db\Account\DbTableAccountAuth;
-use App\Constants\Db\Account\DbTableAccountVerifyEmail;
-use App\Models\Account\VerifyEmailToken;
+use App\Constants\Db\Token\DbTableTokenChangeEmail;
+use App\Models\Token\TokenChangeEmail;
 use App\UseCases\Account\AccountAuthGetCase;
 use App\UseCases\Account\AuthVerifyEmailUpdateCase;
 
@@ -21,10 +21,10 @@ class AccountEmailVerifyService {
      */
     public static function verify(string $req_token) {
         // 主キーとなっているトークンで検索する
-        $email_token = VerifyEmailToken::findOrFail($req_token);
+        $email_token = TokenChangeEmail::findOrFail($req_token);
 
         $now = Carbon::now(config('app.timezone'));
-        $token_created = $email_token[DbTableAccountVerifyEmail::CREATED_AT];
+        $token_created = $email_token[DbTableTokenChangeEmail::CREATED_AT];
 
         // トークンが作られてから一定時間が経過していれば、認証エラー
         if ($token_created->diffInSeconds($now) > ConstBackend::ACCOUNT_VERIFY_EXPIRATION) {
@@ -32,7 +32,7 @@ class AccountEmailVerifyService {
         }
 
         // DBにアクセスして更新対象のアカウント認証情報を取得する
-        $req_account_id = $email_token[DbTableAccountVerifyEmail::ACCOUNT_ID];
+        $req_account_id = $email_token[DbTableTokenChangeEmail::ACCOUNT_ID];
         $account_auth = (new AccountAuthGetCase())($req_account_id);
 
         // メールアドレスを認証したのでステータスを変更

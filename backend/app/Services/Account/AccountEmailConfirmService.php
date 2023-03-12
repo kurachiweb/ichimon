@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Mail;
 
 use App\Constants\ConstBackend;
 use App\Constants\Db\Account\DbTableAccountAuth;
-use App\Constants\Db\Account\DbTableAccountVerifyEmail;
+use App\Constants\Db\Token\DbTableTokenChangeEmail;
 use App\Mail\AccountEmailVerify;
 use App\UseCases\Account\AuthVerifyEmailUpdateCase;
 use App\UseCases\Account\EmailTokenCreateCase;
@@ -29,7 +29,7 @@ class AccountEmailConfirmService {
 
         // メールアドレスを送信する
         $mail_address = $account_auth[DbTableAccountAuth::EMAIL];
-        Mail::to($mail_address)->send(new AccountEmailVerify($res_email_token[DbTableAccountVerifyEmail::TOKEN]));
+        Mail::to($mail_address)->send(new AccountEmailVerify($res_email_token[DbTableTokenChangeEmail::TOKEN]));
 
         // 認証メールの送信フラグを送信済みにする
         $account_auth[DbTableAccountAuth::VERIFIED_EMAIL] = ConstBackend::ACCOUNT_VERIFY_SEND;
