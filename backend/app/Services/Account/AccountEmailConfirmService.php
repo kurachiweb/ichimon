@@ -10,8 +10,8 @@ use App\Constants\ConstBackend;
 use App\Constants\Db\Account\DbTableAccountAuth;
 use App\Constants\Db\Token\DbTableTokenChangeEmail;
 use App\Mail\AccountEmailVerify;
-use App\UseCases\Account\AuthVerifyEmailUpdateCase;
-use App\UseCases\Account\EmailTokenCreateCase;
+use App\UseCases\Account\AccountEmailVerifyUpdateCase;
+use App\UseCases\Token\AccountChangeEmailCreateCase;
 
 class AccountEmailConfirmService {
     /**
@@ -25,7 +25,7 @@ class AccountEmailConfirmService {
         }
 
         // トークンを作成し、DBに保存する
-        $res_email_token = (new EmailTokenCreateCase())($account_auth[DbTableAccountAuth::ACCOUNT_ID]);
+        $res_email_token = (new AccountChangeEmailCreateCase())($account_auth[DbTableAccountAuth::ACCOUNT_ID]);
 
         // メールアドレスを送信する
         $mail_address = $account_auth[DbTableAccountAuth::EMAIL];
@@ -33,7 +33,7 @@ class AccountEmailConfirmService {
 
         // 認証メールの送信フラグを送信済みにする
         $account_auth[DbTableAccountAuth::VERIFIED_EMAIL] = ConstBackend::ACCOUNT_VERIFY_SEND;
-        (new AuthVerifyEmailUpdateCase())($account_auth);
+        (new AccountEmailVerifyUpdateCase())($account_auth);
 
         return $account_auth;
     }

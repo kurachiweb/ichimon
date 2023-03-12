@@ -8,7 +8,7 @@ use App\Constants\Db\Account\DbTableAccountAuth;
 use App\Models\Account\AccountAuth;
 use App\Utilities\KeysOnly;
 
-class AuthVerifyEmailUpdateCase {
+class AccountEmailVerifyUpdateCase {
     /**
      * アカウントメール認証情報更新
      */

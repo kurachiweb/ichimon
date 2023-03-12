@@ -13,7 +13,7 @@ use App\Constants\Db\Account\DbTableAccountAuth;
 use App\Constants\Db\Token\DbTableTokenChangeEmail;
 use App\Models\Token\TokenChangeEmail;
 use App\UseCases\Account\AccountAuthGetCase;
-use App\UseCases\Account\AuthVerifyEmailUpdateCase;
+use App\UseCases\Account\AccountEmailVerifyUpdateCase;
 
 class AccountEmailVerifyService {
     /**
@@ -37,6 +37,6 @@ class AccountEmailVerifyService {
 
         // メールアドレスを認証したのでステータスを変更
         $account_auth[DbTableAccountAuth::VERIFIED_EMAIL] = ConstBackend::ACCOUNT_VERIFY_VERIFY;
-        (new AuthVerifyEmailUpdateCase())($account_auth->toArray());
+        (new AccountEmailVerifyUpdateCase())($account_auth->toArray());
     }
 }

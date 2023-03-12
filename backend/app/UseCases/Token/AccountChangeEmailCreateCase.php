@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\UseCases\Account;
+namespace App\UseCases\Token;
 
 use App\Constants\Db\Token\DbTableTokenChangeEmail;
 use App\Constants\Db\DbTableTokenCommon;
 use App\Models\Token\TokenChangeEmail;
 use App\Utilities\Random;
 
-class EmailTokenCreateCase {
+class AccountChangeEmailCreateCase {
     /**
      * アカウントメールアドレス認証トークン作成
      *
