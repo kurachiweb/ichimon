@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models\Survey;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 use App\Casts\CastDbPrimaryId;
 use App\Constants\Db\Survey\DBTableSurvey;
 use App\Constants\Db\Survey\DBTableSurveyPublish;
@@ -12,6 +15,8 @@ use App\Models\ModelCommon;
 
 /** モデル: アンケートの公開先 */
 class SurveyPublish extends ModelCommon {
+    use HasFactory, SoftDeletes;
+
     /** DB接続名 */
     protected $connection = DbConnectionName::SURVEY;
 

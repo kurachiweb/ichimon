@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models\Account;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 use App\Casts\CastDbPrimaryId;
 use App\Constants\Db\Account\DbTableAccount;
 use App\Constants\Db\Account\DbTableAccountManageSite;
@@ -13,6 +16,8 @@ use App\Models\ModelCommon;
 
 /** モデル: アカウント別のアンケート公開先サイト情報 */
 class AccountManageSite extends ModelCommon {
+    use HasFactory, SoftDeletes;
+
     /** DB接続名 */
     protected $connection = DbConnectionName::ACCOUNT;
 

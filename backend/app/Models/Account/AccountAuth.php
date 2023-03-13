@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models\Account;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 use App\Casts\CastDbPrimaryId;
 use App\Casts\CastEncrypt;
 use App\Casts\CastHash;
@@ -16,6 +19,8 @@ use App\Models\ModelCommon;
 
 /** モデル: アカウント認証情報 */
 class AccountAuth extends ModelCommon {
+    use HasFactory, SoftDeletes;
+
     /** DB接続名 */
     protected $connection = DbConnectionName::ACCOUNT;
 

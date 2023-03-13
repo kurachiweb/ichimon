@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Models\Token;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 use App\Casts\CastDbPrimaryId;
 use App\Casts\CastEncrypt;
 use App\Constants\Db\Account\DbTableAccount;
@@ -14,6 +17,8 @@ use App\Models\ModelCommon;
 
 /** モデル: アカウントの削除リクエスト用トークン */
 class TokenDeleteAccount extends ModelCommon {
+    use HasFactory, SoftDeletes;
+
     /** DB接続名 */
     protected $connection = DbConnectionName::TOKEN;
 
