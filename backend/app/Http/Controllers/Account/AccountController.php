@@ -9,11 +9,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Account\AccountCreateRequest;
 use App\Http\Requests\Account\AccountRequest;
+use App\Services\Account\AccountCreateService;
+use App\Services\Account\AccountDeleteService;
 use App\Services\Account\AccountGetService;
-use App\UseCases\Account\AccountCreateCase;
-use App\UseCases\Account\AccountDeleteCase;
-use App\UseCases\Account\AccountListCase;
-use App\UseCases\Account\AccountUpdateCase;
+use App\Services\Account\AccountListService;
+use App\Services\Account\AccountUpdateService;
+use App\Utilities\KeysOnly;
 use App\Utilities\ValidateRequest;
 
 class AccountController extends Controller {
@@ -24,7 +25,7 @@ class AccountController extends Controller {
      */
     public function index() {
         // DBにアクセスしてアカウント一覧を取得する
-        $res_accounts = (new AccountListCase())();
+        $res_accounts = (new AccountListService())->do();
 
         return response()->success(['accounts' => $res_accounts]);
     }
@@ -32,7 +33,6 @@ class AccountController extends Controller {
     /**
      * 1人作成
      *
-     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
@@ -40,10 +40,14 @@ class AccountController extends Controller {
         $req = ValidateRequest::json($request, new AccountCreateRequest());
 
         // リクエストボディのアカウント作成情報
-        $req_account = $req;
+        $req_account = KeysOnly::select($req, [
+            'nickname',
+            'self_intro',
+            'email',
+            'password',
+        ]);
 
-        // DBにアクセスしてアカウントを作成する
-        $res_account = (new AccountCreateCase())($req_account);
+        $res_account = (new AccountCreateService())->do($req_account);
 
         return response()->successCreate(['account' => $res_account]);
     }
@@ -57,7 +61,7 @@ class AccountController extends Controller {
         // リクエストパラメータのアカウント基本IDを入力チェック(Guard側で確認済み)
         $req_account_id = AccountRequest::toAccountId($id);
 
-        $res_account = AccountGetService::get($req_account_id, true);
+        $res_account = (new AccountGetService())->do($req_account_id);
 
         return response()->success(['account' => $res_account]);
     }
@@ -71,11 +75,15 @@ class AccountController extends Controller {
         // リクエスト中のアカウント基本情報を入力チェック
         $req = ValidateRequest::json($request, new AccountRequest());
 
-        // リクエストボディのアカウント基本情報
-        $req_account = $req['account'];
+        // リクエストボディのアカウント情報
+        $req_account = KeysOnly::select($req, [
+            'nickname',
+            'self_intro',
+            'profile_image',
+        ]);
 
         // DBにアクセスしてアカウントを更新する
-        (new AccountUpdateCase())($req_account);
+        (new AccountUpdateService())->do($req_account);
 
         return response()->success();
     }
@@ -90,7 +98,7 @@ class AccountController extends Controller {
         $req_account_id = AccountRequest::toAccountId($id);
 
         // DBにアクセスしてアカウントを削除する
-        (new AccountDeleteCase())($req_account_id);
+        (new AccountDeleteService())->do($req_account_id);
 
         return response()->success();
     }

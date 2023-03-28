@@ -4,25 +4,27 @@ declare(strict_types=1);
 
 namespace App\Services\Account;
 
-use App\Constants\Db\Account\DbTableAccount;
-use App\Constants\Db\Account\DbTableAccountAuth;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Response as HttpResponse;
 
-use App\UseCases\Account\AccountLoginTargetCase;
+use App\Constants\Db\Account\DbTableAccountAuth;
+use App\Repositories\Account\AccountLoginSessionCreateRepository;
+use App\Repositories\Account\AccountLoginTargetRepository;
+use App\Utilities\BundleIdToken;
 
 class AccountLoginService {
     /**
      * アカウントにログインする
+     *
+     * @throws AuthorizationException
      */
-    public static function verify(string $req_name, string $req_password) {
+    public function do(string $req_name, string $req_password, ?string $req_ip, ?string $req_user_agent): string {
         // メールアドレスまたは表示用IDに一致するアカウントを取得
-        $account = (new AccountLoginTargetCase())($req_name);
-        // アカウントが存在するか
-        if (!$account) {
+        $account_auth = (new AccountLoginTargetRepository())($req_name);
+        if (!isset($account_auth)) {
             throw new AuthorizationException('Not match \'account\'.', HttpResponse::HTTP_UNAUTHORIZED);
         }
-        $account_auth = $account['auth'];
+        $account_id = $account_auth[DbTableAccountAuth::ACCOUNT_ID];
 
         // そのアカウントのパスワードと入力値が一致するか
         $match_password = password_verify($req_password, $account_auth[DbTableAccountAuth::PASSWORD]);
@@ -32,8 +34,11 @@ class AccountLoginService {
 
         // ログイントークンを生成
         $token = bin2hex(random_bytes(48));
-        $id_token = ['id' => $account[DbTableAccount::ID], 'token' => $token];
+        $bundled_id_token = BundleIdToken::bundle($account_id, $token);
 
-        return $id_token;
+        // ハッシュ化したログイントークンをDBに保存
+        (new AccountLoginSessionCreateRepository())($account_id, $bundled_id_token, $req_ip, $req_user_agent);
+
+        return $bundled_id_token;
     }
 }

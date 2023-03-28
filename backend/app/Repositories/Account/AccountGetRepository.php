@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\UseCases\Account;
+namespace App\Repositories\Account;
 
 use App\Models\Account\Account;
 
-class AccountGetCase {
+class AccountGetRepository {
     /**
      * アカウント取得
      *
@@ -27,6 +27,6 @@ class AccountGetCase {
         }
 
         // DBにアクセスし、IDからアカウント情報を取得
-        return Account::with($with)->findOrFail($req_account_id);
+        return Account::with($with)->find($req_account_id);
     }
 }

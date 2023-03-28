@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\UseCases\Account;
+namespace App\Repositories\Account;
 
 use App\Constants\Db\Account\DbTableAccountAuth;
 use App\Models\Account\AccountAuth;
 
-class AccountAuthGetCase {
+class AccountAuthGetRepository {
     /**
      * アカウント認証情報取得
      *

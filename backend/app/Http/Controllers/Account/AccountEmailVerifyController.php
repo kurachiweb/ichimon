@@ -22,7 +22,7 @@ class AccountEmailVerifyController extends Controller {
         $req = ValidateRequest::json($request, new AccountEmailVerifyRequest());
 
         // トークンを照合し、アカウントメールアドレスの認証を完了する
-        AccountEmailVerifyService::verify($req['token']);
+        (new AccountEmailVerifyService())->do($req['token']);
 
         return response()->success();
     }

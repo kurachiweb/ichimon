@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\UseCases\Account;
+namespace App\Repositories\Account;
 
 use Carbon\Carbon;
 
@@ -10,7 +10,7 @@ use App\Constants\Db\Account\DbTableAccountLoginSession;
 use App\Models\Account\AccountLoginSession;
 use App\Utilities\Hash;
 
-class AccountLoginSessionCreateCase {
+class AccountLoginSessionCreateRepository {
     /**
      * アカウントログインセッション作成
      *

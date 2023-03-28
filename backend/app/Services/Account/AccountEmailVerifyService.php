@@ -12,16 +12,21 @@ use App\Constants\ConstBackend;
 use App\Constants\Db\Account\DbTableAccountAuth;
 use App\Constants\Db\Token\DbTableTokenChangeEmail;
 use App\Models\Token\TokenChangeEmail;
-use App\UseCases\Account\AccountAuthGetCase;
-use App\UseCases\Account\AccountEmailVerifyUpdateCase;
+use App\Repositories\Account\AccountAuthGetRepository;
+use App\Repositories\Account\AccountEmailVerifyUpdateRepository;
 
 class AccountEmailVerifyService {
     /**
      * アカウントメールアドレスの認証を完了する
+     *
+     * @throws AuthorizationException
      */
-    public static function verify(string $req_token) {
+    public function do(string $req_token) {
         // 主キーとなっているトークンで検索する
-        $email_token = TokenChangeEmail::findOrFail($req_token);
+        $email_token = TokenChangeEmail::find($req_token);
+        if (!isset($email_token)) {
+            throw new AuthorizationException('Token mot match.', HttpResponse::HTTP_UNAUTHORIZED);
+        }
 
         $now = Carbon::now(config('app.timezone'));
         $token_created = $email_token[DbTableTokenChangeEmail::CREATED_AT];
@@ -33,10 +38,10 @@ class AccountEmailVerifyService {
 
         // DBにアクセスして更新対象のアカウント認証情報を取得する
         $req_account_id = $email_token[DbTableTokenChangeEmail::ACCOUNT_ID];
-        $account_auth = (new AccountAuthGetCase())($req_account_id);
+        $account_auth = (new AccountAuthGetRepository())($req_account_id);
 
         // メールアドレスを認証したのでステータスを変更
         $account_auth[DbTableAccountAuth::VERIFIED_EMAIL] = ConstBackend::ACCOUNT_VERIFY_VERIFY;
-        (new AccountEmailVerifyUpdateCase())($account_auth->toArray());
+        (new AccountEmailVerifyUpdateRepository())($account_auth->toArray());
     }
 }

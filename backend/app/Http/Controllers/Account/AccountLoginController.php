@@ -11,8 +11,6 @@ use App\Constants\ConstBackend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Account\AccountLoginRequest;
 use App\Services\Account\AccountLoginService;
-use App\UseCases\Account\AccountLoginSessionCreateCase;
-use App\Utilities\BundleIdToken;
 use App\Utilities\ValidateRequest;
 
 class AccountLoginController extends Controller {
@@ -26,13 +24,7 @@ class AccountLoginController extends Controller {
         $req = ValidateRequest::json($request, new AccountLoginRequest());
 
         // アカウントにログインする
-        $verifyied = AccountLoginService::verify($req['name'], $req['password']);
-
-        $res_account_id = $verifyied['id'];
-        $bundled_id_token = BundleIdToken::bundle($res_account_id, $verifyied['token']);
-
-        // ハッシュ化したログイントークンをDBに保存
-        (new AccountLoginSessionCreateCase())($res_account_id, $bundled_id_token, $request->ip(), $request->userAgent());
+        $bundled_id_token = (new AccountLoginService())->do($req['name'], $req['password'], $request->ip(), $request->userAgent());
 
         // ログイン状態を保持するため、Cookieを設定
         // 有効期限は24時間・基本的にnot secure・http-only
@@ -46,6 +38,6 @@ class AccountLoginController extends Controller {
             true
         );
 
-        return response()->success(['account_id' => $res_account_id]);
+        return response()->success();
     }
 }

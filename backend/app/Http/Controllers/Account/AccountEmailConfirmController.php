@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Account\AccountRequest;
 use App\Services\Account\AccountEmailConfirmService;
-use App\UseCases\Account\AccountAuthGetCase;
 
 class AccountEmailConfirmController extends Controller {
     /**
@@ -21,11 +20,8 @@ class AccountEmailConfirmController extends Controller {
         // リクエストパラメータのアカウント基本IDを入力チェック(Guard側で確認済み)
         $req_account_id = AccountRequest::toAccountId($id);
 
-        // DBにアクセスして更新対象アカウント情報を取得する
-        $account_auth = (new AccountAuthGetCase())($req_account_id);
-
         // アカウントメールアドレスの認証メールを送り、ステータスを変更する
-        AccountEmailConfirmService::confirm($account_auth->toArray());
+        (new AccountEmailConfirmService())->do($req_account_id);
 
         return response()->success(['send' => true]);
     }
