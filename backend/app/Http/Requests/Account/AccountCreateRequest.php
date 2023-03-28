@@ -15,6 +15,7 @@ class AccountCreateRequest extends RequestCommon {
     public function rules() {
         return [
             'nickname' => ['required', 'string'],
+            'self_intro' => ['string'],
             'email' => ['required', 'string'],
             'password' => ['required', 'string']
         ];
