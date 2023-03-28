@@ -73,19 +73,19 @@ return [
                 ],
                 'db_survey' => [
                     ...$db_connect_default,
-                    'database' => env('DB_CONNECTION_SURVEY', 'survey'),
+                    'database' => env('DB_DATABASE_SURVEY', 'survey'),
                 ],
                 'db_token' => [
                     ...$db_connect_default,
-                    'database' => env('DB_CONNECTION_TOKEN', 'token'),
+                    'database' => env('DB_DATABASE_TOKEN', 'token'),
                 ],
                 'db_log' => [
                     ...$db_connect_default,
-                    'database' => env('DB_CONNECTION_LOG', 'log'),
+                    'database' => env('DB_DATABASE_LOG', 'log'),
                 ],
                 'db_reference' => [
                     ...$db_connect_default,
-                    'database' => env('DB_CONNECTION_REFERENCE', 'reference'),
+                    'database' => env('DB_DATABASE_REFERENCE', 'reference'),
                 ],
             ];
         })(),
