@@ -18,6 +18,9 @@ use App\Models\ModelCommon;
 class AccountLoginSession extends ModelCommon {
     use HasFactory;
 
+    /** updated_atを使わない */
+    const UPDATED_AT = null;
+
     /** DB接続名 */
     protected $connection = DbConnectionName::ACCOUNT;
 
