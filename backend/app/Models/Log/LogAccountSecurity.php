@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models\Log;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Casts\CastDbPrimaryId;
 use App\Constants\Db\Account\DbTableAccount;
@@ -16,7 +15,7 @@ use App\Models\ModelCommon;
 
 /** モデル: アカウントのセキュリティログ */
 class LogAccountSecurity extends ModelCommon {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     /** DB接続名 */
     protected $connection = DbConnectionName::LOG;

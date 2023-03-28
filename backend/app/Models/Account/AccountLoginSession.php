@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models\Account;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Casts\CastDbPrimaryId;
 use App\Casts\CastEncrypt;
@@ -17,7 +16,7 @@ use App\Models\ModelCommon;
 
 /** モデル: アカウントログイン保持情報 */
 class AccountLoginSession extends ModelCommon {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     /** DB接続名 */
     protected $connection = DbConnectionName::ACCOUNT;
