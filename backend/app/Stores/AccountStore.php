@@ -61,6 +61,6 @@ class AccountStore {
      * キャッシュのアカウント情報を削除(アカウント基本ID指定)
      */
     public function delete(string $account_id) {
-        return $this->_redis->delete($account_id);
+        return $this->_redis->del($account_id);
     }
 }
