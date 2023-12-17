@@ -1,5 +1,5 @@
 # Debian 11(bullseye)であり、使用頻度が低いライブラリを含まない軽量版
-FROM node:18.14-bullseye-slim as base
+FROM node:20.2-bullseye-slim as base
 
 # 作業ディレクトリを作成する
 WORKDIR /usr/src/app

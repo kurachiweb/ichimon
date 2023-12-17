@@ -1,7 +1,7 @@
 # apache: Apacheを内蔵する
 # bullseye: Debian 11のコードネームであるがXserverのOSとは異なる
 # XserverはApacheの設定ファイルに基づいてNginxを動かしている
-FROM php:8.1.16-apache-bullseye as base
+FROM php:8.2.5-apache-bullseye as base
 
 # 作業ディレクトリを作成する
 WORKDIR /usr/src/app
